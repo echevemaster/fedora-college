@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-import os
-import sys
+# -*- coding: utf-8 -*-
+import flask
+from core import build_app
 
-if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fedora_college.settings")
+app = flask.Flask(__name__)
+build_app(app)
 
-    from django.core.management import execute_from_command_line
-
-    execute_from_command_line(sys.argv)
+if __name__ == '__main__':
+    app.run(debug=True)
