@@ -6,7 +6,7 @@ from flask_fas_openid import FAS
 # for automatic bundle's register.
 from modules.auth import bundle as auth_bundle
 from modules.home import bundle as home_bundle
-
+from core.database import db
 
 def build_app(app):
     app.register_blueprint(auth_bundle)
@@ -14,7 +14,8 @@ def build_app(app):
     # Config to Flask from objects
     #app.config.from_object('core.ProductionConfig')
     app.config.from_object('core.config.DevelopmentConfig')
-
+    db.init_app(app)
+    return app
     # FAS OpenID Instance
     with app.app_context():
         current_app.config['fas'] = FAS(app)
