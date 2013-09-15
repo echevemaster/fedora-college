@@ -1,4 +1,8 @@
+import flask
 from core import db
 import core.models
-db.drop_all()
-db.create_all()
+app = flask.Flask(__name__)
+db.init_app(app)
+with app.test_request_context():
+   db.drop_all()
+   db.create_all()
