@@ -3,4 +3,4 @@
 =========================
 
 
-Run: python manage.py
+Run: python fedora_college/main.py start
