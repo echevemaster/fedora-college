@@ -6,7 +6,7 @@ from flask_fas_openid import FAS
 # for automatic bundle's register.
 from fedora_college.modules.auth import bundle as auth_bundle
 from fedora_college.modules.home import bundle as home_bundle
-from fedora_college.core.database import db as db
+from fedora_college.core.database import db
 
 
 def build_app(app):
@@ -15,13 +15,14 @@ def build_app(app):
     # Config to Flask from objects
     #app.config.from_object('fedora_college.core.ProductionConfig')
     app.config.from_object('fedora_college.core.config.DevelopmentConfig')
-    db.init_app(app)
-    with app.test_request_context():
-        db.drop_all()
-        db.create_all()
 
     # FAS OpenID Instance
     with app.app_context():
         current_app.config['fas'] = FAS(app)
 
-    return app
+
+def create_db(app):
+    db.init_app(app)
+    with app.app_context():
+        db.drop_all()
+        db.create_all()

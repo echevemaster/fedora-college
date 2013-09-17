@@ -6,66 +6,28 @@
 
 from __future__ import print_function
 
-import argparse
-import sys
 import flask
-from fedora_college import metadata
-from fedora_college.core.constructor import build_app
+from flask.ext.script import Manager
+from fedora_college.core.constructor import (build_app as build_fedora,
+                                             create_db)
 
 app = flask.Flask(__name__)
+manager = Manager(app)
 
 
+def build_app():
+    build_fedora(app)
+
+
+@manager.command
+def create_database():
+    create_db(app)
+
+
+@manager.command
 def run():
-    build_app(app)
     app.run(debug=True)
 
-
-def main(argv):
-    """Program entry point.
-
-    :param argv: command-line arguments
-    :type argv: :class:`list`
-    """
-    author_strings = []
-    for name, email in zip(metadata.authors, metadata.emails):
-        author_strings.append('Author: {0} <{1}>'.format(name, email))
-
-    epilog = '''
-{project} {version}
-
-{authors}
-URL: <{url}>
-'''.format(
-        project=metadata.project,
-        version=metadata.version,
-        authors='\n'.join(author_strings),
-        url=metadata.url)
-
-    arg_parser = argparse.ArgumentParser(
-        prog=argv[0],
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        description=metadata.description,
-        epilog=epilog)
-
-    arg_parser.add_argument(
-        '-v', '--version',
-        action='version',
-        version='{0} {1}'.format(metadata.project, metadata.version))
-
-    arg_parser.add_argument('start')
-
-    arg_parser.parse_args(args=argv[1:])
-
-    if 'start' in argv:
-        run()
-
-    return 0
-
-
-def entry_point():
-    """Zero-argument entry point for use with setuptools/distribute."""
-    raise SystemExit(main(sys.argv))
-
-
 if __name__ == '__main__':
-    entry_point()
+    build_app()
+    manager.run()

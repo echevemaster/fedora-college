@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from core.database import db
+from fedora_college.core.database import db
 
 
 class Screencast(db.Model):
