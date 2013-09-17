@@ -1,0 +1,5 @@
+Run `sphinx-apidoc -o . ../../fedora-college' in this directory.
+
+This will generate `modules.rst' and `fedora_college.rst'.
+
+Then include `modules.rst' in your `index.rst' file.
