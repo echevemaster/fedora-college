@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Emacs rope configuration
 .ropeproject
 .project
@@ -8,6 +9,14 @@
 *.py[co]
 
 ## Packages
+=======
+*.py[cod]
+*.pyc
+# C extensions
+*.so
+
+# Packages
+>>>>>>> d443475bdf944e8c0de0034e83e32348123ba809
 *.egg
 *.egg-info
 dist
@@ -17,6 +26,7 @@ parts
 bin
 var
 sdist
+<<<<<<< HEAD
 deb_dist
 develop-eggs
 .installed.cfg
@@ -33,3 +43,30 @@ pip-log.txt
 
 ## paver generated files
 /paver-minilib.zip
+=======
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+# DB Sqlite
+*.db
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+*.sublime*
+>>>>>>> d443475bdf944e8c0de0034e83e32348123ba809
