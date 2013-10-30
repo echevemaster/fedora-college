@@ -1,25 +1,30 @@
-<div class="navbar">
-    <div class="container">
-    
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
+<div id="wrap">
+      <div id="innerwrap">
 
-        <a class="navbar-brand" href="#">Fedora College</a>
+        <!-- HEADER -->
+        <div id="header">
+          <img src="{{ url_for('static', filename='fedora_logo.png') }}"
+            alt="Fedora College Logo" id="kojiLogo"/>
+        </div><!-- end header -->
 
-        <div class="nav-collapse collapse navbar-responsive-collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="#">Home</a>
-                </li>
-            </ul>
-        </div><!-- /.nav-collapse -->
-        {% if g.fas_user.username %}
+        <!-- MAIN NAVIGATION -->
+        <div id="mainNav">
+          <h4 class="hide">Main Site Links:</h4>
+          <ul>
+            <li id="indexTab"><a href="">Home</a></li>
+            <li id="electionsTab"><a href="">Elections</a></li>
+            <li id="resultsTab"><a href="">Results</a></li>
+            {% if is_admin %}
+            <li id="adminTab"><a href="">admin</a></li>
+            {% endif %}
+          </ul>
+        </div><!-- end mainNav -->
+
+        <span id="loginInfo">
+         {% if g.fas_user.username %}
             <p class="navbar-text pull-right">Hello {{ g.fas_user.username }}, <a href="{{ url_for('auth.auth_logout') }}" class="navbar-link">Log Out</a></p>
         {% else %}
             <p class="navbar-text pull-right"><a href="{{ url_for('auth.auth_login') }}" class="navbar-link">Log In</a></p>
         {% endif %}
-    </div><!-- /.container -->
+        </span>
  </div><!-- /.navbar -->
