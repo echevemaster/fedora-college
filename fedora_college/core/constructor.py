@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 from flask import current_app
 from flask_fas_openid import FAS
 # Imports only in development, in production we use Flask_Bundle
