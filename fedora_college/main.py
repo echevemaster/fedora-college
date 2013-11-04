@@ -5,11 +5,15 @@
 """
 
 from __future__ import print_function
-
+import sys
+sys.path[0:0] = ""
+import fedora_college
 import flask
 from flask.ext.script import Manager
 from fedora_college.core.constructor import (build_app as build_fedora,
                                              create_db)
+
+
 
 app = flask.Flask(__name__)
 manager = Manager(app)
