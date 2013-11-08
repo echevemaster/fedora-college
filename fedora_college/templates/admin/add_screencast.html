@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+    <div class="col col-12 col-sm-12 col-lg-12">
+        <h2>Add screencast</h2>
+        <form action="#" method="post">
+        	{{ form_screencast.name.label }}
+        	{{ form_screencast.name }}
+        <br>
+          	{{ form_screencast.desc.label}}
+          	{{ form_screencast.desc}}
+        </form>
+
+    </div>
+{% endblock %}

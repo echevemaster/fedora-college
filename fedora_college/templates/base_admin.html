@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %} - Fedora College</title>
+    {% block head %}
+        <link rel="stylesheet" type="text/css" media="screen"
+        href="{{ url_for('static', filename='css/koji.css') }}"/>
+    	<link rel="stylesheet" type="text/css" media="screen"
+        href="{{ url_for('static', filename='css/fedora-college.css') }}"/>
+    	<link rel='stylesheet' type='text/css'
+         href='//fonts.googleapis.com/css?family=Comfortaa'/>
+    {% endblock %}
+</head>
+<body>
+    
+<header>
+    {% include 'header.html' %}
+</header>
+
+<div class="container">
+    {% block content %}
+        
+    {% endblock %}
+</div>
+
+</body>
+</html>
