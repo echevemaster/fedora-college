@@ -9,7 +9,8 @@ sys.path[0:0] = [""]
 import flask
 from flask.ext.script import Manager
 from fedora_college.core.constructor import (build_app as build_fedora,
-                                             create_db)
+                                             create_db, drop_db, authenticated,
+                                             logger, is_admin)
 
 
 app = flask.Flask(__name__)
@@ -18,17 +19,37 @@ manager = Manager(app)
 
 def build_app():
     build_fedora(app)
+    authenticated()
+    logger(app)
+    is_admin(app)
+
+
+@app.context_processor
+def inject_variables():
+    user_admin = is_admin(app)
+
+    return dict(
+        is_admin=user_admin)
 
 
 @manager.command
 def create_database():
+    """Create all database tables"""
     create_db(app)
 
 
 @manager.command
+def drop_database():
+    """Create all database tables"""
+    drop_db(app)
+
+
+@manager.command
 def run():
+    """Run application"""
     app.run(debug=True)
 
 if __name__ == '__main__':
     build_app()
+    is_admin(app)
     manager.run()

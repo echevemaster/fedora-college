@@ -4,19 +4,24 @@
         <!-- HEADER -->
         <div id="header">
           <img src="{{ url_for('static', filename='fedora_logo.png') }}"
-            alt="Fedora College Logo" id="kojiLogo"/>
+            alt="Fedora College Logo" id="fedora_logo"/>
         </div><!-- end header -->
 
         <!-- MAIN NAVIGATION -->
         <div id="mainNav">
           <h4 class="hide">Main Site Links:</h4>
           <ul>
+          {% if request.path.startswith('/admin') %}
+            <li id="indexTab"><a href="{{  url_for('admin.index') }}">Home</a></li>
+            <li id="ScreenCastsTab"><a href="{{  url_for('admin.screencast'  )}}">Add ScreenCast</a></li>
+          {% else %}
             <li id="indexTab"><a href="">Home</a></li>
-            <li id="electionsTab"><a href="">Elections</a></li>
-            <li id="resultsTab"><a href="">Results</a></li>
+            <li id="ScreenCastsTab"><a href="">Fedora ScreenCasts</a></li>
+            <li id="AboutTab"><a href="">About</a></li>
             {% if is_admin %}
-            <li id="adminTab"><a href="">admin</a></li>
+            <li id="adminTab"><a href="{{  url_for('admin.index')}}">Admin</a></li>
             {% endif %}
+          {% endif %}
           </ul>
         </div><!-- end mainNav -->
 

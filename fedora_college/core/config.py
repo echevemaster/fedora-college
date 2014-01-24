@@ -9,6 +9,7 @@ class Config(object):
     FAS_CHECK_CERT = True
     DEBUG = False
     TESTING = False
+    ADMIN_GROUP = 'provenpackager'
 
 
 class ProductionConfig(Config):

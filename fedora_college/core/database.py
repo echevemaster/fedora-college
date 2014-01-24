@@ -3,3 +3,5 @@
 
 from flask.ext.sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
+
+from fedora_college.core import models
