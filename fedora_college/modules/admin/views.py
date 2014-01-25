@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, abort, request, \
-    redirect, flash, url_for, jsonify
+    flash, url_for
 from jinja2 import TemplateNotFound
 from fedora_college.core.database import db
 from fedora_college.core.forms import AddScreenCast

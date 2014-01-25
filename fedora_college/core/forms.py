@@ -1,1 +1,1 @@
-from fedora_college.modules.admin.forms import *
+from fedora_college.modules.admin.forms import AddScreenCast
