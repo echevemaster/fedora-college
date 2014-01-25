@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, abort, request, \
-    redirect, flash, url_for
+    redirect, flash, url_for, jsonify
 from jinja2 import TemplateNotFound
 from fedora_college.core.database import db
 from fedora_college.core.forms import AddScreenCast
@@ -29,8 +29,13 @@ def add_screencast():
     form = AddScreenCast()
     form_action = url_for('admin.add_screencast')
     if request.method == 'POST' and form.validate():
+        screencast_file = request.files['url_video']
         query = Screencast(form.title.data,
-                           form.slug.data
+                           form.slug.data,
+                           form.description.data,
+                           form.date.data,
+                           screencast_file,
+                           form.date.active
                            )
         db.session.add(query)
         db.session.commit()
