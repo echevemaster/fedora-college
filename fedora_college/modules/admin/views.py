@@ -3,7 +3,10 @@
 from flask import Blueprint, render_template, abort, request, \
     redirect, flash, url_for
 from jinja2 import TemplateNotFound
+from fedora_college.core.database import db
 from fedora_college.core.forms import AddScreenCast
+from fedora_college.core.models import Screencast
+
 bundle = Blueprint('admin', __name__, template_folder='templates',
                    static_folder='static')
 
@@ -25,6 +28,14 @@ def screencast():
 def add_screencast():
     form = AddScreenCast()
     form_action = url_for('admin.add_screencast')
+    if request.method == 'POST' and form.validate():
+        query = Screencast(form.title.data,
+                           form.slug.data
+                           )
+        db.session.add(query)
+        db.session.commit()
+        flash('Screencast created')
+        return(url_for('admin.add_screencast'))
     return render_template('admin/add_screencast.html',
                            form=form,
                            form_action=form_action,
