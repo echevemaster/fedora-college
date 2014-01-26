@@ -6,6 +6,7 @@ from flask_fas_openid import FAS
 from fedora_college.modules.auth import bundle as auth_bundle
 from fedora_college.modules.home import bundle as home_bundle
 from fedora_college.modules.admin import bundle as admin_bundle
+from fedora_college.modules.api import bundle as api_bundle
 from fedora_college.core.database import db
 
 
@@ -13,6 +14,7 @@ def build_app(app):
     app.register_blueprint(auth_bundle)
     app.register_blueprint(home_bundle)
     app.register_blueprint(admin_bundle)
+    app.register_blueprint(api_bundle)
     # Config to Flask from objects
     #app.config.from_object('fedora_college.core.ProductionConfig')
     app.config.from_object('fedora_college.core.config.DevelopmentConfig')
