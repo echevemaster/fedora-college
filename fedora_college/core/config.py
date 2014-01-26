@@ -25,7 +25,7 @@ class DevelopmentConfig(Config):
     DATABASE_CONNECT_OPTIONS = {}
     CSRF_ENABLED = True
     CSRF_SESSION_KEY = "f3do$a"
-    UPLOADS_FOLDER = os.path.realpath('.') + 'uploads/'
+    UPLOADS_FOLDER = os.path.realpath('.') + '/uploads/'
     ALLOWED_EXTENSIONS = ['ogv', 'avi', 'mpeg']
 
 
