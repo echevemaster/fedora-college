@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from flask import Blueprint, request, jsonify, request, current_app
+from flask import Blueprint, request, jsonify, current_app
 from werkzeug import secure_filename
 
 bundle = Blueprint('api', __name__)
