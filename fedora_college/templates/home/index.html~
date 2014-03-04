@@ -4,6 +4,6 @@
 {% endblock %}
 {% block content %}
     <div class="col col-12 col-sm-12 col-lg-12">
-        {{content}}
+        {{content-main}}
     </div>
 {% endblock %}

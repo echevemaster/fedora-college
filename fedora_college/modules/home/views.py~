@@ -18,7 +18,7 @@ def screencasts():
 
 
 @bundle.route('/addmore/', methods=['GET', 'POST'])
-def addmore():
+def about():
     return render_template('home/upload.html', title = 'Add New Content',content="Upload form & and associated description")
 
 @bundle.route('/about/', methods=['GET', 'POST'])

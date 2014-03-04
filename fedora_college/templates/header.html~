@@ -17,8 +17,6 @@
           {% else %}
             <li id="indexTab"><a href="/home">Home</a></li>
             <li id="ScreenCastsTab"><a href="/screencasts">Fedora ScreenCasts</a></li>
-	    
-            <li id="Addmore"><a href="/addmore">Add New Content</a></li>
             <li id="AboutTab"><a href="/about">About</a></li>
             {% if is_admin %}
             <li id="adminTab"><a href="{{  url_for('admin.index')}}">Admin</a></li>

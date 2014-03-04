@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 from fedora_college.core.database import db
 
-'''
 class UserProfile(db.Model):
     __tablename__ = 'profile'
 
 class Comments(db.Model):
     __tablename__ = 'comments'
-'''
+
 
 class Screencast(db.Model):
     __tablename__ = 'screencast'

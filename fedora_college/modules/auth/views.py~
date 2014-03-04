@@ -6,7 +6,6 @@ from flask_fas_openid import fas_login_required
 bundle = Blueprint('auth', __name__, url_prefix='/auth')
 
 
-
 @bundle.route('/login', methods=['GET', 'POST'])
 def auth_login():
     if 'next' in request.args:
@@ -28,4 +27,4 @@ def auth_logout():
 @bundle.route('/test', methods=['GET', 'POST'])
 @fas_login_required
 def auth_test():
-    return str(g.fas_user)+"FAS OK" 
+    return str(g.fas_user)+"FAS OK"

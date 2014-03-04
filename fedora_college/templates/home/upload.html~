@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}
+     {{title}}
+{% endblock %}
+{% block content %}
+<script>
+	   var client = new XMLHttpRequest();
+	  
+	   function upload() 
+	   {
+	      var file = document.getElementById("uploadfile");
+	     
+	      /* Create a FormData instance */
+	      var formData = new FormData();
+	      /* Add the file */ 
+	      formData.append("upload", file.files[0]);
+
+	      client.open("post", "/api/upload", true);
+	      client.setRequestHeader("Content-Type", "multipart/form-data");
+	      client.send(formData);  /* Send to server */ 
+	   }
+	     
+	   /* Check the response status */  
+	   client.onreadystatechange = function() 
+	   {
+	      if (client.readyState == 4 && client.status == 200) 
+	      {
+		 alert(client.statusText);
+	      }
+	   }
+</script>
+
+
+    <div class="col col-12 col-sm-12 col-lg-12">
+        {{content}}
+
+	<br/>
+	<br/>
+	<hr/>
+		
+		 Please choose a file: <input type="file" id="uploadfile" name="file" /><br />
+		 <input type="button" value="upload" onclick="upload()" />
+		
+
+
+
+
+	
+	<br/>
+
+    </div>
+
+
+
+{% endblock %}
