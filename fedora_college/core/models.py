@@ -77,8 +77,8 @@ class Comments(db.Model):
         self.parent = parent
         self.date_added = date_added
 
-class Comment_map_content()	
-   __tablename__ = 'map_comments'
+class Comment_map_content(db.Model)	
+    __tablename__ = 'map_comments'
     
     comment_id = db.Column(db.Integer, primary_key=True)
     content_id = db.Column(db.Integer)
