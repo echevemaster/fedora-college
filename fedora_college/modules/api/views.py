@@ -21,7 +21,7 @@ def upload():
         upload_folder = os.path.join(current_app.config['UPLOADS_FOLDER'])
         if not os.path.exists(upload_folder):
             os.mkdir(upload_folder)
-	print upload_folder 
+            print upload_folder
         files = []
         f = request.files['file']
         if f:
