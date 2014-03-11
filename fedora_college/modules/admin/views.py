@@ -4,9 +4,10 @@ from flask import Blueprint, render_template, abort, request, flash, url_for
 from jinja2 import TemplateNotFound
 from fedora_college.core.database import db
 from fedora_college.core.forms import AddScreenCast
-from fedora_college.core.models import *
+from fedora_college.core.models import *  # noqa
 
-bundle = Blueprint('admin', __name__, template_folder='templates',static_folder='static')
+bundle = Blueprint('admin', __name__, template_folder='templates',
+                   static_folder='static')
 
 
 @bundle.route('/admin', methods=['GET', 'POST'])
@@ -39,4 +40,5 @@ def add_screencast():
         db.session.commit()
         flash('Screencast created')
         return(url_for('admin.add_screencast'))
-    return render_template('admin/add_screencast.html', form=form,form_action=form_action,title="Add Screencast")
+    return render_template('admin/add_screencast.html', form=form,
+                           form_action=form_action, title="Add Screencast")
