@@ -5,7 +5,6 @@ Updated Models / Uploading ER diagram soon.
 '''
 
 
-'''
 class UserProfile(db.Model):
     __tablename__ = 'profile'
 
@@ -17,13 +16,15 @@ class UserProfile(db.Model):
     date_registered = db.Column(db.DateTime())
     website = db.Column(db.String())
 
-    def __init__(self,open_id,username,email,about,date,website):    
-    	self.open_id = open_id
-    	self.username = username
-    	self.email = email
-    	self.about = about
-    	self.date_registered = date
-    	self.website = website
+    def __init__(self, open_id, username,
+                 email, about, date, website):
+        self.open_id = open_id
+        self.username = username
+        self.email = email
+        self.about = about
+        self.date_registered = date
+        self.website = website
+
 
 class Media(db.Model):
     __tablename__ = 'content'
@@ -35,12 +36,12 @@ class Media(db.Model):
     slug = db.Column(db.String(255))
     timestamp = db.Column(db.DateTime())
 
-    def __init__(self,title,about,url,slug,time):    
-    	self.title =title
-    	self.about = about
-    	self.content_url= url
-    	self.slug = slug
-    	self.timestamp = time
+    def __init__(self, title, about, url, slug, time):
+        self.title = title
+        self.about = about
+        self.content_url = url
+        self.slug = slug
+        self.timestamp = time
 
 
 class Content(db.Model):
@@ -54,40 +55,41 @@ class Content(db.Model):
     media_added_ids = db.Column(db.Text())
     active = db.Column(db.Boolean())
 
-    def __init__(self,title,slug,description,date_added,media_added_ids,active):
+    def __init__(self, title, slug, description, date_added,
+                 media_added_ids, active):
         self.title = title
         self.slug = slug
         self.description = description
         self.date_added = date_added
-	self.media_added_ids=media_added_ids
+        self.media_added_ids = media_added_ids
         self.active = active
-
 
 
 class Comments(db.Model):
     __tablename__ = 'comments'
-    
+
     comment_id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255))
-    parent = db.Column(db.Integer,default=0)
+    parent = db.Column(db.Integer, default=0)
     date_added = db.Column(db.DateTime())
-    
-    def __init__(self,text,parent,date_added):
+
+    def __init__(self, text, parent, date_added):
         self.text = text
         self.parent = parent
         self.date_added = date_added
 
-class Comment_map_content(db.Model)	
+
+class Comment_map_content(db.Model):
     __tablename__ = 'map_comments'
-    
+
     comment_id = db.Column(db.Integer, primary_key=True)
     content_id = db.Column(db.Integer)
-    
-    def __init__(self,comment_id,content_id):
+
+    def __init__(self, comment_id, content_id):
         self.comment_id = comment_id
         self.content_id = content_id
 
-'''
+
 class Screencast(db.Model):
     __tablename__ = 'screencast'
 
@@ -99,7 +101,8 @@ class Screencast(db.Model):
     url_video = db.Column(db.String())
     active = db.Column(db.Boolean())
 
-    def __init__(self, title, slug, description,url_video, date, active):
+    def __init__(self, title, slug, description,
+                 url_video, date, active):
         self.title = title
         self.slug = slug
         self.description = description
