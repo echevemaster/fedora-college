@@ -62,17 +62,23 @@ class Media(db.Model):
 class Content(db.Model):
     __tablename__ = 'image'
 
+    """
+    This class stores information about the Content
+    """
+
     content_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     slug = db.Column(db.String(255))
     description = db.Column(db.Text())
     date_added = db.Column(db.DateTime())
-    media_added_ids = db.Column(db.Text())
+    media_added_ids = db.Column(db.Text())  # Comma seprated media id's 
     active = db.Column(db.Boolean())
     tags = db.Column(db.Text())  # Comma seprated tag id's 
+    media = db.Column(db.Text()) 
+    user_id = db.Column(Integer, ForeignKey(UserProfile.user_id), primary_key=True)
 
     def __init__(self, title, slug, description, date_added,
-                 media_added_ids, active,tags):
+                 media_added_ids, active,tags,user_id):
         self.title = title
         self.slug = slug
         self.description = description
@@ -80,9 +86,12 @@ class Content(db.Model):
         self.media_added_ids = media_added_ids
         self.active = active
         self.tags = tags
+        self.user_id=user_id 
+
 
 class Comments(db.Model):
     __tablename__ = 'comments'
+
     """
     Store comment text and relationships
     """
