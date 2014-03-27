@@ -49,7 +49,8 @@ class Media(db.Model):
     content_url = db.Column(db.String())
     slug = db.Column(db.String(255))
     timestamp = db.Column(db.DateTime())
-    tags = db.Column(db.Text())  # Comma seprated tag id's
+    tags = db.Column(db.Text())
+    # Comma seprated tag id's
 
     def __init__(self, title, about, url, slug, time, tags):
         self.title = title
@@ -72,9 +73,11 @@ class Content(db.Model):
     slug = db.Column(db.String(255))
     description = db.Column(db.Text())
     date_added = db.Column(db.DateTime())
-    media_added_ids = db.Column(db.Text())  # Comma seprated media id's
+    media_added_ids = db.Column(db.Text())
+    # Comma seprated media id's
     active = db.Column(db.Boolean())
-    tags = db.Column(db.Text())  # Comma seprated tag id's
+    tags = db.Column(db.Text())
+    # Comma seprated tag id's
     media = db.Column(db.Text())
     user_id = db.Column(
         Integer,
