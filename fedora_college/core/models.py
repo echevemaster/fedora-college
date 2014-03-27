@@ -119,8 +119,8 @@ class Comment_map_content(db.Model):
     __tablename__ = 'map_comments'
 
     """
-    Will be used as relationship table to map comments to media or centent Items
-    
+    Will be used as relationship table to
+    map comments to media or centent Items    
     """
 
     comment_id = db.Column(
@@ -140,7 +140,9 @@ class Comment_map_content(db.Model):
 
 """
 
-   From old schema. Removal may cause breaking of application would be removed soon
+   From old schema. Removal may cause 
+   breaking of application would 
+   be removed soon
 
 """
 
