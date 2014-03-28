@@ -2,18 +2,17 @@
 import os
 from flask import Blueprint, request, jsonify, current_app
 from werkzeug import secure_filename
+from flask.ext.babel import gettext
 
 bundle = Blueprint('api', __name__)
-
 
 @bundle.route('/api', methods=['GET'])
 def index():
     if request.method == 'GET':
         json_results = []
-        output = {'greetings': 'Welcome to Fedora College api'}
+        output = {gettext('greetings'): gettext('Welcome to Fedora College api')}
         json_results.append(output)
     return jsonify(items=json_results)
-
 
 @bundle.route('/api/upload', methods=['POST'])
 def upload():

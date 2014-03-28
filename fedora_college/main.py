@@ -5,17 +5,26 @@
 """
 import sys
 sys.path[0:0] = [""]
-
 import flask
 from flask.ext.script import Manager
+from flask.ext.babel import Babel
+from flask import Blueprint, request, jsonify
 from fedora_college.core.constructor import (build_app as build_fedora,
                                              create_db, drop_db, authenticated,
                                              logger, is_admin)
 
+LANGUAGES = {
+    'en': 'English',
+    'es': 'Español'
+}
 
 app = flask.Flask(__name__)
 manager = Manager(app)
+babel = Babel(app)
 
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(LANGUAGES.keys())
 
 def build_app():
     build_fedora(app)
