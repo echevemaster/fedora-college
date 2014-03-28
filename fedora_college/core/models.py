@@ -13,7 +13,7 @@ class Tags(db.Model):
     date_added = db.Column(db.DateTime())
 
     def __init__(self, tag_text, date_added):
-        self.text = text
+        self.tag_text = tag_text
         self.date_added = date_added
 
 
@@ -79,11 +79,9 @@ class Content(db.Model):
     tags = db.Column(db.Text())
     # Comma seprated tag id's
     media = db.Column(db.Text())
-    user_id = db.Column(
-        Integer,
-        ForeignKey(
-            UserProfile.user_id),
-        primary_key=True)
+    user_id = db.Column(Integer,
+    	ForeignKey(UserProfile.user_id),
+    	primary_key=True)
 
     def __init__(self, title, slug, description, date_added,
                  media_added_ids, active, tags, user_id):
@@ -123,15 +121,11 @@ class Comment_map_content(db.Model):
     map comments to media or content Items
     """
 
-    comment_id = db.Column(
-        Integer,
-        ForeignKey(
-            Comments.comment_id),
+    comment_id = db.Column(Integer,
+        ForeignKey(Comments.comment_id),
         primary_key=True)
-    content_id = db.Column(
-        Integer,
-        ForeignKey(
-            Content.content_id),
+    content_id = db.Column(Integer,
+        ForeignKey(Content.content_id),
         primary_key=True)
 
     def __init__(self, comment_id, content_id):
