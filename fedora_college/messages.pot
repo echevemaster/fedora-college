@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
-#, fuzzy
+
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
@@ -19,9 +19,8 @@ msgstr ""
 
 #: modules/api/views.py:13
 msgid "greetings"
-msgstr ""
+msgstr "saludos"
 
 #: modules/api/views.py:13
 msgid "Welcome to Fedora College api"
-msgstr ""
-
+msgstr "Bienvenido a Fedora Colegio api"
