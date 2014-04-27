@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from fedora_college.core.database import db
+import datetime
 
 '''
 Updated Models / Uploading ER diagram soon.
@@ -13,9 +14,9 @@ class Tags(db.Model):
     tag_text = db.Column(db.String(255))
     date_added = db.Column(db.DateTime())
 
-    def __init__(self, tag_text, date_added):
+    def __init__(self, tag_text):
         self.tag_text = tag_text
-        self.date_added = date_added
+        self.date_added = datetime.datetime.utcnow()
 
     def text(self):
         return self.tag_text
@@ -56,19 +57,19 @@ class UserProfile(db.Model):
                email=None, about=None,
                date=None, website=None,
                role=None):
-        if open_id is not  None:
+        if open_id is not None:
             self.open_id = open_id
-        if username is not  None:
+        if username is not None:
             self.username = username
-        if email is not  None:
+        if email is not None:
             self.email = email
-        if about is not  None:
+        if about is not None:
             self.about = about
-        if date is not  None:
+        if date is not None:
             self.date_registered = date
-        if website is not  None:
+        if website is not None:
             self.website = website
-        if role is not  None:
+        if role is not None:
             self.role = role
 
     def name(self):
@@ -121,17 +122,17 @@ class Media(db.Model):
     def update(self, title=None, about=None,
                content_url=None, slug=None,
                timestamp=None, tags=None):
-        if title is not  None:
+        if title is not None:
             self.title = title
-        if about is not  None:
+        if about is not None:
             self.about = about
-        if url is not  None:
+        if url is not None:
             self.content_url = url
-        if slug is not  None:
+        if slug is not None:
             self.slug = slug
-        if time is not  None:
+        if time is not None:
             self.timestamp = time
-        if tags is not  None:
+        if tags is not None:
             self.tags = tags
 
     def title():
@@ -193,21 +194,21 @@ class Content(db.Model):
                media_added_ids=None,
                active=None, tags=None,
                user_id=None):
-        if title is not  None:
+        if title is not None:
             self.title = title
-        if slug is not  None:
+        if slug is not None:
             self.slug = slug
-        if description is not  None:
+        if description is not None:
             self.description = description
-        if date_added is not  None:
+        if date_added is not None:
             self.date_added = date_added
-        if media_added_ids is not  None:
+        if media_added_ids is not None:
             self.media_added_ids = media_added_ids
-        if active is not  None:
+        if active is not None:
             self.active = active
-        if tags is not  None:
+        if tags is not None:
             self.tags = tags
-        if user_id is not  None:
+        if user_id is not None:
             self.user_id = user_id
 
 
@@ -256,11 +257,12 @@ class Comment_map_content(db.Model):
                            primary_key=True)
     content_id = db.Column(db.Integer, db.ForeignKey(Content.content_id),
                            primary_key=True)
-    relation =""
+    relation = ""
+
     def __init__(self, comment_id, content_id):
         self.comment_id = comment_id
         self.content_id = content_id
-	self.relation = str(comment_id) + " " +  str(content_id)
+        self.relation = str(comment_id) + " " + str(content_id)
 
     def __repr__(self):
         return '<Relation %r>' % (self.relation)
