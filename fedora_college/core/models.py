@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from fedora_college.core.database import db
+
 '''
 Updated Models / Uploading ER diagram soon.
 '''
@@ -15,6 +16,12 @@ class Tags(db.Model):
     def __init__(self, tag_text, date_added):
         self.tag_text = tag_text
         self.date_added = date_added
+
+    def text(self):
+        return self.tag_text
+
+    def time(self):
+        return self.date_added
 
 
 class UserProfile(db.Model):
@@ -39,6 +46,41 @@ class UserProfile(db.Model):
         self.website = website
         self.role = role
 
+    def update(self, open_id=self.open_id, username=self.username,
+               email=self.email, about=self.about,
+               date=self.date_registered, website=self.website,
+               role=self.role):
+        self.open_id = open_id
+        self.username = username
+        self.email = email
+        self.about = about
+        self.date_registered = date
+        self.website = website
+        self.role = role
+
+    def name(self):
+        return self.username
+
+    def openid(self):
+        return self.openid
+
+    def email(self):
+        return self.email
+
+    def about(self):
+        return self.about
+
+    def website(self):
+        return self.website
+
+    def role(self):
+        return self.role
+
+    '''
+    More methods to be added
+    according to usage
+    '''
+
 
 class Media(db.Model):
     __tablename__ = 'content'
@@ -59,6 +101,34 @@ class Media(db.Model):
         self.slug = slug
         self.timestamp = time
         self.tags = tags
+
+    def update(self, title=self.title, about=self.about,
+               content_url=self.url, slug=self.slug,
+               timestamp=self.time, tags=self.tags):
+        self.title = title
+        self.about = about
+        self.content_url = url
+        self.slug = slug
+        self.timestamp = time
+        self.tags = tags
+
+    def title():
+        return self.title
+
+    def about():
+        return self.about
+
+    def url():
+        return self.content_url
+
+    def slug():
+        return self.slug
+
+    def timestamp():
+        return self.timestamp
+
+    def tags():
+        return self.tags
 
 
 class Content(db.Model):
@@ -93,6 +163,20 @@ class Content(db.Model):
         self.tags = tags
         self.user_id = user_id
 
+    def update(self, title=self.title, slug=self.slug,
+               description=self.description, date_added=self.date_added,
+               media_added_ids=self.media_added_ids,
+               active=self.active, tags=self.tags,
+               user_id=self.user_id):
+        self.title = title
+        self.slug = slug
+        self.description = description
+        self.date_added = date_added
+        self.media_added_ids = media_added_ids
+        self.active = active
+        self.tags = tags
+        self.user_id = user_id
+
 
 class Comments(db.Model):
     __tablename__ = 'comments'
@@ -110,6 +194,18 @@ class Comments(db.Model):
         self.text = text
         self.parent = parent
         self.date_added = date_added
+
+    def gettext():
+        return self.text
+
+    def getparent():
+        return self.parent
+
+    def getid():
+        return self.comment_id
+
+    def date():
+        return self.date_added
 
 
 class Comment_map_content(db.Model):
@@ -158,3 +254,4 @@ class Screencast(db.Model):
 
     def __repr__(self):
         return '<Title %s' % self.title
+
