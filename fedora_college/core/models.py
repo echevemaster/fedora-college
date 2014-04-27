@@ -23,6 +23,9 @@ class Tags(db.Model):
     def time(self):
         return self.date_added
 
+    def __repr__(self):
+        return '<TagText %r>' % (self.tag_text)
+
 
 class UserProfile(db.Model):
     __tablename__ = 'profile'
@@ -46,23 +49,26 @@ class UserProfile(db.Model):
         self.website = website
         self.role = role
 
+    def __repr__(self):
+        return '<Username %r>' % (self.username)
+
     def update(self, open_id=None, username=None,
                email=None, about=None,
                date=None, website=None,
                role=None):
-        if open_id != None:
+        if open_id is not  None:
             self.open_id = open_id
-        if username != None:
+        if username is not  None:
             self.username = username
-        if email != None:
+        if email is not  None:
             self.email = email
-        if about != None:
+        if about is not  None:
             self.about = about
-        if date != None:
+        if date is not  None:
             self.date_registered = date
-        if website != None:
+        if website is not  None:
             self.website = website
-        if role != None:
+        if role is not  None:
             self.role = role
 
     def name(self):
@@ -109,20 +115,23 @@ class Media(db.Model):
         self.timestamp = time
         self.tags = tags
 
+    def __repr__(self):
+        return '<Media-Title %r>' % (self.title)
+
     def update(self, title=None, about=None,
                content_url=None, slug=None,
                timestamp=None, tags=None):
-        if title != None:
+        if title is not  None:
             self.title = title
-        if about != None:
+        if about is not  None:
             self.about = about
-        if url != None:
+        if url is not  None:
             self.content_url = url
-        if slug != None:
+        if slug is not  None:
             self.slug = slug
-        if time != None:
+        if time is not  None:
             self.timestamp = time
-        if tags != None:
+        if tags is not  None:
             self.tags = tags
 
     def title():
@@ -176,26 +185,29 @@ class Content(db.Model):
         self.tags = tags
         self.user_id = user_id
 
+    def __repr__(self):
+        return '<Title %r>' % (self.title)
+
     def update(self, title=None, slug=None,
                description=None, date_added=None,
                media_added_ids=None,
                active=None, tags=None,
                user_id=None):
-        if title != None:
+        if title is not  None:
             self.title = title
-        if slug != None:
+        if slug is not  None:
             self.slug = slug
-        if description != None:
+        if description is not  None:
             self.description = description
-        if date_added != None:
+        if date_added is not  None:
             self.date_added = date_added
-        if media_added_ids != None:
+        if media_added_ids is not  None:
             self.media_added_ids = media_added_ids
-        if active != None:
+        if active is not  None:
             self.active = active
-        if tags != None:
+        if tags is not  None:
             self.tags = tags
-        if user_id != None:
+        if user_id is not  None:
             self.user_id = user_id
 
 
@@ -228,6 +240,9 @@ class Comments(db.Model):
     def date():
         return self.date_added
 
+    def __repr__(self):
+        return '<Text %r>' % (self.text)
+
 
 class Comment_map_content(db.Model):
     __tablename__ = 'map_comments'
@@ -241,10 +256,15 @@ class Comment_map_content(db.Model):
                            primary_key=True)
     content_id = db.Column(db.Integer, db.ForeignKey(Content.content_id),
                            primary_key=True)
-
+    relation =""
     def __init__(self, comment_id, content_id):
         self.comment_id = comment_id
         self.content_id = content_id
+	self.relation = str(comment_id) + " " +  str(content_id)
+
+    def __repr__(self):
+        return '<Relation %r>' % (self.relation)
+
 
 """
    From old schema. Removal may cause
@@ -274,5 +294,5 @@ class Screencast(db.Model):
         self.active = active
 
     def __repr__(self):
-        return '<Title %s' % self.title
+        return '<Title %s>' % self.title
 
