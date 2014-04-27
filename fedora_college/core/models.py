@@ -297,4 +297,3 @@ class Screencast(db.Model):
 
     def __repr__(self):
         return '<Title %s>' % self.title
-
