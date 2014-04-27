@@ -46,17 +46,24 @@ class UserProfile(db.Model):
         self.website = website
         self.role = role
 
-    def update(self, open_id=self.open_id, username=self.username,
-               email=self.email, about=self.about,
-               date=self.date_registered, website=self.website,
-               role=self.role):
-        self.open_id = open_id
-        self.username = username
-        self.email = email
-        self.about = about
-        self.date_registered = date
-        self.website = website
-        self.role = role
+    def update(self, open_id=None, username=None,
+               email=None, about=None,
+               date=None, website=None,
+               role=None):
+        if open_id != None:
+            self.open_id = open_id
+        if username != None:
+            self.username = username
+        if email != None:
+            self.email = email
+        if about != None:
+            self.about = about
+        if date != None:
+            self.date_registered = date
+        if website != None:
+            self.website = website
+        if role != None:
+            self.role = role
 
     def name(self):
         return self.username
@@ -102,15 +109,21 @@ class Media(db.Model):
         self.timestamp = time
         self.tags = tags
 
-    def update(self, title=self.title, about=self.about,
-               content_url=self.url, slug=self.slug,
-               timestamp=self.time, tags=self.tags):
-        self.title = title
-        self.about = about
-        self.content_url = url
-        self.slug = slug
-        self.timestamp = time
-        self.tags = tags
+    def update(self, title=None, about=None,
+               content_url=None, slug=None,
+               timestamp=None, tags=None):
+        if title != None:
+            self.title = title
+        if about != None:
+            self.about = about
+        if url != None:
+            self.content_url = url
+        if slug != None:
+            self.slug = slug
+        if time != None:
+            self.timestamp = time
+        if tags != None:
+            self.tags = tags
 
     def title():
         return self.title
@@ -163,19 +176,27 @@ class Content(db.Model):
         self.tags = tags
         self.user_id = user_id
 
-    def update(self, title=self.title, slug=self.slug,
-               description=self.description, date_added=self.date_added,
-               media_added_ids=self.media_added_ids,
-               active=self.active, tags=self.tags,
-               user_id=self.user_id):
-        self.title = title
-        self.slug = slug
-        self.description = description
-        self.date_added = date_added
-        self.media_added_ids = media_added_ids
-        self.active = active
-        self.tags = tags
-        self.user_id = user_id
+    def update(self, title=None, slug=None,
+               description=None, date_added=None,
+               media_added_ids=None,
+               active=None, tags=None,
+               user_id=None):
+        if title != None:
+            self.title = title
+        if slug != None:
+            self.slug = slug
+        if description != None:
+            self.description = description
+        if date_added != None:
+            self.date_added = date_added
+        if media_added_ids != None:
+            self.media_added_ids = media_added_ids
+        if active != None:
+            self.active = active
+        if tags != None:
+            self.tags = tags
+        if user_id != None:
+            self.user_id = user_id
 
 
 class Comments(db.Model):
