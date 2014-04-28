@@ -130,7 +130,7 @@ class Media(db.Model):
             self.content_url = content_url
         if slug is not None:
             self.slug = slug
-        if time is not None:
+        if timestamp is not None:
             self.timestamp = timestamp
         if tags is not None:
             self.tags = tags
@@ -223,11 +223,15 @@ class Comments(db.Model):
     text = db.Column(db.String(255))
     parent = db.Column(db.Integer, default=0)
     date_added = db.Column(db.DateTime())
+    user_id = db.Column(db.Integer, db.ForeignKey(UserProfile.user_id),
+                        primary_key=True)
+    
 
-    def __init__(self, text, parent, date_added):
+    def __init__(self, text, parent, date_added,user_id):
         self.text = text
         self.parent = parent
         self.date_added = date_added
+        self.user_id = user_id
 
     def gettext(self):
         return self.text
@@ -237,6 +241,9 @@ class Comments(db.Model):
 
     def getid(self):
         return self.comment_id
+        
+    def createdby(self):
+        return self.user_id
 
     def date(self):
         return self.date_added
