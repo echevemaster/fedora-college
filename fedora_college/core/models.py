@@ -225,9 +225,8 @@ class Comments(db.Model):
     date_added = db.Column(db.DateTime())
     user_id = db.Column(db.Integer, db.ForeignKey(UserProfile.user_id),
                         primary_key=True)
-    
 
-    def __init__(self, text, parent, date_added,user_id):
+    def __init__(self, text, parent, date_added, user_id):
         self.text = text
         self.parent = parent
         self.date_added = date_added
@@ -241,7 +240,7 @@ class Comments(db.Model):
 
     def getid(self):
         return self.comment_id
-        
+
     def createdby(self):
         return self.user_id
 
