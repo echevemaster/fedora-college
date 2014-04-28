@@ -126,31 +126,31 @@ class Media(db.Model):
             self.title = title
         if about is not None:
             self.about = about
-        if url is not None:
-            self.content_url = url
+        if content_url is not None:
+            self.content_url = content_url
         if slug is not None:
             self.slug = slug
         if time is not None:
-            self.timestamp = time
+            self.timestamp = timestamp
         if tags is not None:
             self.tags = tags
 
-    def title():
+    def title(self):
         return self.title
 
-    def about():
+    def about(self):
         return self.about
 
-    def url():
+    def url(self):
         return self.content_url
 
-    def slug():
+    def slug(self):
         return self.slug
 
-    def timestamp():
+    def timestamp(self):
         return self.timestamp
 
-    def tags():
+    def tags(self):
         return self.tags
 
 
@@ -229,16 +229,16 @@ class Comments(db.Model):
         self.parent = parent
         self.date_added = date_added
 
-    def gettext():
+    def gettext(self):
         return self.text
 
-    def getparent():
+    def getparent(self):
         return self.parent
 
-    def getid():
+    def getid(self):
         return self.comment_id
 
-    def date():
+    def date(self):
         return self.date_added
 
     def __repr__(self):
