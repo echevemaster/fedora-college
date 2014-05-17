@@ -1,0 +1,19 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+
+ {% if g.fas_user.username %}
+
+<h1>User: {{user.username}}</h1>
+<hr>
+{% for post in posts %}
+<p>
+  {{post.author.nickname}} says: <b>{{post.body}}</b>
+</p>
+{% endfor %}
+
+{% else %}
+<p class="navbar-text pull-right"><a href="{{ url_for('auth.auth_login') }}" class="navbar-link">Log In</a></p>
+{% endif %}
+{% endblock %}
