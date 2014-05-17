@@ -29,7 +29,7 @@
 
         <span id="loginInfo">
          {% if g.fas_user.username %}
-            <p class="navbar-text pull-right">Hello {{ g.fas_user.username }}, <a href="{{ url_for('auth.auth_logout') }}" class="navbar-link">Log Out</a></p>
+            <p class="navbar-text pull-right">Hello <a href="/user/{{ g.fas_user.username }}">{{ g.fas_user.username }}</a>, <a href="{{ url_for('auth.auth_logout') }}" class="navbar-link">Log Out</a></p>
         {% else %}
             <p class="navbar-text pull-right"><a href="{{ url_for('auth.auth_login') }}" class="navbar-link">Log In</a></p>
         {% endif %}

@@ -3,8 +3,76 @@ from fedora_college.core.database import db
 import datetime
 
 '''
-Updated Models / Uploading ER diagram soon.
+Updated Models.
 '''
+
+
+class UserProfile(db.Model):
+    __tablename__ = 'profile'
+
+    user_id = db.Column(db.Integer, primary_key=True)
+    open_id = db.Column(db.String(255))
+    username = db.Column(db.String(255))
+    email = db.Column(db.String(500))
+    about = db.Column(db.Text())
+    date_registered = db.Column(db.DateTime())
+    website = db.Column(db.String())
+    role = db.Column(db.Integer)
+    data = {}
+
+    def __init__(self, open_id, username,
+                 email, about, website, role):
+        self.open_id = open_id
+        self.username = username
+        self.email = email
+        self.about = about
+        self.date_registered = datetime.datetime.utcnow()
+        self.website = website
+        self.role = role
+        
+
+    def getdata(self):
+        self.data['openid'] = str(self.open_id)
+        self.data['username'] = str(self.username)
+        self.data['email'] = str(self.email)
+        self.data['about'] = str(self.about)
+        self.data['member-since'] = str(self.date_registered)
+        self.data['website'] = str(self.website)
+        self.data['role'] = str(self.role)
+        return self.data
+
+    def __repr__(self):
+        return '<Username %r>' % (self.username)
+
+    def getMedia(self):
+        ''' 
+            return all media aadded by user
+        '''
+        try :
+            media = Media.query.filter_by(user_id=g.fas_user['username']).first()
+            return media
+        except : 
+            media = None 
+            return None
+
+    def getMedia(self):
+
+        ''' 
+            return all content written by user
+        '''
+        try :
+            content =content.query.filter_by(user_id=g.fas_user['username']).first()
+            return content
+        except : 
+            content= None 
+            return None
+           
+
+    '''
+    More methods to be added
+    according to usage
+    '''
+
 
 
 class Tags(db.Model):
@@ -18,82 +86,8 @@ class Tags(db.Model):
         self.tag_text = tag_text
         self.date_added = datetime.datetime.utcnow()
 
-    def text(self):
-        return self.tag_text
-
-    def time(self):
-        return self.date_added
-
     def __repr__(self):
         return '<TagText %r>' % (self.tag_text)
-
-
-class UserProfile(db.Model):
-    __tablename__ = 'profile'
-
-    user_id = db.Column(db.Integer, primary_key=True)
-    open_id = db.Column(db.String(255))
-    username = db.Column(db.String(255))
-    email = db.Column(db.String(255))
-    about = db.Column(db.Text())
-    date_registered = db.Column(db.DateTime())
-    website = db.Column(db.String())
-    role = db.Column(db.Integer)
-
-    def __init__(self, open_id, username,
-                 email, about, date, website, role):
-        self.open_id = open_id
-        self.username = username
-        self.email = email
-        self.about = about
-        self.date_registered = date
-        self.website = website
-        self.role = role
-
-    def __repr__(self):
-        return '<Username %r>' % (self.username)
-
-    def update(self, open_id=None, username=None,
-               email=None, about=None,
-               date=None, website=None,
-               role=None):
-        if open_id is not None:
-            self.open_id = open_id
-        if username is not None:
-            self.username = username
-        if email is not None:
-            self.email = email
-        if about is not None:
-            self.about = about
-        if date is not None:
-            self.date_registered = date
-        if website is not None:
-            self.website = website
-        if role is not None:
-            self.role = role
-
-    def name(self):
-        return self.username
-
-    def openid(self):
-        return self.openid
-
-    def email(self):
-        return self.email
-
-    def about(self):
-        return self.about
-
-    def website(self):
-        return self.website
-
-    def role(self):
-        return self.role
-
-    '''
-    More methods to be added
-    according to usage
-    '''
 
 
 class Media(db.Model):
@@ -106,52 +100,29 @@ class Media(db.Model):
     slug = db.Column(db.String(255))
     timestamp = db.Column(db.DateTime())
     tags = db.Column(db.Text())
+    data={}
     # Comma seprated tag id's
+    user_id = db.Column(db.Integer, db.ForeignKey(UserProfile.user_id),
+                    primary_key=True)
 
-    def __init__(self, title, about, url, slug, time, tags):
+    def __init__(self, title, about, url, slug, time, tags,user_id):
         self.title = title
         self.about = about
         self.content_url = url
         self.slug = slug
         self.timestamp = time
         self.tags = tags
+    
+    def getdata(self):
+        self.data['media_id'] = str(self.media_id)
+        self.data['title'] = str(self.title)
+        self.data['about'] = str(self.about)
+        self.data['url'] = str(self.content_url)
+        self.data['slug'] = str(self.slug)
+        return self.data
 
     def __repr__(self):
         return '<Media-Title %r>' % (self.title)
-
-    def update(self, title=None, about=None,
-               content_url=None, slug=None,
-               timestamp=None, tags=None):
-        if title is not None:
-            self.title = title
-        if about is not None:
-            self.about = about
-        if content_url is not None:
-            self.content_url = content_url
-        if slug is not None:
-            self.slug = slug
-        if timestamp is not None:
-            self.timestamp = timestamp
-        if tags is not None:
-            self.tags = tags
-
-    def title(self):
-        return self.title
-
-    def about(self):
-        return self.about
-
-    def url(self):
-        return self.content_url
-
-    def slug(self):
-        return self.slug
-
-    def timestamp(self):
-        return self.timestamp
-
-    def tags(self):
-        return self.tags
 
 
 class Content(db.Model):
@@ -189,27 +160,6 @@ class Content(db.Model):
     def __repr__(self):
         return '<Title %r>' % (self.title)
 
-    def update(self, title=None, slug=None,
-               description=None, date_added=None,
-               media_added_ids=None,
-               active=None, tags=None,
-               user_id=None):
-        if title is not None:
-            self.title = title
-        if slug is not None:
-            self.slug = slug
-        if description is not None:
-            self.description = description
-        if date_added is not None:
-            self.date_added = date_added
-        if media_added_ids is not None:
-            self.media_added_ids = media_added_ids
-        if active is not None:
-            self.active = active
-        if tags is not None:
-            self.tags = tags
-        if user_id is not None:
-            self.user_id = user_id
 
 
 class Comments(db.Model):
@@ -223,29 +173,11 @@ class Comments(db.Model):
     text = db.Column(db.String(255))
     parent = db.Column(db.Integer, default=0)
     date_added = db.Column(db.DateTime())
-    user_id = db.Column(db.Integer, db.ForeignKey(UserProfile.user_id),
-                        primary_key=True)
 
-    def __init__(self, text, parent, date_added, user_id):
+    def __init__(self, text, parent, date_added):
         self.text = text
         self.parent = parent
         self.date_added = date_added
-        self.user_id = user_id
-
-    def gettext(self):
-        return self.text
-
-    def getparent(self):
-        return self.parent
-
-    def getid(self):
-        return self.comment_id
-
-    def createdby(self):
-        return self.user_id
-
-    def date(self):
-        return self.date_added
 
     def __repr__(self):
         return '<Text %r>' % (self.text)
