@@ -3,7 +3,7 @@ from flask.ext.wtf import Form
 from wtforms import TextField, TextAreaField
 from wtforms.validators import Required
 
-#__all__ = ['EditProfile']
+__all__ = ['EditProfile']
 
 
 class EditProfile(Form):

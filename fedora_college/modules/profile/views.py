@@ -17,20 +17,19 @@ bundle = Blueprint('profile', __name__, template_folder='templates',
 @fas_login_required
 def editprofile(nickname = None):
     if g.fas_user['username'] == nickname  or request.method == 'POST':
-
-        #return render_template('profile/add.html')
         form = EditProfile()
         form_action = url_for('profile.editprofile')
         if request.method == 'POST' and form.validate():
             if form.username.data == nickname : 
-              query = Screencast(form.username.data,
+              query = EditProfile(form.username.data,
                                  form.email.data,
                                  form.about.data,
                                  form.website.data,
                                  )
+              print query
               db.session.add(query)
               db.session.commit()
-              flash('User Updated created')
+              flash('User Updated')
               print "added"
             return(url_for('profile.editprofile'))
         return render_template('profile/add.html', form=form,
