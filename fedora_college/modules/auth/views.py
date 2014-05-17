@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from flask import (request, Blueprint, url_for, redirect, g, current_app, jsonify,)
+from flask import (request, Blueprint,
+                   url_for, redirect, g, current_app, jsonify,)
 from flask_fas_openid import fas_login_required
 from fedora_college.core.models import *  # noqa
 
@@ -28,32 +29,35 @@ def auth_logout():
 @bundle.route('/test/media', methods=['GET', 'POST'])
 @fas_login_required
 def testMedia():
-    try :
-        media = Media.query.filter_by(user_id=g.fas_user['username']).first()
+    try:
+        media = Media.query. \
+        filter_by(user_id=g.fas_user['username']).first()
         return str(media)
-    except :
+    except:
         return "None"
 
 
 @bundle.route('/test', methods=['GET', 'POST'])
 @fas_login_required
 def testProfile():
-    try :
-        user = UserProfile.query.filter_by(user_id=g.fas_user['username']).first()
+    try:
+        user = UserProfile.query. \
+        filter_by(user_id=g.fas_user['username']).first()
         return str(user.getdata())
-    except :
+    except:
         return "None"
 
 
 @bundle.route('/insert', methods=['GET', 'POST'])
 @fas_login_required
 def after_auth():
-    try : 
-        user = UserProfile.query.filter_by(username=g.fas_user['username']).first()  
+    try:
+        user = UserProfile.query. \
+        filter_by(username=g.fas_user['username']).first()
         return jsonify(user.getdata())
 
-    except Exception as e : 
-        print e 
+    except Exception as e:
+        print e
 
         user = UserProfile(
             str(g.fas_user['username']),
@@ -61,6 +65,6 @@ def after_auth():
             str(g.fas_user['email']),
             "Testing", "xyz.com", "user")
         db.session.add(user)
-        db.session.commit()    
+        db.session.commit()
         #return redirect(url_for('home.index'))
         return str(g.fas_user) + "FAS OK"

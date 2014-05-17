@@ -29,7 +29,6 @@ class UserProfile(db.Model):
         self.date_registered = datetime.datetime.utcnow()
         self.website = website
         self.role = role
-        
 
     def getdata(self):
         self.data['openid'] = str(self.open_id)
@@ -45,34 +44,33 @@ class UserProfile(db.Model):
         return '<Username %r>' % (self.username)
 
     def getMedia(self):
-        ''' 
+        '''
             return all media aadded by user
         '''
-        try :
-            media = Media.query.filter_by(user_id=g.fas_user['username']).first()
+        try:
+            media = Media.query.filter_by(
+                user_id=g.fas_user['username']).first()
             return media
-        except : 
-            media = None 
+        except:
+            media = None
             return None
 
     def getMedia(self):
-
-        ''' 
+        '''
             return all content written by user
         '''
-        try :
-            content =content.query.filter_by(user_id=g.fas_user['username']).first()
+        try:
+            content = content.query.filter_by(
+                user_id=g.fas_user['username']).first()
             return content
-        except : 
-            content= None 
+        except:
+            content = None
             return None
-           
 
     '''
     More methods to be added
     according to usage
     '''
-
 
 
 class Tags(db.Model):
@@ -100,19 +98,19 @@ class Media(db.Model):
     slug = db.Column(db.String(255))
     timestamp = db.Column(db.DateTime())
     tags = db.Column(db.Text())
-    data={}
+    data = {}
     # Comma seprated tag id's
     user_id = db.Column(db.Integer, db.ForeignKey(UserProfile.user_id),
-                    primary_key=True)
+                        primary_key=True)
 
-    def __init__(self, title, about, url, slug, time, tags,user_id):
+    def __init__(self, title, about, url, slug, time, tags, user_id):
         self.title = title
         self.about = about
         self.content_url = url
         self.slug = slug
         self.timestamp = time
         self.tags = tags
-    
+
     def getdata(self):
         self.data['media_id'] = str(self.media_id)
         self.data['title'] = str(self.title)
@@ -159,7 +157,6 @@ class Content(db.Model):
 
     def __repr__(self):
         return '<Title %r>' % (self.title)
-
 
 
 class Comments(db.Model):
