@@ -136,6 +136,7 @@ class Content(db.Model):
     description = db.Column(db.Text())
     date_added = db.Column(db.DateTime())
     media_added_ids = db.Column(db.Text())
+    type_content = db.Column(db.String(255))
     # Comma seprated media id's
     active = db.Column(db.Boolean())
     tags = db.Column(db.Text())
@@ -145,13 +146,14 @@ class Content(db.Model):
                         primary_key=True)
 
     def __init__(self, title, slug, description, date_added,
-                 media_added_ids, active, tags, user_id):
+                 media_added_ids, active, tags, user_id, type_content="blog"):
         self.title = title
         self.slug = slug
         self.description = description
         self.date_added = date_added
         self.media_added_ids = media_added_ids
         self.active = active
+        self.type_content = type_content
         self.tags = tags
         self.user_id = user_id
 

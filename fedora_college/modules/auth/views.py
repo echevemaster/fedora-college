@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import (request, Blueprint,
-                   url_for, redirect, g, current_app, jsonify,)
+                   url_for, redirect, g, current_app, jsonify)
 from flask_fas_openid import fas_login_required
 from fedora_college.core.models import *  # noqa
 
@@ -54,7 +54,8 @@ def after_auth():
     try:
         user = UserProfile.query. \
         filter_by(username=g.fas_user['username']).first()
-        return jsonify(user.getdata())
+        return redirect(url_for('home.index'))
+        #return jsonify(user.getdata())
 
     except Exception as e:
         print e
@@ -66,5 +67,6 @@ def after_auth():
             "Testing", "xyz.com", "user")
         db.session.add(user)
         db.session.commit()
-        #return redirect(url_for('home.index'))
-        return str(g.fas_user) + "FAS OK"
+        print str(g.fas_user) + "FAS OK"
+        return redirect(url_for('home.index'))
+        #return str(g.fas_user) + "FAS OK"
