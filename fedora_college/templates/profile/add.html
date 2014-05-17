@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+{% from "_formhelpers.html" import render_field %}
+<div id="Edit Profile">
+    <h2>{{  title  }}</h2>
+    <form method="post" action="{{ form_action }}">
+        <fieldset>
+            <legend></legend>
+            {{ render_field(form.username) }}
+            {{ render_field(form.email)}}
+            {{ render_field(form.about )}}
+            {{ render_field(form.website) }}
+        </fieldset>
+    <input type="submit" class="button" value="Save"/>
+</form>
+</div>
+{% endblock %}
