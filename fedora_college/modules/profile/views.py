@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from flask import Blueprint, render_template, abort, request, flash, url_for , g , jsonify
+from flask import Blueprint, render_template, abort, request, redirect, flash, url_for, g, jsonify
 from jinja2 import TemplateNotFound
 from fedora_college.core.database import db
 from fedora_college.modules.profile.forms import *  # noqa
@@ -12,27 +12,25 @@ from flask_fas_openid import fas_login_required
 bundle = Blueprint('profile', __name__, template_folder='templates',
                    static_folder='static')
 
+
 @bundle.route('/user/edit', methods=['GET', 'POST'])
-@bundle.route('/user/<nickname>/edit')
+@bundle.route('/user/<nickname>/edit', methods=['GET', 'POST'])
 @fas_login_required
-def editprofile(nickname = None):
-    if g.fas_user['username'] == nickname  or request.method == 'POST':
-        form = EditProfile()
+def editprofile(nickname=None):
+    if g.fas_user['username'] == nickname or request.method == 'POST':
+        user = UserProfile.query. \
+            filter_by(username=nickname).first()
+
+        form = EditProfile(obj=user)
+
         form_action = url_for('profile.editprofile')
-        if request.method == 'POST' and form.validate():
-            if form.username.data == nickname : 
-              query = EditProfile(form.username.data,
-                                 form.email.data,
-                                 form.about.data,
-                                 form.website.data,
-                                 )
-              print query
-              db.session.add(query)
-              db.session.commit()
-              flash('User Updated')
-              print "added"
-            return(url_for('profile.editprofile'))
-        return render_template('profile/add.html', form=form,
+        if form.username.data == nickname and request.method == 'POST':
+            form.populate_obj(user)
+            print user.getdata()
+            db.session.commit()
+            return redirect(url_for('profile.user',
+                            nickname=nickname, updated="True"))
+        return render_template('profile/edit_user_profile.html', form=form,
                                form_action=form_action, title="Update Profile")
     else:
         return "Unauthorised"
@@ -41,15 +39,24 @@ def editprofile(nickname = None):
 @bundle.route('/user/<nickname>')
 @fas_login_required
 def user(nickname):
+
+    msg = ""
+    if request.args.get('updated') == "True":
+        msg = msg + "Profile Updated"
+        print msg
     user = UserProfile.query. \
         filter_by(username=nickname).first()
     if user is None:
         return jsonify({gettext('User '): str(nickname) + gettext(' not found.')})
-        # return redirect(url_for('home.index'))
+
     posts = [
         {'author': user, 'body': 'Test post #1'},
         {'author': user, 'body': 'Test post #2'}
     ]
-    return render_template('profile/user.html',
+    return render_template('profile/user_profile.html',
                            user=user,
-                           posts=posts)
+                           posts=posts,
+                           url=str(
+                               url_for(
+                                   'profile.editprofile', nickname=nickname,)),
+                           message=msg)

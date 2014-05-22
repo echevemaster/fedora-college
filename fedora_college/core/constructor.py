@@ -8,6 +8,7 @@ from fedora_college.modules.home import bundle as home_bundle
 from fedora_college.modules.admin import bundle as admin_bundle
 from fedora_college.modules.api import bundle as api_bundle
 from fedora_college.modules.profile import bundle as profile_bundle
+from fedora_college.modules.content import bundle as content_bundle
 from fedora_college.core.database import db
 
 
@@ -17,6 +18,7 @@ def build_app(app):
     app.register_blueprint(admin_bundle)
     app.register_blueprint(api_bundle)
     app.register_blueprint(profile_bundle)
+    app.register_blueprint(content_bundle)
     # Config to Flask from objects
     #app.config.from_object('fedora_college.core.ProductionConfig')
     app.config.from_object('fedora_college.core.config.DevelopmentConfig')

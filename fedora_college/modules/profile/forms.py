@@ -12,3 +12,4 @@ class EditProfile(Form):
     email = TextField('Email', [Required()])
     about = TextAreaField('About', [Required()])
     website = TextField('Website', [Required()])
+    

@@ -32,26 +32,4 @@ def about():
                            title='About',
                            content='About Us')
 
-@bundle.route('/blog', methods=['GET', 'POST'])
-@bundle.route('/blog/', methods=['GET', 'POST'])
-@bundle.route('/blog/<slug>/', methods=['GET', 'POST'])
-@bundle.route('/blog/<slug>', methods=['GET', 'POST'])
-def blog(slug=None ):
-	if slug is not None : 
-		try :
-			posts = Content.query. \
-	    	filter_by(type_content="blog").all()
-		except :
-			posts = "No such posts in database."
-	else :
-			
-			try :
-				posts = Content.query. \
-	    		filter_by(type_content="blog").all()
-			except :
-				posts =  "Databse is empty"
-
-	return render_template('home/index.html',
-						   title='Blog',
-						   content=str(posts))
 
