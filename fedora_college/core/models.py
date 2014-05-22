@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from fedora_college.core.database import db
+from flask import (g)
 import datetime
 
 '''
@@ -55,7 +56,7 @@ class UserProfile(db.Model):
             media = None
             return None
 
-    def getMedia(self):
+    def getContent(self):
         '''
             return all content written by user
         '''

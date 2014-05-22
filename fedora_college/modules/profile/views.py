@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from flask import Blueprint, render_template, abort, request, redirect, flash, url_for, g, jsonify
-from jinja2 import TemplateNotFound
+from flask import Blueprint, render_template, request, redirect, url_for, g, jsonify
 from fedora_college.core.database import db
 from fedora_college.modules.profile.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
@@ -30,7 +29,7 @@ def editprofile(nickname=None):
             db.session.commit()
             return redirect(url_for('profile.user',
                             nickname=nickname, updated="True"))
-        return render_template('profile/edit_user_profile.html', form=form,
+        return render_template('profile/edit_user_profile.html  ', form=form,
                                form_action=form_action, title="Update Profile")
     else:
         return "Unauthorised"

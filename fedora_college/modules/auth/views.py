@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import (request, Blueprint,
-                   url_for, redirect, g, current_app, jsonify)
+                   url_for, redirect, g, current_app)
 from flask_fas_openid import fas_login_required
 from fedora_college.core.models import *  # noqa
 
@@ -31,7 +31,7 @@ def auth_logout():
 def testMedia():
     try:
         media = Media.query. \
-        filter_by(user_id=g.fas_user['username']).first()
+            filter_by(user_id=g.fas_user['username']).first()
         return str(media)
     except:
         return "None"
@@ -42,7 +42,7 @@ def testMedia():
 def testProfile():
     try:
         user = UserProfile.query. \
-        filter_by(user_id=g.fas_user['username']).first()
+            filter_by(user_id=g.fas_user['username']).first()
         return str(user.getdata())
     except:
         return "None"
@@ -53,9 +53,9 @@ def testProfile():
 def after_auth():
     try:
         user = UserProfile.query. \
-        filter_by(username=g.fas_user['username']).first()
+            filter_by(username=g.fas_user['username']).first()
         return redirect(url_for('home.index'))
-        #return jsonify(user.getdata())
+        # return jsonify(user.getdata())
 
     except Exception as e:
         print e
@@ -69,4 +69,4 @@ def after_auth():
         db.session.commit()
         print str(g.fas_user) + "FAS OK"
         return redirect(url_for('home.index'))
-        #return str(g.fas_user) + "FAS OK"
+        # return str(g.fas_user) + "FAS OK"
