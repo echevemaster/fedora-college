@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template
+from fedora_college.core.models import *  # noqa
 bundle = Blueprint('content', __name__, template_folder='templates')
 
 

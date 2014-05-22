@@ -73,6 +73,7 @@ class UserProfile(db.Model):
     according to usage
     '''
 
+
 class Content(db.Model):
     __tablename__ = 'image'
 
@@ -159,8 +160,6 @@ class Media(db.Model):
 
     def __repr__(self):
         return '<Media-Title %r>' % (self.title)
-
-
 
 
 class Comments(db.Model):
