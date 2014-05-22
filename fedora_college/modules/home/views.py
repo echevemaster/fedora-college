@@ -12,6 +12,7 @@ def index():
                            title='Home', content="Home page")
 
 
+'''
 @bundle.route('/screencasts/',  methods=['GET', 'POST'])
 def screencasts():
     return render_template('home/index.html', title='Screen Casts',
@@ -22,8 +23,10 @@ def screencasts():
 def addmore():
     return render_template('home/upload.html', title='Add New Content',
                            content="Upload form & and associated description")
+'''
 
 
+@bundle.route('/about', methods=['GET', 'POST'])
 @bundle.route('/about/', methods=['GET', 'POST'])
 def about():
     return render_template('home/index.html',

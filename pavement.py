@@ -11,7 +11,7 @@ import time
 
 import subprocess
 
-## Python 2.6 subprocess.check_output compatibility. Thanks Greg Hewgill!
+# Python 2.6 subprocess.check_output compatibility. Thanks Greg Hewgill!
 if 'check_output' not in dir(subprocess):
     def check_output(cmd_args, *args, **kwargs):
         proc = subprocess.Popen(
@@ -38,13 +38,13 @@ except ImportError:
 sys.path.append('.')
 from setup import setup_dict
 
-## Constants
+# Constants
 CODE_DIRECTORY = 'fedora_college'
 DOCS_DIRECTORY = 'docs'
 TESTS_DIRECTORY = 'tests'
 PYTEST_FLAGS = ['--doctest-modules']
 
-## Miscellaneous helper functions
+# Miscellaneous helper functions
 
 
 def get_project_files():
@@ -154,7 +154,7 @@ options(setup=setup_dict)
 
 install_distutils_tasks()
 
-## Task-related functions
+# Task-related functions
 
 
 def _doc_make(*make_args):
@@ -209,7 +209,7 @@ def _test_all():
     return _lint() + _test()
 
 
-## Tasks
+# Tasks
 
 @task
 @needs('doc_html', 'setuptools.command.sdist')
@@ -296,6 +296,7 @@ def doc_watch():
         raise SystemExit(1)
 
     class RebuildDocsEventHandler(FileSystemEventHandler):
+
         def __init__(self, base_paths):
             self.base_paths = base_paths
 
@@ -312,13 +313,13 @@ def doc_watch():
 
         def on_modified(self, event):
             print_failure_message('Modification detected. Rebuilding docs.')
-            # # Strip off the path prefix.
+            # Strip off the path prefix.
             # import os
             # if event.src_path[len(os.getcwd()) + 1:].startswith(
             #         CODE_DIRECTORY):
-            #     # sphinx-build doesn't always pick up changes on code files,
-            #     # even though they are used to generate the documentation. As
-            #     # a workaround, just clean before building.
+            # sphinx-build doesn't always pick up changes on code files,
+            # even though they are used to generate the documentation. As
+            # a workaround, just clean before building.
             doc_html()
             print_success_message('Docs have been rebuilt.')
 
