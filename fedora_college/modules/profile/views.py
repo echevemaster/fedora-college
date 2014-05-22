@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from flask import Blueprint, render_template, request, redirect, url_for, g, jsonify
+from flask import (Blueprint, render_template,
+                   request, redirect, url_for, g, jsonify)
 from fedora_college.core.database import db
 from fedora_college.modules.profile.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
@@ -46,7 +47,7 @@ def user(nickname):
     user = UserProfile.query. \
         filter_by(username=nickname).first()
     if user is None:
-        return jsonify({gettext('User '): str(nickname) + gettext(' not found.')})
+        return jsonify({gettext('User'): str(nickname)+gettext('not found.')})
 
     posts = [
         {'author': user, 'body': 'Test post #1'},

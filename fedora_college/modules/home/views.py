@@ -25,11 +25,10 @@ def addmore():
                            content="Upload form & and associated description")
 '''
 
+
 @bundle.route('/about', methods=['GET', 'POST'])
 @bundle.route('/about/', methods=['GET', 'POST'])
 def about():
     return render_template('home/index.html',
                            title='About',
                            content='About Us')
-
-
