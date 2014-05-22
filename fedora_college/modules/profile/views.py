@@ -30,7 +30,7 @@ def editprofile(nickname=None):
             db.session.commit()
             return redirect(url_for('profile.user',
                             nickname=nickname, updated="True"))
-        return render_template('profile/edit_user_profile.html  ', form=form,
+        return render_template('profile/edit_user_profile.html', form=form,
                                form_action=form_action, title="Update Profile")
     else:
         return "Unauthorised"
