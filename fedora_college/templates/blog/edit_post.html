@@ -1,0 +1,23 @@
+        {% extends "base.html" %}
+        {% block title %}
+            {{ title }}
+        {% endblock %}
+        {% block content %}
+        {% from "_formhelpers.html" import render_field %}
+        <div id="Create Content">
+            <h2>{{  title  }}</h2>
+            <form method="post" action="">
+                <fieldset>
+                    <legend></legend>
+                    {{ render_field(form.title) }}
+                    {{ render_field(form.slug ) }}
+                    {{ render_field(form.description ) }}
+                    {{ render_field(form.media_added_ids)}}
+                    {{ render_field(form.type_content) }}
+                    {{ render_field(form.active) }}
+                    {{ render_field(form.tags )}}
+            </fieldset>
+            <input type="submit" class="button" value="Save"/>
+        </form>
+        </div>
+        {% endblock %}

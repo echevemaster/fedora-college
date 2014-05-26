@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}
+     {{title}}
+{% endblock %}
+{% block content %}
+    <div class="frame">
+       <h3> From Our Blog </h3>
+    {% for record in content %}
+            
+            <hr/>
+                <div class="blog">
+                        {{ record.title }}
+                        <br/>
+                           {{ record.description }}
+                        <br/>
+                            Written By : {{record.user_id}} | Written on : {{record.date_added }} | <a href="">Read More</a> 
+
+                </div>
+                <br/>
+                
+       
+            {% endfor %}
+{% endblock %}
