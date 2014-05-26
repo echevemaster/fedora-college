@@ -26,7 +26,7 @@ def index():
 @cla_plus_one_required
 def screencast():
     sc = Screencast.query.all()
-    print sc 
+    print sc
     return render_template('admin/screencast.html')
 
 

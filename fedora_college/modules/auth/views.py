@@ -13,7 +13,7 @@ def auth_login():
     if 'next' in request.args:
         next_url = request.args['next']
     else:
-        next_url =url_for('home.index')
+        next_url = url_for('home.index')
     next_url = url_for('auth.after_auth')
     if g.fas_user:
         return redirect(next_url)
