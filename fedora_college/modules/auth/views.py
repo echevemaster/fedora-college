@@ -13,7 +13,8 @@ def auth_login():
     if 'next' in request.args:
         next_url = request.args['next']
     else:
-        next_url = url_for('auth.after_auth')
+        next_url =url_for('home.index')
+    next_url = url_for('auth.after_auth')
     if g.fas_user:
         return redirect(next_url)
     return current_app.config['fas'].login(return_url=next_url)
@@ -54,19 +55,20 @@ def after_auth():
     try:
         user = UserProfile.query. \
             filter_by(username=g.fas_user['username']).first()
+        print user.getdata()
         return redirect(url_for('home.index'))
+
         # return jsonify(user.getdata())
 
     except Exception as e:
         print e
-
         user = UserProfile(
             str(g.fas_user['username']),
             str(g.fas_user['username']),
             str(g.fas_user['email']),
-            "Testing", "xyz.com", "user")
+            " ", " ", "user")
         db.session.add(user)
         db.session.commit()
-        print str(g.fas_user) + "FAS OK"
+        print str(g.fas_user['username']) + "FAS OK"
         return redirect(url_for('home.index'))
         # return str(g.fas_user) + "FAS OK"

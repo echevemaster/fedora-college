@@ -75,7 +75,7 @@ class UserProfile(db.Model):
 
 
 class Content(db.Model):
-    __tablename__ = 'image'
+    __tablename__ = 'content'
 
     """
     This class stores information about the Content
@@ -83,7 +83,7 @@ class Content(db.Model):
 
     content_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
-    slug = db.Column(db.String(255))
+    slug = db.Column(db.String(255), unique=True)
     description = db.Column(db.Text())
     date_added = db.Column(db.DateTime())
     media_added_ids = db.Column(db.Text())
@@ -92,16 +92,14 @@ class Content(db.Model):
     active = db.Column(db.Boolean())
     tags = db.Column(db.Text())
     # Comma seprated tag id's
-    media = db.Column(db.Text())
-    user_id = db.Column(db.Integer, db.ForeignKey(UserProfile.user_id),
-                        primary_key=True)
+    user_id = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
 
-    def __init__(self, title, slug, description, date_added,
+    def __init__(self, title, slug, description,
                  media_added_ids, active, tags, user_id, type_content="blog"):
         self.title = title
         self.slug = slug
         self.description = description
-        self.date_added = date_added
+        self.date_added = datetime.datetime.utcnow()
         self.media_added_ids = media_added_ids
         self.active = active
         self.type_content = type_content
@@ -128,7 +126,7 @@ class Tags(db.Model):
 
 
 class Media(db.Model):
-    __tablename__ = 'content'
+    __tablename__ = 'media'
 
     media_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))

@@ -4,20 +4,20 @@
 {% endblock %}
 {% block content %}
     <div class="frame">
-            <h3>{{content}}</h3>
+       <h3> From Our Blog </h3>
+    {% for record in content %}
             
             <hr/>
                 <div class="blog">
-                        Blog 1
+                        {{ record.title }}
                         <br/>
-                            Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. 
+                           {{ record.description }}
+                        <br/>
+                            Written By : {{record.user_id}} | Written on : {{record.date_added }} | <a href="">Read More</a> 
+
                 </div>
                 <br/>
-                <div class="blog">
-                	Blog 2
-                        <br/>
-                             Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. Latest update from my blog are here. 
-                </div>
-    </div>
+                
        
+            {% endfor %}
 {% endblock %}
