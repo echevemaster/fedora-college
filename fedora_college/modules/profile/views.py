@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from flask import (Blueprint, render_template,
-                   request, redirect, url_for, g, jsonify)
+                   request, redirect, url_for, g)
 from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
-from flask.ext.babel import gettext
 from flask_fas_openid import fas_login_required
 
 bundle = Blueprint('content', __name__, template_folder='templates')

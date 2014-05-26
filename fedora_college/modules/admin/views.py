@@ -5,7 +5,7 @@ from jinja2 import TemplateNotFound
 from fedora_college.core.database import db
 from fedora_college.core.forms import AddScreenCast
 from fedora_college.core.models import *  # noqa
-from flask_fas_openid import fas_login_required, cla_plus_one_required, FAS
+from flask_fas_openid import fas_login_required, cla_plus_one_required
 
 bundle = Blueprint('admin', __name__, template_folder='templates',
                    static_folder='static')
