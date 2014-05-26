@@ -5,12 +5,15 @@ from jinja2 import TemplateNotFound
 from fedora_college.core.database import db
 from fedora_college.core.forms import AddScreenCast
 from fedora_college.core.models import *  # noqa
+from flask_fas_openid import fas_login_required, cla_plus_one_required, FAS
 
 bundle = Blueprint('admin', __name__, template_folder='templates',
                    static_folder='static')
 
 
 @bundle.route('/admin', methods=['GET', 'POST'])
+@fas_login_required
+@cla_plus_one_required
 def index():
     try:
         return render_template('admin/index.html')
@@ -19,11 +22,17 @@ def index():
 
 
 @bundle.route('/admin/screencasts', methods=['GET', 'POST'])
+@fas_login_required
+@cla_plus_one_required
 def screencast():
+    sc = Screencast.query.all()
+    print sc 
     return render_template('admin/screencast.html')
 
 
 @bundle.route('/admin/screencasts/add', methods=['GET', 'POST'])
+@fas_login_required
+@cla_plus_one_required
 def add_screencast():
     form = AddScreenCast()
     form_action = url_for('admin.add_screencast')
@@ -39,6 +48,6 @@ def add_screencast():
         db.session.add(query)
         db.session.commit()
         flash('Screencast created')
-        return(url_for('admin.add_screencast'))
+        return(url_for('admin.screencast'))
     return render_template('admin/add_screencast.html', form=form,
                            form_action=form_action, title="Add Screencast")

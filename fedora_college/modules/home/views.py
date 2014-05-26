@@ -32,3 +32,10 @@ def about():
     return render_template('home/index.html',
                            title='About',
                            content='About Us')
+
+@bundle.route('/feedback', methods=['GET', 'POST'])
+@bundle.route('/feedback/', methods=['GET', 'POST'])
+def feedback():
+    return render_template('home/index.html',
+                           title='Feedback',
+                           content='Feedback')

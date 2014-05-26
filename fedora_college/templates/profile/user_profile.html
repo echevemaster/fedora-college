@@ -16,6 +16,10 @@
 {% endfor %}
 
 {% else %}
-<p class="navbar-text pull-right"><a href="{{ url_for('auth.auth_login') }}" class="navbar-link">Log In</a></p>
+<p class="navbar-text pull-right">
+  <a href="{{ url_for('auth.auth_login') }}" class="navbar-link">
+    Log In
+  </a>
+</p>
 {% endif %}
 {% endblock %}

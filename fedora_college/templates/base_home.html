@@ -27,16 +27,7 @@
         <br/>
 
     <div class="frame">
-                <div class="column-25">
-                    <div class="blog">
-                        {% include 'sidebar.html' %}
-                    
-                    </div>
-                </div>
-
-                <div class="column-75">
-                        {% block content %} {% endblock %}
-                </div>
+               {% block content %} {% endblock %}
     </div>
     <footer>
         {% include 'footer.html' %}

@@ -24,7 +24,7 @@ def blog(slug=None):
         except:
             posts = "Databse is empty"
 
-    return render_template('home/index.html',
+    return render_template('blog/index.html',
                            title='Blog',
                            content=str(posts))
 
@@ -48,6 +48,6 @@ def screencast(slug=None):
         except:
             posts = "Databse is empty"
 
-    return render_template('home/index.html',
+    return render_template('blog/index.html',
                            title='screencast',
                            content=str(posts))

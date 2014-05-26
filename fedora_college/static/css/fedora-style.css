@@ -1,0 +1,131 @@
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  line-height: 1.1;
+  color: #317eac;
+}
+       .jumbotron {
+            padding: 30px;
+            margin-bottom: 30px;
+            color: inherit;
+            background-color: #eee;
+        }
+        .jumbotron h1,
+        .jumbotron .h1 {
+            color: inherit;
+        }
+        .jumbotron p {
+            margin-bottom: 15px;
+            font-size: 21px;
+            font-weight: 200;
+        }
+        .jumbotron > hr {
+            border-top-color: #d5d5d5;
+        }
+        .container .jumbotron {
+            border-radius: 6px;
+        }
+        .jumbotron .container {
+            max-width: 100%;
+        }
+        @media screen and (min-width: 768px) {
+            .jumbotron {
+                padding-top: 48px;
+                padding-bottom: 48px;
+            }
+            .container .jumbotron {
+                padding-right: 60px;
+                padding-left: 60px;
+            }
+            .jumbotron h1,
+            .jumbotron .h1 {
+                font-size: 40px;
+            }
+
+            .jumbotron h2,
+            .jumbotron .h2 {
+                font-size: 35px;
+            }
+
+             .jumbotron h3,
+            .jumbotron .h3 {
+                font-size: 30px;
+            }
+
+
+        }
+        .container {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .box {
+            text-align: center;
+            font: 15px;
+            background: #e73827;
+            color: #fff;
+            padding: 15px 0 15px 0;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            border-radius: 20px;
+        }
+        .box-yellow {
+            text-align: center;
+            font: 15px;
+            background: #e7a61a;
+            color: #fff;
+            padding: 15px 0 15px 0;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            border-radius: 20px;
+        }
+        .box-blue {
+            text-align: center;
+            font: 15px;
+            background: #4ea6ca;
+            color: #fff;
+            padding: 15px 0 15px 0;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            border-radius: 20px;
+        }
+        .container {
+            margin-top: 78px;
+            top: 105px;
+        }
+        .footer {
+            text-align: center;
+            font: 15px;
+            background: #808080;
+            color: #fff;
+            padding: 15px 0 15px 0;
+        }
+
+        .blog {
+            text-align:left;
+            font: 15px;
+            background: #135672;
+            color: #fff;
+            padding: 3px 0 15px 0;
+        }
+
+        .sidebar {
+            text-align:left;
+            font: 15px;
+            background: #132D68;
+            color: #fff;
+            padding: 3px 0 15px 0;
+        }
