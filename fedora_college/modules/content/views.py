@@ -5,6 +5,7 @@ from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
 from flask_fas_openid import fas_login_required
+from flask.ext.wtf import Form
 
 bundle = Blueprint('content', __name__, template_folder='templates')
 
@@ -19,7 +20,7 @@ bundle = Blueprint('content', __name__, template_folder='templates')
 @fas_login_required
 def addcontent(posturl=None):
     msg = ""
-    form = CreateContent(request.form)
+    form = CreateContent()
     form_action = url_for('content.addcontent')
     if form.validate():
                 msg = "Please validate form"
@@ -30,19 +31,19 @@ def addcontent(posturl=None):
                 return str("Not-Found")
 
             form = CreateContent(obj=content)
-            if form.slug.data == content \
-                and request.method == 'POST' \
-                and form.validate():
-                form.populate_obj(content)
-                db.session.commit()
-                return redirect(url_for('content.addcontent',
-                                        posturl=posturl, updated="Content has been updated"))
+            if form.slug.data == posturl \
+            and request.method == 'POST' and form.validate():
+                    form.populate_obj(content)
+                    db.session.commit()
+                    return redirect(url_for('content.addcontent',
+                                            posturl=posturl,
+                                            updated="Content has been updated")
+                                    )
         except Exception as e:
             # template for not found
             return str("Not-Found : ") + str(e)
     else:
-        if request.method == 'POST' \
-            and form.validate():
+        if request.method == 'POST' and form.validate():
             query = Content(form.title.data,
                             form.slug.data,
                             form.description.data,
@@ -61,10 +62,12 @@ def addcontent(posturl=None):
                 # template for error
                 return (str("Duplicate entry:") + str(e))
             return redirect(url_for('content.addcontent',
-                                    posturl=form.slug.data, updated="Content has been Created"))
+                                    posturl=form.slug.data,
+                                    updated="Content has been Created"))
 
     return render_template('content/edit_content.html', form=form,
-                           form_action=form_action, title="Create Content", updated=msg)
+                           form_action=form_action,
+                           title="Create Content", updated=msg)
 
 
 @bundle.route('/blog', methods=['GET', 'POST'])

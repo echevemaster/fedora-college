@@ -49,7 +49,7 @@ def user(nickname):
     user = UserProfile.query. \
         filter_by(username=nickname).first()
     if user is None:
-        return jsonify({gettext('User'): str(nickname) + gettext('not found.')})
+        return jsonify({gettext('User'): str(nickname)+gettext('not found.')})
 
     posts = [
         {'author': user, 'body': 'Test post #1'},
