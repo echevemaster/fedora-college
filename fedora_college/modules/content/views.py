@@ -21,7 +21,7 @@ def addcontent(posturl=None):
     if posturl is not None:
         content = Content.query.filter_by(slug=posturl).first_or_404()
         form = CreateContent(obj=content)
-        if form.slug.data == content and request.method == 'POST' and form.validate():
+        if form.slug.data == posturl and request.method == 'POST' and form.validate():
             form.populate_obj(content)
             db.session.commit()
             return redirect(url_for('content.addcontent',
