@@ -5,32 +5,15 @@
 {% block content %}
      <div class="frame">
         <h3>{{content}}</h3>
-            {% for record in data %}
-                <div class="column-1">
-                    <div class="column-4">
-                        <div class="grid-1">
-                               {{ record.title }}<br/>{{ record.description }}
-                        </div>
-                    </div>   
-
-                    <div class="column-4">
-                        <div class="grid-2">
-                                {{ record.title }}<br/>{{ record.description }}
-                        </div>
-                    </div>
-
-                    <div class="column-4">
-                        <div class="grid-3">
-                                {{ record.title }}<br/>{{ record.description }}
-                        </div>
-                    </div>  
-
-                    <div class="column-4">
-                        <div class="grid-4">
-                               {{ record.title }}<br/>{{ record.description }}
-                        </div>
-                    </div>         
-                </div>
-            {% endfor %}
+            <div class="column-1">
+                {% for record in data %}
+                        <div class="column-4">
+                            <div class="grid-1">
+                                   {{ record.title }}<br/>{{ record.description }}
+                            </div>
+                        </div>     
+                    
+                {% endfor %}
+            </div>
      </div>
 {% endblock %}

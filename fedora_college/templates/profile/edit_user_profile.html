@@ -9,6 +9,7 @@
             <form method="post" action="">
                 <fieldset>
                     <legend></legend>
+                    {{form.hidden_tag()}} 
                     {{ render_field(form.username) }}
                     {{ render_field(form.email)}}
                     {{ render_field(form.about )}}

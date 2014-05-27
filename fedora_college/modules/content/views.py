@@ -21,14 +21,14 @@ def addcontent(posturl=None):
     if posturl is not None:
         content = Content.query.filter_by(slug=posturl).first_or_404()
         form = CreateContent(obj=content)
-        if form.slug.data == content and request.method == 'POST' and form.validate():
+        if form.slug.data == content and request.method == 'POST' and form.validate_on_submit():
             form.populate_obj(content)
             db.session.commit()
             return redirect(url_for('content.addcontent',
-                                    posturl=posturl, updated="True"))
+                                    posturl=posturl, updated="Form has been successfully updated"))
 
     else:
-        if request.method == 'POST':
+        if request.method == 'POST' and form.validate_on_submit():
             query = Content(form.title.data,
                             form.slug.data,
                             form.description.data,
@@ -47,7 +47,7 @@ def addcontent(posturl=None):
             print "Recieved", form.slug.data
 
             return redirect(url_for('content.addcontent',
-                                    posturl=form.slug.data, updated="True"))
+                                    posturl=form.slug.data, updated="Form has been successfully updated"))
         else:
             print "Please validate form"
     return render_template('content/edit_content.html', form=form,
