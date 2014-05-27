@@ -20,6 +20,11 @@ def addcontent(posturl=None):
     if posturl is not None:
         content = Content.query.filter_by(slug=posturl).first_or_404()
         form = CreateContent(obj=content)
+        print "----------------- Errors "
+        for field, errors in form.errors.items():
+            for error in errors:
+                print"------------------------",error
+
         if form.slug.data == posturl and request.method == 'POST' and form.validate():
             form.populate_obj(content)
             db.session.commit()
