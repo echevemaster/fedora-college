@@ -22,8 +22,6 @@ def addcontent(posturl=None):
     msg = ""
     form = CreateContent()
     form_action = url_for('content.addcontent')
-    if form.validate():
-                msg = "Please validate form"
     if posturl is not None:
         try:
             content = Content.query.filter_by(slug=posturl).first()
@@ -31,8 +29,13 @@ def addcontent(posturl=None):
                 return str("Not-Found")
 
             form = CreateContent(obj=content)
+
+            if form.validate():
+                msg = "Please validate form"
+                return str(msg)
+
             if form.slug.data == posturl \
-            and request.method == 'POST' and form.validate():
+                and request.method == 'POST' and form.validate():
                     form.populate_obj(content)
                     db.session.commit()
                     return redirect(url_for('content.addcontent',
@@ -43,6 +46,10 @@ def addcontent(posturl=None):
             # template for not found
             return str("Not-Found : ") + str(e)
     else:
+        if form.validate():
+            msg = "Please validate form"
+            return str(msg)
+        
         if request.method == 'POST' and form.validate():
             query = Content(form.title.data,
                             form.slug.data,
