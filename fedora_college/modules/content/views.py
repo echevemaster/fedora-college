@@ -5,52 +5,30 @@ from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
 from flask_fas_openid import fas_login_required
-from flask.ext.wtf import Form
 
 bundle = Blueprint('content', __name__, template_folder='templates')
 
 
 @bundle.route('/content/add/', methods=['GET', 'POST'])
 @bundle.route('/content/add', methods=['GET', 'POST'])
-@bundle.route('/content/edit/', methods=['GET', 'POST'])
-@bundle.route('/content/edit', methods=['GET', 'POST'])
 @bundle.route('/content/edit/<posturl>/', methods=['GET', 'POST'])
 @bundle.route('/content/edit/<posturl>', methods=['GET', 'POST'])
-@bundle.route('/content/edit/', methods=['GET', 'POST'])
 @fas_login_required
 def addcontent(posturl=None):
-    msg = ""
+
     form = CreateContent()
     form_action = url_for('content.addcontent')
     if posturl is not None:
-        try:
-            content = Content.query.filter_by(slug=posturl).first()
-            if content is None:
-                return str("Not-Found")
+        content = Content.query.filter_by(slug=posturl).first_or_404()
+        form = CreateContent(obj=content)
+        if form.slug.data == content and request.method == 'POST' and form.validate():
+            form.populate_obj(content)
+            db.session.commit()
+            return redirect(url_for('content.addcontent',
+                                    posturl=posturl, updated="True"))
 
-            form = CreateContent(obj=content)
-
-            if form.validate():
-                msg = "Please validate form"
-                return str(msg)
-
-            if form.slug.data == posturl \
-                and request.method == 'POST' and form.validate():
-                    form.populate_obj(content)
-                    db.session.commit()
-                    return redirect(url_for('content.addcontent',
-                                            posturl=posturl,
-                                            updated="Content has been updated")
-                                    )
-        except Exception as e:
-            # template for not found
-            return str("Not-Found : ") + str(e)
     else:
-        if form.validate():
-            msg = "Please validate form"
-            return str(msg)
-        
-        if request.method == 'POST' and form.validate():
+        if request.method == 'POST':
             query = Content(form.title.data,
                             form.slug.data,
                             form.description.data,
@@ -66,15 +44,14 @@ def addcontent(posturl=None):
                 # Duplicate entry
             except Exception as e:
                 print e
-                # template for error
-                return (str("Duplicate entry:") + str(e))
-            return redirect(url_for('content.addcontent',
-                                    posturl=form.slug.data,
-                                    updated="Content has been Created"))
+            print "Recieved", form.slug.data
 
+            return redirect(url_for('content.addcontent',
+                                    posturl=form.slug.data, updated="True"))
+        else:
+            print "Please validate form"
     return render_template('content/edit_content.html', form=form,
-                           form_action=form_action,
-                           title="Create Content", updated=msg)
+                           form_action=form_action, title="Create Content")
 
 
 @bundle.route('/blog', methods=['GET', 'POST'])
@@ -85,10 +62,11 @@ def blog(slug=None):
     if slug is not None:
         try:
             posts = Content.query. \
-                filter_by(slug=slug).all()
+                filter_by(type_content="blog").all()
         except:
             posts = "No such posts in database."
     else:
+
         try:
             posts = Content.query. \
                 filter_by(type_content="blog").all()
