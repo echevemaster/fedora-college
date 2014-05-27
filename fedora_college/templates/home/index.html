@@ -4,24 +4,33 @@
 {% endblock %}
 {% block content %}
      <div class="frame">
-            <div class="column-1">
-                <h3>{{content}}</h3>
-            <hr/>
-            <div class="column-2">
-                <div class="box-blue">
-                        Video Lecture 
-                        <br/>
-                            Latest Video Lecture here
-                </div>
-            </div>
-            <div class="column-2">
-                <div class="box-blue">
-                        Video Lecture 
-                        <br/>
-                            Latest Video Lecture here
-                </div>
-            </div>
-            </div>
-        </div>
+        <h3>{{content}}</h3>
+            {% for record in data %}
+                <div class="column-1">
+                    <div class="column-4">
+                        <div class="grid-1">
+                               {{ record.title }}<br/>{{ record.description }}
+                        </div>
+                    </div>   
 
+                    <div class="column-4">
+                        <div class="grid-2">
+                                {{ record.title }}<br/>{{ record.description }}
+                        </div>
+                    </div>
+
+                    <div class="column-4">
+                        <div class="grid-3">
+                                {{ record.title }}<br/>{{ record.description }}
+                        </div>
+                    </div>  
+
+                    <div class="column-4">
+                        <div class="grid-4">
+                               {{ record.title }}<br/>{{ record.description }}
+                        </div>
+                    </div>         
+                </div>
+            {% endfor %}
+     </div>
 {% endblock %}

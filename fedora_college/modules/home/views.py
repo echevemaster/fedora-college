@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template
+from fedora_college.core.models import *  # noqa
 bundle = Blueprint('home', __name__, template_folder='templates')
 
 
@@ -8,22 +9,10 @@ bundle = Blueprint('home', __name__, template_folder='templates')
 @bundle.route('/index/', methods=['GET', 'POST'])
 @bundle.route('/home/', methods=['GET', 'POST'])
 def index():
+    posts = Content.query. \
+        filter_by(type_content="blog").all()
     return render_template('home/index.html',
-                           title='Home', content="Home page")
-
-
-'''
-@bundle.route('/screencasts/',  methods=['GET', 'POST'])
-def screencasts():
-    return render_template('home/index.html', title='Screen Casts',
-                           content="Fedora Screencasts")
-
-
-@bundle.route('/addmore/', methods=['GET', 'POST'])
-def addmore():
-    return render_template('home/upload.html', title='Add New Content',
-                           content="Upload form & and associated description")
-'''
+                           title='Home', content="Home page", data=posts)
 
 
 @bundle.route('/about', methods=['GET', 'POST'])

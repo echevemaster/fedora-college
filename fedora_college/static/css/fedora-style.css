@@ -1,12 +1,12 @@
 
 h1,
-h2,
+.grid,
 h3,
 h4,
 h5,
 h6,
 .h1,
-.h2,
+..grid,
 .h3,
 .h4,
 .h5,
@@ -20,7 +20,7 @@ h6,
             padding: 30px;
             margin-bottom: 30px;
             color: inherit;
-            background-color: #eee;
+            background-color: #e5eaff;
         }
         .jumbotron h1,
         .jumbotron .h1 {
@@ -54,8 +54,8 @@ h6,
                 font-size: 40px;
             }
 
-            .jumbotron h2,
-            .jumbotron .h2 {
+            .jumbotron .grid,
+            .jumbotron ..grid {
                 font-size: 35px;
             }
 
@@ -117,15 +117,66 @@ h6,
         .blog {
             text-align:left;
             font: 15px;
-            background: #135672;
-            color: #fff;
-            padding: 3px 0 15px 0;
+            background: #4ea6ca;
+            color: #000;
+            padding: 15px 10px 15px 10px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            border-radius: 20px;
         }
 
         .sidebar {
             text-align:left;
-            font: 15px;
-            background: #132D68;
+            font: 20px;
+            background: #4ea6ca;
             color: #fff;
-            padding: 3px 0 15px 0;
+            padding: 15px 10px 15px 10px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            border-radius: 20px;
         }
+        
+
+    .grid-1 { 
+        text-align: center;
+        font: 15px;
+        background: #16A5DC;
+        color: #fff;
+        padding: 15px 0 15px 0;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+    }
+    .grid-2 { 
+        text-align: center;
+        font: 15px;
+        background: #dc4916;
+        color: #fff;
+        padding: 15px 0 15px 0;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+    }
+    .grid-3 { 
+        text-align: center;
+        font: 15px;
+        background: #6871b1;;
+        color: #fff;
+        padding: 15px 0 15px 0;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+    }
+    .grid-4 { 
+        text-align: center;
+        font: 15px;
+        background: #d1b935;;
+        color: #fff;
+        padding: 15px 0 15px 0;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+    }
+    
+    
+    

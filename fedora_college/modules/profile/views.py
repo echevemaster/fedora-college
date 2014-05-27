@@ -13,7 +13,9 @@ bundle = Blueprint('profile', __name__, template_folder='templates',
                    static_folder='static')
 
 
+@bundle.route('/user/edit/', methods=['GET', 'POST'])
 @bundle.route('/user/edit', methods=['GET', 'POST'])
+@bundle.route('/user/<nickname>/edit/', methods=['GET', 'POST'])
 @bundle.route('/user/<nickname>/edit', methods=['GET', 'POST'])
 @fas_login_required
 def editprofile(nickname=None):
@@ -47,7 +49,7 @@ def user(nickname):
     user = UserProfile.query. \
         filter_by(username=nickname).first()
     if user is None:
-        return jsonify({gettext('User'): str(nickname)+gettext('not found.')})
+        return jsonify({gettext('User'): str(nickname) + gettext('not found.')})
 
     posts = [
         {'author': user, 'body': 'Test post #1'},

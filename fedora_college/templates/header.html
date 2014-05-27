@@ -36,14 +36,25 @@
             {% else %}
             <li id="indexTab"><a href="{{url_for('home.index')}}">Home</a>
             </li>
+            {% if g.fas_user.username %}
+            <li id="API"><a href="{{url_for('content.addcontent')}}">Create Content</a></li>
+            <li id="API"><a href="/user/{{ g.fas_user.username }}/edit">Edit Profile</a></li>
+            {% endif %}
+
+            
             <li id="AboutTab"><a href="{{url_for('home.about')}}">About</a>
             </li>
-            <li id="AboutTab"><a href="{{url_for('content.blog')}}">Blog</a>
+            <li id="Blong"><a href="{{url_for('content.blog')}}">Blog</a>
             </li>
-            <li id="Addmore"><a href="{{url_for('home.feedback')}}">Feedback</a>
+            <li id="FeedBack"><a href="{{url_for('home.feedback')}}">Feedback</a>
             </li>
-            <li id="Addmore"><a href="{{url_for('api.index')}}">API Documentation</a>
+            <li id="API"><a href="{{url_for('api.index')}}">API Documentation</a>
             </li>
+            
+
+
+
+            
 
 
             {% if is_admin %}
