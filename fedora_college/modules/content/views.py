@@ -15,7 +15,6 @@ bundle = Blueprint('content', __name__, template_folder='templates')
 @bundle.route('/content/edit/<posturl>', methods=['GET', 'POST'])
 @fas_login_required
 def addcontent(posturl=None):
-
     form = CreateContent()
     form_action = url_for('content.addcontent')
     if posturl is not None:
@@ -26,9 +25,8 @@ def addcontent(posturl=None):
             db.session.commit()
             return redirect(url_for('content.addcontent',
                                     posturl=posturl, updated="True"))
-
     else:
-        if request.method == 'POST':
+        if request.method == 'POST' and form.validate():
             query = Content(form.title.data,
                             form.slug.data,
                             form.description.data,
@@ -41,11 +39,9 @@ def addcontent(posturl=None):
             try:
                 db.session.add(query)
                 db.session.commit()
+            except Exception as e:                
                 # Duplicate entry
-            except Exception as e:
-                print e
-            print "Recieved", form.slug.data
-
+                return str(e)
             return redirect(url_for('content.addcontent',
                                     posturl=form.slug.data, updated="True"))
         else:
@@ -66,7 +62,6 @@ def blog(slug=None):
         except:
             posts = "No such posts in database."
     else:
-
         try:
             posts = Content.query. \
                 filter_by(type_content="blog").all()
