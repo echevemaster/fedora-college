@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from flask import (Blueprint, render_template,
-                   request, redirect, url_for, g)
+from flask import Blueprint, render_template
+from flask import redirect, url_for, g
 from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
