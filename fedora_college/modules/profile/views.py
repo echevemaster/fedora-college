@@ -26,7 +26,7 @@ def editprofile(nickname=None):
         form = EditProfile(obj=user)
 
         form_action = url_for('profile.editprofile')
-        if form.username.data == nickname and request.method == 'POST' and form.validate_on_submit():
+        if form.username.data == nickname and form.validate_on_submit():
             form.populate_obj(user)
             print user.getdata()
             db.session.commit()
