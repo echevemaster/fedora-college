@@ -2,7 +2,6 @@
 import os
 from flask import Blueprint, request, jsonify, current_app
 from werkzeug import secure_filename
-from flask.ext.babel import gettext
 from fedora_college.core.models import Media, UserProfile
 from fedora_college.core.database import db
 
@@ -11,9 +10,10 @@ bundle = Blueprint('api', __name__)
 
 def delete(username, videoid, edit=None):
     media = Media.query.filter_by(media_id=videoid).first_or_404()
+    data = {}
     if media.username == username:
         path = media.sys_path
-        if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
+        if os.path.isfile(path) and os.access(path, os.R_OK):
             os.remove(path)
         else:
             data['status'] = 'fileNotFound'
@@ -85,7 +85,7 @@ def revisevideo(videoid, token):
             filter_by(token=token).first_or_404()
         data = delete(user.username, videoid, 'yes')
         if data['status'] == 'success':
-            data = upload(username)
+            data = upload(user.username)
             if data['status'] == 'success':
                 media = Media.query.filter_by(media_id=videoid).first_or_404()
                 media.name = data['filename']
