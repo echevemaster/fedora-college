@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-import os
-from flask import Blueprint, request, jsonify, current_app
-from werkzeug import secure_filename
+from flask import Blueprint, request, jsonify
 from flask.ext.babel import gettext
 
 
 bundle = Blueprint('api', __name__)
 
-from fedora_college.modules.api.upload import *  # noqa # Upload media Functions 
+from fedora_college.modules.api.upload import *  # noqa
+# Upload media Functions
+
 
 @bundle.route('/api', methods=['GET'])
 def index():
@@ -17,4 +17,3 @@ def index():
                   gettext('Welcome to Fedora College api')}
         json_results.append(output)
     return jsonify(items=json_results)
-

@@ -58,7 +58,7 @@ def after_auth():
         print user.getdata()
         #return redirect(url_for('home.index'))
         return redirect(url_for('profile.user',
-                            nickname=g.fas_user['username'])
+                        nickname=g.fas_user['username'])
                         )
         # return jsonify(user.getdata())
     except Exception as e:

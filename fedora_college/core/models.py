@@ -35,7 +35,7 @@ class UserProfile(db.Model):
         self.role = role
 
     def gentoken(self):
-            if self.token == None:
+            if self.token is None:
                 self.token = str(self.username) + '-' + str(uuid.uuid4())
                 return self.token
             else:
@@ -104,7 +104,7 @@ class Media(db.Model):
         self.name = filename
         self.content_url = url
         self.sys_path = sys_path
-        self.timestamp = time
+        self.timestamp = datetime.datetime.utcnow()
         self.user_id = user_id
         self.timestamp = datetime.datetime.utcnow()
 
