@@ -84,5 +84,6 @@ def after_auth():
 def gentoken():
     user = UserProfile.query. \
         filter_by(username=g.fas_user['username']).first()
+    user.newtoken()
     db.session.commit()
     return redirect(url_for('profile.user', nickname=g.fas_user['username']))
