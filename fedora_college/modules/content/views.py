@@ -66,7 +66,7 @@ def blog(slug=None):
     if slug is not None:
         try:
             posts = Content.query. \
-                filter_by(type_content="blog").all()
+                filter_by(slug=slug).all()
         except:
             posts = "No such posts in database."
     else:

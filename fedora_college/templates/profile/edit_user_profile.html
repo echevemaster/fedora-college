@@ -1,21 +1,40 @@
-        {% extends "base.html" %}
+        {% extends "base_home.html" %}
         {% block title %}
             {{ title }}
         {% endblock %}
         {% block content %}
         {% from "_formhelpers.html" import render_field %}
-        <div id="Edit Profile">
-            <h2>{{  title  }}</h2>
-            <form method="post" action="">
-                <fieldset>
-                    <legend></legend>
-                    {{form.hidden_tag()}} 
-                    {{ render_field(form.username) }}
-                    {{ render_field(form.email)}}
-                    {{ render_field(form.about )}}
-                    {{ render_field(form.website) }}
-                </fieldset>
-            <input type="submit" class="button" value="Save"/>
-        </form>
-        </div>
+
+        <div class="frame">
+            <h4>Content Created by me </h4>
+                <div class="column-25">
+                    {% for data in data %}
+                    <p>
+                        <div class="box">
+                            <a href="/content/edit/xxx">{{data.body}}</a>
+                        </div>
+                    </p>
+                    {% endfor %}           
+                </div
+
+                <div class="column-75">
+                        <div id="Edit Profile">
+                            <h2>{{  title  }}</h2>
+                            <form method="post" action="">
+                                <fieldset>
+                                    <legend></legend>
+                                    {{form.hidden_tag()}} 
+                                    {{ render_field(form.username) }}
+                                    {{ render_field(form.email)}}
+                                    {{ render_field(form.about )}}
+                                    {{ render_field(form.website) }}
+                                </fieldset>
+                            <input type="submit" class="button" value="Save"/>
+                        </form>
+                        </div>
+                </div>
+    </div>
+
+
+        
         {% endblock %}

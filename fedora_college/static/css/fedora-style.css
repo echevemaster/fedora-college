@@ -95,7 +95,7 @@ h6,
         .box-blue {
             text-align: center;
             font: 15px;
-            background: #4ea6ca;
+            background: #0E546E;
             color: #fff;
             padding: 15px 0 15px 0;
             -webkit-border-radius: 20px;
@@ -117,7 +117,7 @@ h6,
         .blog {
             text-align:left;
             font: 15px;
-            background: #4ea6ca;
+            background: #0E546E;
             color: #000;
             padding: 15px 10px 15px 10px;
             -webkit-border-radius: 20px;
@@ -128,7 +128,7 @@ h6,
         .sidebar {
             text-align:left;
             font: 20px;
-            background: #4ea6ca;
+            background: #0E546E;
             color: #fff;
             padding: 15px 10px 15px 10px;
             -webkit-border-radius: 20px;
@@ -140,7 +140,7 @@ h6,
     .grid-1 { 
         text-align: center;
         font: 15px;
-        background: #16A5DC;
+        background: #0E546E;
         color: #fff;
         padding: 15px 0 15px 0;
         -webkit-border-radius: 20px;
@@ -180,3 +180,22 @@ h6,
     
     
     
+.button-blue{
+border:1px solid #25729a; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-size:12px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block;text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
+ background-color: #3093c7; background-image: -webkit-gradient(linear, left top, left bottom, from(#3093c7), to(#1c5a85));
+ background-image: -webkit-linear-gradient(top, #3093c7, #1c5a85);
+ background-image: -moz-linear-gradient(top, #3093c7, #1c5a85);
+ background-image: -ms-linear-gradient(top, #3093c7, #1c5a85);
+ background-image: -o-linear-gradient(top, #3093c7, #1c5a85);
+ background-image: linear-gradient(to bottom, #3093c7, #1c5a85);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#3093c7, endColorstr=#1c5a85);
+}
+
+.button-blue:hover{
+ border:1px solid #1c5675;
+ background-color: #26759e; background-image: -webkit-gradient(linear, left top, left bottom, from(#26759e), to(#133d5b));
+ background-image: -webkit-linear-gradient(top, #26759e, #133d5b);
+ background-image: -moz-linear-gradient(top, #26759e, #133d5b);
+ background-image: -ms-linear-gradient(top, #26759e, #133d5b);
+ background-image: -o-linear-gradient(top, #26759e, #133d5b);
+ background-image: linear-gradient(to bottom, #26759e, #133d5b);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#26759e, endColorstr=#133d5b);
+}

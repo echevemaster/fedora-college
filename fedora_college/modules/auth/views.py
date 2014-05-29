@@ -56,10 +56,11 @@ def after_auth():
         user = UserProfile.query. \
             filter_by(username=g.fas_user['username']).first()
         print user.getdata()
-        return redirect(url_for('home.index'))
-
+        #return redirect(url_for('home.index'))
+        return redirect(url_for('profile.user',
+                            nickname=g.fas_user['username'])
+                        )
         # return jsonify(user.getdata())
-
     except Exception as e:
         print e
         user = UserProfile(
@@ -67,8 +68,22 @@ def after_auth():
             str(g.fas_user['username']),
             str(g.fas_user['email']),
             " ", " ", "user")
+        token = user.gentoken()
         db.session.add(user)
         db.session.commit()
-        print str(g.fas_user['username']) + "FAS OK"
-        return redirect(url_for('home.index'))
+        print str(g.fas_user['username']) + "FAS OK" + str(token)
+        #return redirect(url_for('home.index'))
         # return str(g.fas_user) + "FAS OK"
+        return redirect(url_for('profile.editprofile',
+                                nickname=g.fas_user['username'])
+                        )
+
+
+@bundle.route('/gettoken', methods=['GET', 'POST'])
+@fas_login_required
+def gentoken():
+    user = UserProfile.query. \
+        filter_by(username=g.fas_user['username']).first()
+    token = user.newtoken()
+    db.session.commit()
+    return redirect(url_for('profile.user', nickname=g.fas_user['username']))

@@ -2,6 +2,7 @@
 from fedora_college.core.database import db
 from flask import (g)
 import datetime
+import uuid
 
 '''
 Updated Models.
@@ -13,7 +14,8 @@ class UserProfile(db.Model):
 
     user_id = db.Column(db.Integer, primary_key=True)
     open_id = db.Column(db.String(255))
-    username = db.Column(db.String(255))
+    token = db.Column(db.String(1024))
+    username = db.Column(db.String(255), unique=True)
     email = db.Column(db.String(500))
     about = db.Column(db.Text())
     date_registered = db.Column(db.DateTime())
@@ -25,11 +27,24 @@ class UserProfile(db.Model):
                  email, about, website, role):
         self.open_id = open_id
         self.username = username
+        self.token = None
         self.email = email
         self.about = about
         self.date_registered = datetime.datetime.utcnow()
         self.website = website
         self.role = role
+
+    def gentoken(self):
+            if self.token == None:
+                self.token = str(self.username) + '-' + str(uuid.uuid4())
+                return self.token
+            else:
+                return self.token
+
+    def newtoken(self):
+        self.token = str(self.username) + '-' + str(uuid.uuid4())
+        print self.token
+        return self.token
 
     def getdata(self):
         self.data['openid'] = str(self.open_id)
@@ -46,7 +61,7 @@ class UserProfile(db.Model):
 
     def getMedia(self):
         '''
-            return all media aadded by user
+            return all media added by user
         '''
         try:
             media = Media.query.filter_by(
@@ -72,6 +87,29 @@ class UserProfile(db.Model):
     More methods to be added
     according to usage
     '''
+
+
+class Media(db.Model):
+    __tablename__ = 'media'
+
+    media_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    content_url = db.Column(db.String(255))
+    sys_path = db.Column(db.String(1024))
+    timestamp = db.Column(db.DateTime())
+    user_id = db.Column(db.Integer, db.ForeignKey(UserProfile.user_id),
+                        primary_key=True)
+
+    def __init__(self, filename, sys_path, url, user_id):
+        self.name = filename
+        self.content_url = url
+        self.sys_path = sys_path
+        self.timestamp = time
+        self.user_id = user_id
+        self.timestamp = datetime.datetime.utcnow()
+
+    def __repr__(self):
+        return '<Media-Title %r>' % (self.title)
 
 
 class Content(db.Model):
@@ -123,41 +161,6 @@ class Tags(db.Model):
 
     def __repr__(self):
         return '<TagText %r>' % (self.tag_text)
-
-
-class Media(db.Model):
-    __tablename__ = 'media'
-
-    media_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255))
-    about = db.Column(db.Text())
-    content_url = db.Column(db.String())
-    slug = db.Column(db.String(255))
-    timestamp = db.Column(db.DateTime())
-    tags = db.Column(db.Text())
-    data = {}
-    # Comma seprated tag id's
-    user_id = db.Column(db.Integer, db.ForeignKey(UserProfile.user_id),
-                        primary_key=True)
-
-    def __init__(self, title, about, url, slug, time, tags, user_id):
-        self.title = title
-        self.about = about
-        self.content_url = url
-        self.slug = slug
-        self.timestamp = time
-        self.tags = tags
-
-    def getdata(self):
-        self.data['media_id'] = str(self.media_id)
-        self.data['title'] = str(self.title)
-        self.data['about'] = str(self.about)
-        self.data['url'] = str(self.content_url)
-        self.data['slug'] = str(self.slug)
-        return self.data
-
-    def __repr__(self):
-        return '<Media-Title %r>' % (self.title)
 
 
 class Comments(db.Model):

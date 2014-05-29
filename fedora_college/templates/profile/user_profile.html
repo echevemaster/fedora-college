@@ -1,25 +1,41 @@
-<!-- extend base layout -->
-{% extends "base.html" %}
-
-{% block content %}
-
- {% if g.fas_user.username %}
-<center>
-<h3>{{message}} </h3>
-</center>
-<h1>User: {{user.username}}</h1>
-<hr>
-{% for post in posts %}
-<p>
-  {{post.author.nickname}} says: <b>{{post.body}}</b>
-</p>
-{% endfor %}
-
-{% else %}
-<p class="navbar-text pull-right">
-  <a href="{{ url_for('auth.auth_login') }}" class="navbar-link">
-    Log In
-  </a>
-</p>
-{% endif %}
-{% endblock %}
+        {% extends "base_home.html" %}
+        {% block title %}
+            {{ title }}
+        {% endblock %}
+        {% block content %}
+        {% from "_formhelpers.html" import render_field %}
+        <div class="frame">
+            <div class="column-75">
+                <div class="blog">
+                    <h4>User Name :{{ user.username }} </h4> <br/>
+                    <h4>Website : {{user.website}}</h4> <br/>
+                    <h4>About :{{user.about}}</h4> <br/>
+                    <h4>Email : {{user.email}}</h4> <br/>
+                    <h4>Access Token : {{user.token}} </h4><br/>
+                    <a  class="button-blue"  href="/user/{{ g.fas_user.username }}/edit">Edit Profile</a>&nbsp;&nbsp;&nbsp;<a class="button-blue" href="{{  newtoken }}">Re-Generate Access Token </a> 
+                        <br/>
+                </div>
+            </div>
+            <div class="column-25">
+                    {% for data in data %}
+                    <p>
+                        <div class="blog">
+                        	<a href="{{data.url}}">{{data.body}}</a>
+                        </div>
+                    </p>
+                    {% endfor %}           
+            </div>
+            <br/>
+        </div>
+        <div class="frame" >
+                <div class="column-1">
+                   {% for post in posts %}
+                    <p>
+                        <div class="blog">
+                        {{post.body}}
+                        </div>
+                    </p>
+                    {% endfor %}
+                </div>
+        </div>
+        {% endblock %}

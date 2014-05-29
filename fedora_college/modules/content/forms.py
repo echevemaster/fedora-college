@@ -12,7 +12,7 @@ class CreateContent(Form):
     slug = TextField('Url-Slug', [Required()])
     description = TextAreaField('Content', [Required()])
     media_added_ids = TextField('media')
-    type_content = SelectField(u'Cntent Type',
+    type_content = SelectField(u'Content Type',
                                [Required()],
                                choices=[('blog', 'Blog Post'),
                                         ('media', 'Lecture'),

@@ -9,7 +9,7 @@
         <span id="nav-right">
                 {% if g.fas_user.username %}
                     <p class="navbar-text pull-right">
-                        Hello <a href="/user/{{ g.fas_user.username }}">{{ g.fas_user.username }}</a>,
+                        Hello <a href="/user/{{ g.fas_user.username }}">{{ g.fas_user.username }}</a>, <a href="/user/{{ g.fas_user.username }}/edit">Edit Profile</a>,
                         <a href="{{ url_for('auth.auth_logout') }}" class="navbar-link">Log Out</a>
                     </p>
 
@@ -37,8 +37,7 @@
             <li id="indexTab"><a href="{{url_for('home.index')}}">Home</a>
             </li>
             {% if g.fas_user.username %}
-            <li id="API"><a href="{{url_for('content.addcontent')}}">Create Content</a></li>
-            <li id="API"><a href="/user/{{ g.fas_user.username }}/edit">Edit Profile</a></li>
+            <li><a href="{{url_for('content.addcontent')}}">Create Content</a></li>
             {% endif %}
 
             
