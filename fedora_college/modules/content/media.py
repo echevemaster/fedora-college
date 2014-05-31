@@ -1,9 +1,7 @@
 from flask import Blueprint, render_template
-from flask import redirect, url_for, g
-from fedora_college.core.database import db
+from flask import url_for, g
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
-from flask_fas_openid import fas_login_required
 
 bundle = Blueprint('content', __name__, template_folder='templates')
 
@@ -15,7 +13,8 @@ def uploadmedia():
         filter_by(username=g.fas_user['username']).first_or_404()
     token = user.token
     form_action = url_for('api.uploadvideo', token=token)
-    return render_template('media/uploadmedia.html', form_action=form_action, title="add media")
+    return render_template('media/uploadmedia.html', /
+           form_action=form_action, title="add media")
 
 
 @bundle.route('/media/view')
@@ -36,4 +35,4 @@ def displaymedia(mediaid=None):
 @bundle.route('/media/view/<mediaid>/revise/')
 def revisemedia():
     media = Media.query.filter_by(media_id=mediaid).all()
-    return render_template('media/revise.html', id=mediaid)
+    return render_template('media/revise.html', id=mediaid, media=media)
