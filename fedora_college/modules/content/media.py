@@ -13,8 +13,10 @@ def uploadmedia():
         filter_by(username=g.fas_user['username']).first_or_404()
     token = user.token
     form_action = url_for('api.uploadvideo', token=token)
-    return render_template('media/uploadmedia.html', /
-           form_action=form_action, title="add media")
+    return render_template('media/uploadmedia.html',
+                           form_action=form_action,
+                           title="add media"
+                           )
 
 
 @bundle.route('/media/view')
