@@ -9,6 +9,8 @@ from flask_fas_openid import fas_login_required
 bundle = Blueprint('content', __name__, template_folder='templates')
 
 
+from fedora_college.modules.content.media import *  # noqa
+
 @bundle.route('/content/add/', methods=['GET', 'POST'])
 @bundle.route('/content/add', methods=['GET', 'POST'])
 @bundle.route('/content/edit/<posturl>/', methods=['GET', 'POST'])

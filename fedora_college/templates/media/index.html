@@ -1,9 +1,46 @@
-{% extends "base.html" %}
+{% extends "base_home.html" %}
 {% block title %}
      {{title}}
 {% endblock %}
 {% block content %}
-    <div class="col col-12 col-sm-12 col-lg-12">
-        {{content}}
+
+  
+    <div class="frame">
+           
+        <div class="frame">
+            <div class="column-25">
+            	<h3>File Names </h3><br/>
+            	{% for record in data %}
+            			<a class= 'button-blue' href="{{url}}{{record.media_id}}">
+            			&nbsp;&nbsp;&nbsp;&nbsp;	Media Id : {{record.media_id}}  &nbsp;&nbsp;&nbsp;&nbsp;
+            			</a>
+            	<br/><hr/>
+            	{% endfor %}
+            </div>
+           	<div class="column-75">
+	            {% for record in data %}
+	            <div class = 'column-1'>
+	            <h3>{{record.filename}}</h3>
+		                   
+		                    <h4>Record Name : {{record.name}}</h4>
+		                    <h4>Relative Url: {{record.content_url}}</h4>
+		                    <h4>File Type : {{record.file_type}}</h4>
+
+		                    <h4>System Path : {{record.sys_path}}</h4>
+		                    <h4>Added By : {{record.user_id}}</h4>
+		                    <h4>Added On : {{record.timestamp}}</h4>
+		                    <h4>
+		                    	<a class= 'button-blue' href="{{url}}{{record.media_id}}" style="font-color:#000;">&nbsp;&nbsp;&nbsp; More &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a> | <a class= 'button-blue' href="{{url_delete}}{{record.media_id}}" style="font-color:#000;">
+		                    		&nbsp;&nbsp;&nbsp; Delete &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+		                    	</a>
+		                    </h4>
+		          </div> 
+		          <hr/>
+	             {% endfor %}
+            </div> 
+        </div> 
     </div>
+    <hr/>
+
+               
 {% endblock %}

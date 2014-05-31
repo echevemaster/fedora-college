@@ -11,7 +11,7 @@ bundle = Blueprint('api', __name__)
 def delete(username, videoid, edit=None):
     media = Media.query.filter_by(media_id=videoid).first_or_404()
     data = {}
-    if media.username == username:
+    if media.username is username:
         path = media.sys_path
         if os.path.isfile(path) and os.access(path, os.R_OK):
             os.remove(path)
@@ -45,23 +45,36 @@ def upload(username):
             data['name'] = filename
             data['status'] = 'success'
             data['sys_path'] = os.path.join(upload_folder, filename)
+            data['url'] = "static/uploads/" + \
+                str(username) + "/" + str(filename)
             data['username'] = username
+            data['type'] = request.form['type']
+            print(data)
         return data
     return {'status': "Error"}
 
 
 @bundle.route('/api/upload/<token>', methods=['POST'])
-def uploadVideo(token):
+def uploadvideo(token):
+    data = dict()
     if token is not None:
         user = UserProfile.query. \
             filter_by(token=token).first_or_404()
+        if user is None:
+            return jsonify({'status': 'failed', 'type': 'User Not Found'})
+
         data = upload(user.username)
-        if data['status'] == 'success':
-            media = Media(data['filename'], data[
-                          'sys_path'], data['sys_path'], user.username)
+        if data['status'] == "success":
+            media = Media(data['name'],
+                          data['sys_path'],
+                          data['url'],
+                          user.username,
+                          data['type'])
             db.session.add(media)
             db.session.commit()
             return jsonify(data)
+        else:
+            return jsonify({'status': 'failed'})
     else:
         return jsonify({'status': 'failed'})
 
@@ -72,7 +85,7 @@ def deletevideo(videoid, token):
         user = UserProfile.query. \
             filter_by(token=token).first_or_404()
         data = delete(user.username, videoid)
-        if data['status'] == 'success':
+        if data['status'] is 'success':
             return jsonify(data)
     else:
         return jsonify({'status': 'failed'})
@@ -84,9 +97,9 @@ def revisevideo(videoid, token):
         user = UserProfile.query. \
             filter_by(token=token).first_or_404()
         data = delete(user.username, videoid, 'yes')
-        if data['status'] == 'success':
+        if data['status'] is 'success':
             data = upload(user.username)
-            if data['status'] == 'success':
+            if data['status'] is 'success':
                 media = Media.query.filter_by(media_id=videoid).first_or_404()
                 media.name = data['filename']
                 media.content_url = data['sys_path']

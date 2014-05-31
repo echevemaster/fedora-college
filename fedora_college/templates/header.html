@@ -38,23 +38,14 @@
             </li>
             {% if g.fas_user.username %}
             <li><a href="{{url_for('content.addcontent')}}">Create Content</a></li>
+            <li><a href="{{url_for('content.uploadmedia')}}">Add Media</a></li>
             {% endif %}
 
-            
-            <li id="AboutTab"><a href="{{url_for('home.about')}}">About</a>
-            </li>
-            <li id="Blong"><a href="{{url_for('content.blog')}}">Blog</a>
-            </li>
-            <li id="FeedBack"><a href="{{url_for('home.feedback')}}">Feedback</a>
-            </li>
-            <li id="API"><a href="{{url_for('api.index')}}">API Documentation</a>
-            </li>
-            
-
-
-
-            
-
+            <li><a href="{{url_for('content.displaymedia')}}">Media</a></li>
+            <li id="AboutTab"><a href="{{url_for('home.about')}}">About</a></li>
+            <li id="Blong"><a href="{{url_for('content.blog')}}">Blog</a></li>
+            <li id="FeedBack"><a href="{{url_for('home.feedback')}}">Feedback</a></li>
+            <li id="API"><a href="{{url_for('api.index')}}">API Documentation</a></li>
 
             {% if is_admin %}
             <li id="adminTab"><a href="{{  url_for('admin.index')}}">Admin</a>

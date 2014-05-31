@@ -93,23 +93,24 @@ class Media(db.Model):
     __tablename__ = 'media'
 
     media_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255))
-    content_url = db.Column(db.String(255))
-    sys_path = db.Column(db.String(1024))
+    name = db.Column(db.String(2024))
+    content_url = db.Column(db.String(2024))
+    sys_path = db.Column(db.String(2024))
     timestamp = db.Column(db.DateTime())
-    user_id = db.Column(db.Integer, db.ForeignKey(UserProfile.user_id),
-                        primary_key=True)
+    file_type = db.Column(db.String(255))
+    user_id = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
 
-    def __init__(self, filename, sys_path, url, user_id):
+    def __init__(self, filename, sys_path, url, user_id, types):
         self.name = filename
         self.content_url = url
         self.sys_path = sys_path
         self.timestamp = datetime.datetime.utcnow()
         self.user_id = user_id
         self.timestamp = datetime.datetime.utcnow()
+        self.file_type = types
 
     def __repr__(self):
-        return '<Media-Title %r>' % (self.title)
+        return '<Media-Title %r>' % (self.media_id)
 
 
 class Content(db.Model):
