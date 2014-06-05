@@ -41,7 +41,8 @@ def upload(username):
 
         f = request.files['file']
         if f:
-            filename = str(datetime.datetime.utcnow())+str(secure_filename(f.filename))
+            filename = str(datetime.datetime.utcnow())/
+            +str(secure_filename(f.filename))
             f.save(os.path.join(upload_folder, filename))
             data['name'] = filename
             data['status'] = 'success'
@@ -105,8 +106,8 @@ def revisevideo(videoid, token):
             media.name = data['filename']
             media.content_url = data['sys_path']
             media.sys_path = data['sys_path']
-            media.timestamp =  datetime.datetime.utcnow()
-            media.revise= media.revise + "::" + str(old_media)
+            media.timestamp = datetime.datetime.utcnow()
+            media.revise = media.revise + "::" + str(old_media)
             db.session.commit()
             return jsonify(data)
     else:

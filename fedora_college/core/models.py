@@ -110,7 +110,7 @@ class Media(db.Model):
         self.file_type = types
         self.revise = ""
 
-    def getdata():
+    def getdata(self):
         data = dict()
         data['filename'] = self.name
         data['content_url'] = self.content_url

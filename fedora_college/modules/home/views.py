@@ -17,7 +17,11 @@ def index():
 
     media = Media.query.all()
     return render_template('home/index.html',
-                           title='Home', content="Home page", screen=screen,media=media,posts=posts)
+                           title='Home',
+                           content="Home page",
+                           screen=screen,
+                           media=media,
+                           posts=posts)
 
 
 @bundle.route('/about', methods=['GET', 'POST'])
