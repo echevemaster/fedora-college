@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import datetime
 from flask import Blueprint, request, jsonify, current_app
 from werkzeug import secure_filename
 from fedora_college.core.models import Media, UserProfile
@@ -40,7 +41,7 @@ def upload(username):
 
         f = request.files['file']
         if f:
-            filename = secure_filename(f.filename)
+            filename = str(datetime.datetime.utcnow())+str(secure_filename(f.filename))
             f.save(os.path.join(upload_folder, filename))
             data['name'] = filename
             data['status'] = 'success'
@@ -96,16 +97,17 @@ def revisevideo(videoid, token):
     if token is not None:
         user = UserProfile.query. \
             filter_by(token=token).first_or_404()
-        data = delete(user.username, videoid, 'yes')
+        #data = delete(user.username, videoid, 'yes')
+        data = upload(user.username)
         if data['status'] is 'success':
-            data = upload(user.username)
-            if data['status'] is 'success':
-                media = Media.query.filter_by(media_id=videoid).first_or_404()
-                media.name = data['filename']
-                media.content_url = data['sys_path']
-                media.sys_path = data['sys_path']
-                media.timestamp = db.Column(db.DateTime())
-                db.session.commit()
-                return jsonify(data)
+            media = Media.query.filter_by(media_id=videoid).first_or_404()
+            old_media = media.getdata()
+            media.name = data['filename']
+            media.content_url = data['sys_path']
+            media.sys_path = data['sys_path']
+            media.timestamp =  datetime.datetime.utcnow()
+            media.revise= media.revise + "::" + str(old_media)
+            db.session.commit()
+            return jsonify(data)
     else:
         return jsonify({'status': 'failed'})

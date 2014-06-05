@@ -4,16 +4,55 @@
 {% endblock %}
 {% block content %}
      <div class="frame">
-        <h3>{{content}}</h3>
+        <div class = "frame" >
+            <h4>Tutorials </h4>
+            <hr/>
             <div class="column-1">
-                {% for record in data %}
+                {% for record in screen %}
                         <div class="column-4">
                             <div class="grid-1">
-                                   {{ record.title }}<br/>{{ record.description }}
+                                   {{record.title }}<br/>{{ record.description }}
                             </div>
                         </div>     
                     
                 {% endfor %}
             </div>
+        </div>  
+        <div class = "frame" >
+            <hr/>
+            <h4>Media</h4>
+            <div class="column-1">
+                {% for record in media %}
+                    <div class="column-4">
+                            <div class="grid-1">
+                                <a href ="/media/view/{{record.media_id}}">
+                                    <img src="/{{record.content_url}}"/>
+                                    <br/>
+                                </a>
+                                   Name : {{ record.name}}<br/>
+                                   Type : {{ record.file_type }}<br/>
+                                   Added By  : {{record.user_id}}
+                            </div>
+                        </div> 
+                {% endfor %}
+            </div>
+        </div>  
+        
+        <div class = "frame">
+            <hr/>
+            <h4>From Our Blog</h4>
+            <div class="column-1">
+                {% for record in posts %}
+                        <div class="column-4">
+                            <div class="grid-1">
+                                   {{ record.title }}<br/>
+                                   {{ record.description }}<br/>
+                                   Tags : {{record.tags}}
+                            </div>
+                        </div>     
+                {% endfor %}
+            </div>
+        </div>  
+
      </div>
 {% endblock %}

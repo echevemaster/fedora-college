@@ -11,8 +11,13 @@ bundle = Blueprint('home', __name__, template_folder='templates')
 def index():
     posts = Content.query. \
         filter_by(type_content="blog").all()
+
+    screen = Content.query. \
+        filter_by(type_content="media").all()
+
+    media = Media.query.all()
     return render_template('home/index.html',
-                           title='Home', content="Home page", data=posts)
+                           title='Home', content="Home page", screen=screen,media=media,posts=posts)
 
 
 @bundle.route('/about', methods=['GET', 'POST'])

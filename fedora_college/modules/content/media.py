@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Blueprint, render_template
 from flask import url_for, g
 from fedora_college.modules.content.forms import *  # noqa

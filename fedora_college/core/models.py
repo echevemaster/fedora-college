@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from fedora_college.core.database import db
-from flask import (g)
 import datetime
 import uuid
-
+from fedora_college.core.database import db
+from flask import (g)
 '''
-Updated Models.
+    Database Models
 '''
 
 
@@ -99,6 +98,7 @@ class Media(db.Model):
     timestamp = db.Column(db.DateTime())
     file_type = db.Column(db.String(255))
     user_id = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
+    revise = db.Column(db.Text())
 
     def __init__(self, filename, sys_path, url, user_id, types):
         self.name = filename
@@ -108,6 +108,16 @@ class Media(db.Model):
         self.user_id = user_id
         self.timestamp = datetime.datetime.utcnow()
         self.file_type = types
+        self.revise = ""
+
+    def getdata():
+        data = dict()
+        data['filename'] = self.name
+        data['content_url'] = self.content_url
+        data['sys_path '] = self.sys_path
+        data['timestamp'] = self.timestamp
+        data['file_type'] = self.file_type
+        return data
 
     def __repr__(self):
         return '<Media-Title %r>' % (self.media_id)
@@ -206,34 +216,3 @@ class Comment_map_content(db.Model):
 
     def __repr__(self):
         return '<Relation %r>' % (self.relation)
-
-
-"""
-   From old schema. Removal may cause
-   breaking of application would
-   be removed soon
-"""
-
-
-class Screencast(db.Model):
-    __tablename__ = 'screencast'
-
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255))
-    slug = db.Column(db.String(255))
-    description = db.Column(db.Text())
-    date = db.Column(db.DateTime())
-    url_video = db.Column(db.String())
-    active = db.Column(db.Boolean())
-
-    def __init__(self, title, slug, description,
-                 url_video, date, active):
-        self.title = title
-        self.slug = slug
-        self.description = description
-        self.url_video = url_video
-        self.date = date
-        self.active = active
-
-    def __repr__(self):
-        return '<Title %s>' % self.title
