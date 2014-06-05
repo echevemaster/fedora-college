@@ -41,7 +41,7 @@ def upload(username):
 
         f = request.files['file']
         if f:
-            filename = str(datetime.datetime.utcnow())/
+            filename = str(datetime.datetime.utcnow()) \
             +str(secure_filename(f.filename))
             f.save(os.path.join(upload_folder, filename))
             data['name'] = filename
