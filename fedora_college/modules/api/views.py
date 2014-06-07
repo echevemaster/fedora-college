@@ -6,6 +6,7 @@ from flask.ext.babel import gettext
 bundle = Blueprint('api', __name__)
 
 from fedora_college.modules.api.upload import *  # noqa
+from fedora_college.modules.api.profile import *  # noqa
 # Upload media Functions
 
 

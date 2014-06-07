@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
+import time
+import json
 import datetime
 from flask import Blueprint, request, jsonify, current_app
 from werkzeug import secure_filename
@@ -41,8 +43,8 @@ def upload(username):
 
         f = request.files['file']
         if f:
-            filename = str(datetime.datetime.utcnow()) \
-            +str(secure_filename(f.filename))
+            filename = str(time.time())
+            filename += str(secure_filename(f.filename))
             f.save(os.path.join(upload_folder, filename))
             data['name'] = filename
             data['status'] = 'success'
@@ -51,6 +53,9 @@ def upload(username):
                 str(username) + "/" + str(filename)
             data['username'] = username
             data['type'] = request.form['type']
+            data['thumb'] = 'static/uploads/' + \
+                'thumb' + str(data['name']) + '.jpeg'
+
             print(data)
         return data
     return {'status': "Error"}
@@ -103,11 +108,18 @@ def revisevideo(videoid, token):
         if data['status'] is 'success':
             media = Media.query.filter_by(media_id=videoid).first_or_404()
             old_media = media.getdata()
-            media.name = data['filename']
-            media.content_url = data['sys_path']
+            media.name = data['name']
+            media.content_url = data['url']
             media.sys_path = data['sys_path']
             media.timestamp = datetime.datetime.utcnow()
-            media.revise = media.revise + "::" + str(old_media)
+            old = json.loads(media.revise)
+            try:
+                old['old'].append(old_media)
+            except:
+                old = {}
+                old['old'] = []
+                old['old'].append(old_media)
+            media.revise = json.dumps(old)
             db.session.commit()
             return jsonify(data)
     else:

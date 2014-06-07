@@ -3,6 +3,7 @@ import datetime
 import uuid
 from fedora_college.core.database import db
 from flask import (g)
+
 '''
     Database Models
 '''
@@ -46,6 +47,7 @@ class UserProfile(db.Model):
         return self.token
 
     def getdata(self):
+        self.data['user_id'] = self.user_id
         self.data['openid'] = str(self.open_id)
         self.data['username'] = str(self.username)
         self.data['email'] = str(self.email)
@@ -53,6 +55,7 @@ class UserProfile(db.Model):
         self.data['member-since'] = str(self.date_registered)
         self.data['website'] = str(self.website)
         self.data['role'] = str(self.role)
+
         return self.data
 
     def __repr__(self):
@@ -104,19 +107,18 @@ class Media(db.Model):
         self.name = filename
         self.content_url = url
         self.sys_path = sys_path
-        self.timestamp = datetime.datetime.utcnow()
         self.user_id = user_id
         self.timestamp = datetime.datetime.utcnow()
         self.file_type = types
-        self.revise = ""
+        self.revise = "{}"
 
     def getdata(self):
         data = dict()
-        data['filename'] = self.name
-        data['content_url'] = self.content_url
-        data['sys_path '] = self.sys_path
-        data['timestamp'] = self.timestamp
-        data['file_type'] = self.file_type
+        data['filename'] = str(self.name)
+        data['content_url'] = str(self.content_url)
+        data['sys_path '] = str(self.sys_path)
+        data['timestamp'] = str(self.timestamp)
+        data['file_type'] = str(self.file_type)
         return data
 
     def __repr__(self):
@@ -139,8 +141,8 @@ class Content(db.Model):
     type_content = db.Column(db.String(255))
     # Comma seprated media id's
     active = db.Column(db.Boolean())
-    tags = db.Column(db.Text())
     # Comma seprated tag id's
+    tags = db.Column(db.Text())
     user_id = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
 
     def __init__(self, title, slug, description,
@@ -160,7 +162,7 @@ class Content(db.Model):
 
 
 class Tags(db.Model):
-    __tablename__ = 'Tags'
+    __tablename__ = 'tags'
 
     tag_id = db.Column(db.Integer, primary_key=True)
     tag_text = db.Column(db.String(255))
@@ -169,6 +171,21 @@ class Tags(db.Model):
     def __init__(self, tag_text):
         self.tag_text = tag_text
         self.date_added = datetime.datetime.utcnow()
+
+    def __repr__(self):
+        return '<TagText %r>' % (self.tag_text)
+
+
+class TagsMap(db.Model):
+    __tablename__ = 'tagsmap'
+
+    id = db.Column(db.Integer, primary_key=True)
+    tag_id = db.Column(db.Integer, db.ForeignKey(Tags.tag_id))
+    content_id = db.Column(db.Integer, db.ForeignKey(Content.content_id))
+
+    def __init__(self, tag_id, content_id):
+        self.tag_id = tag_id
+        self.content_id = content_id
 
     def __repr__(self):
         return '<TagText %r>' % (self.tag_text)
@@ -196,7 +213,7 @@ class Comments(db.Model):
 
 
 class Comment_map_content(db.Model):
-    __tablename__ = 'map_comments'
+    __tablename__ = 'commentsmap'
 
     """
     Will be used as relationship table to

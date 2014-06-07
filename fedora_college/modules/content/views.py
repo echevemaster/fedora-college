@@ -26,6 +26,15 @@ def addcontent(posturl=None):
         form = CreateContent(obj=content)
         if form.slug.data == content and form.validate_on_submit():
             form.populate_obj(content)
+            tags  = str(form.tags.data).split(',')
+            for tag in tags :
+                tag_db = Tags.query.filter_by(tag_text = tag).first()
+                if tag_db is None :
+                    tag_db = Tags(tag)
+
+                db.session.add(tag_db)
+                Map = TagsMap(tag_db.tag_id,query.content_id)
+                db.session.add(Map)
             db.session.commit()
             return redirect(url_for('content.addcontent',
                                     posturl=posturl,
@@ -43,13 +52,22 @@ def addcontent(posturl=None):
                             g.fas_user['username'],
                             form.type_content.data
                             )
+            tags  = str(form.tags.data).split(',')
+            for tag in tags :
+                tag_db = Tags.query.filter_by(tag_text = tag).first()
+                if tag_db is None :
+                    tag_db = Tags(tag)
+
+                db.session.add(tag_db)
+                Map = TagsMap(tag_db.tag_id,query.content_id)
+                db.session.add(Map)
             try:
                 db.session.add(query)
                 db.session.commit()
+
                 # Duplicate entry
             except Exception as e:
                 print e
-            print "Recieved", form.slug.data
 
             return redirect(url_for('content.addcontent',
                                     posturl=form.slug.data,
