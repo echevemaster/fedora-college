@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
-import time
-import json
-import datetime
-from flask import Blueprint, request, jsonify, current_app
-from werkzeug import secure_filename
-from fedora_college.core.models import Media, UserProfile
-from fedora_college.core.database import db
+from flask import Blueprint, jsonify
+from fedora_college.core.models import UserProfile
 
 bundle = Blueprint('api', __name__)
 
