@@ -34,7 +34,8 @@ def testMedia():
         media = Media.query. \
             filter_by(user_id=g.fas_user['username']).first()
         return jsonify(media.getdata())
-    except Exception as e :
+    except Exception as e:
+        print e
         return "None"
 
 
@@ -60,7 +61,7 @@ def after_auth():
         return redirect(url_for('profile.user',
                         nickname=g.fas_user['username'])
                         )
-       
+
     except Exception as e:
         print e
         # return jsonify(g.fas_user)
@@ -75,7 +76,6 @@ def after_auth():
             str(g.fas_user['username']),
             str(g.fas_user['email']),
             " ", " ", user_type)
-        token = user.gentoken()
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('profile.editprofile',
