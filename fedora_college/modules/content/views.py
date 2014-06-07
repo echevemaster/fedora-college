@@ -12,13 +12,23 @@ bundle = Blueprint('content', __name__, template_folder='templates')
 from fedora_college.modules.content.media import *  # noqa
 
 
+def attach_tags(db, tags, content):
+            for tag in tags:
+                tag_db = Tags.query.filter_by(tag_text=tag).first()
+                if tag_db is None:
+                    tag_db = Tags(tag)
+
+                db.session.add(tag_db)
+                Map = TagsMap(tag_db.tag_id, content.content_id)
+                db.session.add(Map)
+
+
 @bundle.route('/content/add/', methods=['GET', 'POST'])
 @bundle.route('/content/add', methods=['GET', 'POST'])
 @bundle.route('/content/edit/<posturl>/', methods=['GET', 'POST'])
 @bundle.route('/content/edit/<posturl>', methods=['GET', 'POST'])
 @fas_login_required
 def addcontent(posturl=None):
-
     form = CreateContent()
     form_action = url_for('content.addcontent')
     if posturl is not None:
@@ -27,14 +37,7 @@ def addcontent(posturl=None):
         if form.slug.data == content and form.validate_on_submit():
             form.populate_obj(content)
             tags = str(form.tags.data).split(',')
-            for tag in tags:
-                tag_db = Tags.query.filter_by(tag_text=tag).first()
-                if tag_db is None:
-                    tag_db = Tags(tag)
-
-                db.session.add(tag_db)
-                Map = TagsMap(tag_db.tag_id, query.content_id)
-                db.session.add(Map)
+            attach_tags(db, tags, content)
             db.session.commit()
             return redirect(url_for('content.addcontent',
                                     posturl=posturl,
@@ -53,14 +56,7 @@ def addcontent(posturl=None):
                             form.type_content.data
                             )
             tags = str(form.tags.data).split(',')
-            for tag in tags:
-                tag_db = Tags.query.filter_by(tag_text=tag).first()
-                if tag_db is None:
-                    tag_db = Tags(tag)
-
-                db.session.add(tag_db)
-                Map = TagsMap(tag_db.tag_id, query.content_id)
-                db.session.add(Map)
+            attach_tags(db, tags, query)
             try:
                 db.session.add(query)
                 db.session.commit()
