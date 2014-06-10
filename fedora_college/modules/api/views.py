@@ -4,14 +4,13 @@ import time
 import json
 import datetime
 from werkzeug import secure_filename
+from flask.ext.babel import gettext
 from flask import Blueprint, request, jsonify, current_app
 from fedora_college.core.models import Media, UserProfile
-from fedora_college.core.database import db
-from flask.ext.babel import gettext
 from fedora_college.core.models import Tags, TagsMap
 from fedora_college.core.models import UserProfile
 from fedora_college.core.models import Content, Media
-from fedora_college.modules.api.upload import *  # noqa
+from fedora_college.core.database import db
 
 # Upload media Functions
 bundle = Blueprint('api', __name__)
