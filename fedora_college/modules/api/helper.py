@@ -1,35 +1,30 @@
 # -*- coding: utf-8 -*-
 import os
 import time
-import json
 from werkzeug import secure_filename
 from flask import request, current_app
+from fedora_college.core.models import Media
+from fedora_college.core.database import db
 
 paths_for_api = {
     "Read": [
-    {'path': '/api/content/', 'methods': 'GET'},
-    {'path': '/api/content/<contentid>/', 'methods': 'GET'},
-
-    {'path': '/api/media/', 'methods': 'GET'},
-    {'path': '/api/media/<mediaid>/', 'methods': 'GET'},
-
-    {'path': '/api/profile/', 'methods': 'GET'},
-    {'path': '/api/profile/<username>/', 'methods': 'GET'},
-
-    {'path': '/api/tags/', 'methods': 'GET'},
-    {'path': '/api/tags/<tagid>/', 'methods': 'GET'},
-
-    {'path': '/api/tags/map/', 'methods': 'GET'},
-    {'path': '/api/tags/map/<tagid>/', 'methods': 'GET'},
-
-    {'path': '/api/docs/', 'methods': 'GET'},
-    {'path': '/api/', 'methods': 'GET'}
+        {'path': '/api/content/', 'methods': 'GET'},
+        {'path': '/api/content/<contentid>/', 'methods': 'GET'},
+        {'path': '/api/media/', 'methods': 'GET'},
+        {'path': '/api/media/<mediaid>/', 'methods': 'GET'},
+        {'path': '/api/profile/', 'methods': 'GET'},
+        {'path': '/api/profile/<username>/', 'methods': 'GET'},
+        {'path': '/api/tags/', 'methods': 'GET'},
+        {'path': '/api/tags/<tagid>/', 'methods': 'GET'},
+        {'path': '/api/tags/map/', 'methods': 'GET'},
+        {'path': '/api/tags/map/<tagid>/', 'methods': 'GET'},
+        {'path': '/api/docs/', 'methods': 'GET'},
+        {'path': '/api/', 'methods': 'GET'}
     ],
-    "Write":
-    [
-    {'path': '/api/upload/<token>', 'methods': 'POST'},
-    {'path': '/api/upload/delete/<videoid>/<token>', 'methods': 'POST'},
-    {'path': '/api/upload/revise/<videoid>/<token>', 'methods': 'POST'}
+    "Write": [
+        {'path': '/api/upload/<token>', 'methods': 'POST'},
+        {'path': '/api/upload/delete/<videoid>/<token>', 'methods': 'POST'},
+        {'path': '/api/upload/revise/<videoid>/<token>', 'methods': 'POST'}
     ]
 }
 
@@ -84,9 +79,9 @@ def upload(username):
                 data['type'] = request.form['type']
                 data['thumb'] = 'static/uploads/' + \
                     'thumb' + str(data['name']) + '.jpeg'
-            else :
-               return {'status': "Error","Type": "incorrect file type"} 
-        else :
+            else:
+                return {'status': "Error", "Type": "incorrect file type"}
+        else:
             return {'status': "Error"}
 
         print(data)

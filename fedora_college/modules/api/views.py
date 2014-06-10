@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
-import os
-import time
 import json
 import datetime
-from werkzeug import secure_filename
 from flask.ext.babel import gettext
 from flask import Blueprint, request, jsonify
 from fedora_college.core.models import Media, UserProfile
 from fedora_college.core.models import Tags, TagsMap
-from fedora_college.core.models import UserProfile
-from fedora_college.core.models import Content, Media
+from fedora_college.core.models import Content
 from fedora_college.core.database import db
 
 

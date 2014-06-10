@@ -160,16 +160,16 @@ class Content(db.Model):
 
     def getdata(self):
         data = {}
-        data['id']=self.content_id
-        data['title']=self.title
-        data['slug']=self.slug
-        data['description']=self.description
-        data['date_added']=self.date_added
-        data['media_added_ids']=self.media_added_ids
-        data['type']=self.type_content
-        data['active']=self.active
-        data['tags']=self.tags
-        data['user_name']=self.user_id
+        data['id'] = self.content_id
+        data['title'] = self.title
+        data['slug'] = self.slug
+        data['description'] = self.description
+        data['date_added'] = self.date_added
+        data['media_added_ids'] = self.media_added_ids
+        data['type'] = self.type_content
+        data['active'] = self.active
+        data['tags'] = self.tags
+        data['user_name'] = self.user_id
         return data
 
     def __repr__(self):
@@ -191,7 +191,11 @@ class Tags(db.Model):
         return '<TagText %r>' % (self.tag_text)
 
     def getdata(self):
-        return {"id": self.tag_id, "text": self.tag_text, "created": self.date_added}
+        return {
+            "id": self.tag_id,
+            "text": self.tag_text,
+            "created": self.date_added
+        }
 
 
 class TagsMap(db.Model):
@@ -209,7 +213,11 @@ class TagsMap(db.Model):
         return '<TagText %r>' % (self.tag_text)
 
     def getdata(self):
-        return {"tag_id": self.tag_id, "content_id": self.content_id, "id": self.id}
+        return {
+            "tag_id": self.tag_id,
+            "content_id": self.content_id,
+            "id": self.id
+        }
 
 
 class Comments(db.Model):
