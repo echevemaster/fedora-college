@@ -30,7 +30,7 @@ class DevelopmentConfig(Config):
         'video': ['ogg'],
         'image': ['jpeg', 'png', 'jpg'],
         'doc': ['pdf'],
-        'audio': ['mp3','flac']
+        'audio': ['mp3', 'flac']
     }
 
 
