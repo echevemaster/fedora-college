@@ -166,7 +166,7 @@ def uploadvideo(token):
             db.session.commit()
             return jsonify(data)
         else:
-            return jsonify({'status': 'failed'})
+            return jsonify(data)
     else:
         return jsonify({'status': 'failed'})
 

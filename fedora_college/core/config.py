@@ -26,7 +26,12 @@ class DevelopmentConfig(Config):
     CSRF_ENABLED = True
     CSRF_SESSION_KEY = "f3do$a"
     UPLOADS_FOLDER = os.path.realpath('.') + '/fedora_college/static/uploads/'
-    ALLOWED_EXTENSIONS = ['ogv', 'avi', 'mpeg']
+    ALLOWED_EXTENSIONS = {
+        'video': ['ogg'],
+        'image': ['jpeg', 'png', 'jpg'],
+        'doc': ['pdf'],
+        'audio': ['mp3','flac']
+    }
 
 
 class TestingConfig(Config):

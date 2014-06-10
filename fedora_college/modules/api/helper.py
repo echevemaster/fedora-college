@@ -58,6 +58,7 @@ def delete(username, videoid, edit=None):
 
 def upload(username):
     data = {}
+    ext = current_app.config['ALLOWED_EXTENSIONS']
     if request.method == 'POST':
         path = current_app.config['UPLOADS_FOLDER'] + str(username) + "/"
         upload_folder = os.path.join(path)
@@ -68,17 +69,26 @@ def upload(username):
         if f:
             filename = str(time.time())
             filename += str(secure_filename(f.filename))
-            f.save(os.path.join(upload_folder, filename))
-            data['name'] = filename
-            data['status'] = 'success'
-            data['sys_path'] = os.path.join(upload_folder, filename)
-            data['url'] = "static/uploads/" + \
-                str(username) + "/" + str(filename)
-            data['username'] = username
-            data['type'] = request.form['type']
-            data['thumb'] = 'static/uploads/' + \
-                'thumb' + str(data['name']) + '.jpeg'
+            proceed = False
+            for end in ext[str(request.form['type'])]:
+                if f.filename.lower().endswith("." + str(end)):
+                    proceed = True
+            if proceed is True:
+                f.save(os.path.join(upload_folder, filename))
+                data['name'] = filename
+                data['status'] = 'success'
+                data['sys_path'] = os.path.join(upload_folder, filename)
+                data['url'] = "static/uploads/" + \
+                    str(username) + "/" + str(filename)
+                data['username'] = username
+                data['type'] = request.form['type']
+                data['thumb'] = 'static/uploads/' + \
+                    'thumb' + str(data['name']) + '.jpeg'
+            else :
+               return {'status': "Error","Type": "incorrect file type"} 
+        else :
+            return {'status': "Error"}
 
-            print(data)
+        print(data)
         return data
     return {'status': "Error"}
