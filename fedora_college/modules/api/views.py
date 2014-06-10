@@ -5,12 +5,15 @@ import json
 import datetime
 from werkzeug import secure_filename
 from flask.ext.babel import gettext
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint, request, jsonify
 from fedora_college.core.models import Media, UserProfile
 from fedora_college.core.models import Tags, TagsMap
 from fedora_college.core.models import UserProfile
 from fedora_college.core.models import Content, Media
 from fedora_college.core.database import db
+
+
+from fedora_college.modules.api.helper import paths_for_api, delete, upload
 
 # Upload media Functions
 bundle = Blueprint('api', __name__)
@@ -31,11 +34,9 @@ def index():
 @bundle.route('/api/docs', methods=['GET'])
 @bundle.route('/api/docs/', methods=['GET'])
 def docs():
-    output = {}
     if request.method == 'GET':
         json_results = []
-        output = {}
-        json_results.append(output)
+        json_results.append(paths_for_api)
     return jsonify(paths=json_results)
 
 
@@ -143,56 +144,6 @@ def mediaview(mediaid=None):
                 json_results['media'].append(media.getdata())
     json_results['count'] = len(json_results['media'])
     return jsonify(json_results)
-
-
-def delete(username, videoid, edit=None):
-    media = Media.query.filter_by(media_id=videoid).first_or_404()
-    data = {}
-    if media.username is username:
-        path = media.sys_path
-        if os.path.isfile(path) and os.access(path, os.R_OK):
-            os.remove(path)
-        else:
-            data['status'] = 'fileNotFound'
-            return data['status']
-        if edit is not None:
-            db.session.commit()
-        else:
-            db.session.delete(media)
-        data['status'] = 'success'
-        data['videoid'] = videoid
-        data['username'] = username
-        return data
-    else:
-        return {'status': 'Unauthorized'}
-
-
-def upload(username):
-    data = {}
-    if request.method == 'POST':
-        path = current_app.config['UPLOADS_FOLDER'] + str(username) + "/"
-        upload_folder = os.path.join(path)
-        if not os.path.exists(upload_folder):
-            os.mkdir(upload_folder)
-
-        f = request.files['file']
-        if f:
-            filename = str(time.time())
-            filename += str(secure_filename(f.filename))
-            f.save(os.path.join(upload_folder, filename))
-            data['name'] = filename
-            data['status'] = 'success'
-            data['sys_path'] = os.path.join(upload_folder, filename)
-            data['url'] = "static/uploads/" + \
-                str(username) + "/" + str(filename)
-            data['username'] = username
-            data['type'] = request.form['type']
-            data['thumb'] = 'static/uploads/' + \
-                'thumb' + str(data['name']) + '.jpeg'
-
-            print(data)
-        return data
-    return {'status': "Error"}
 
 
 @bundle.route('/api/upload/<token>', methods=['POST'])

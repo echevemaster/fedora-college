@@ -114,6 +114,7 @@ class Media(db.Model):
 
     def getdata(self):
         data = dict()
+        data['id'] = str(self.media_id)
         data['filename'] = str(self.name)
         data['content_url'] = str(self.content_url)
         data['sys_path '] = str(self.sys_path)
