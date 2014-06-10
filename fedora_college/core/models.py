@@ -157,6 +157,20 @@ class Content(db.Model):
         self.tags = tags
         self.user_id = user_id
 
+    def getdata(self):
+        data = {}
+        data['id']=self.content_id
+        data['title']=self.title
+        data['slug']=self.slug
+        data['description']=self.description
+        data['date_added']=self.date_added
+        data['media_added_ids']=self.media_added_ids
+        data['type']=self.type_content
+        data['active']=self.active
+        data['tags']=self.tags
+        data['user_name']=self.user_id
+        return data
+
     def __repr__(self):
         return '<Title %r>' % (self.title)
 
@@ -175,6 +189,9 @@ class Tags(db.Model):
     def __repr__(self):
         return '<TagText %r>' % (self.tag_text)
 
+    def getdata(self):
+        return {"id": self.tag_id, "text": self.tag_text, "created": self.date_added}
+
 
 class TagsMap(db.Model):
     __tablename__ = 'tagsmap'
@@ -189,6 +206,9 @@ class TagsMap(db.Model):
 
     def __repr__(self):
         return '<TagText %r>' % (self.tag_text)
+
+    def getdata(self):
+        return {"tag_id": self.tag_id, "content_id": self.content_id, "id": self.id}
 
 
 class Comments(db.Model):

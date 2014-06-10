@@ -12,15 +12,15 @@ bundle = Blueprint('content', __name__, template_folder='templates')
 from fedora_college.modules.content.media import *  # noqa
 
 
-def attach_tags(db, tags, content):
-            for tag in tags:
-                tag_db = Tags.query.filter_by(tag_text=tag).first()
-                if tag_db is None:
-                    tag_db = Tags(tag)
-
-                db.session.add(tag_db)
-                Map = TagsMap(tag_db.tag_id, content.content_id)
-                db.session.add(Map)
+def attach_tags(tags, content):
+    for tag in tags:
+        tag_db = Tags.query.filter_by(tag_text=tag).first()
+        if tag_db is None:
+            tag_db = Tags(tag)
+        db.session.add(tag_db)
+        Map = TagsMap(tag_db.tag_id, content.content_id)
+        db.session.add(Map)
+    db.session.commit()
 
 
 @bundle.route('/content/add/', methods=['GET', 'POST'])
@@ -34,10 +34,11 @@ def addcontent(posturl=None):
     if posturl is not None:
         content = Content.query.filter_by(slug=posturl).first_or_404()
         form = CreateContent(obj=content)
-        if form.slug.data == content and form.validate_on_submit():
+        if form.slug.data == posturl and form.validate_on_submit():
             form.populate_obj(content)
             tags = str(form.tags.data).split(',')
-            attach_tags(db, tags, content)
+
+            attach_tags(tags, content)
             db.session.commit()
             return redirect(url_for('content.addcontent',
                                     posturl=posturl,

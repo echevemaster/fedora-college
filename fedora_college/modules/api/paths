@@ -1,0 +1,27 @@
+paths_for_api = {
+        "Read": [
+            {'path': '/api/content/', 'methods': 'GET'},
+            {'path': '/api/content/<contentid>/', 'methods': 'GET'},
+
+            {'path': '/api/media/', 'methods': 'GET'},
+            {'path': '/api/media/<mediaid>/', 'methods': 'GET'},
+
+            {'path': '/api/profile/', 'methods': 'GET'},
+            {'path': '/api/profile/<username>/', 'methods': 'GET'},
+
+            {'path': '/api/tags/', 'methods': 'GET'},
+            {'path': '/api/tags/<tagid>/', 'methods': 'GET'},
+
+            {'path': '/api/tags/map/', 'methods': 'GET'},
+            {'path': '/api/tags/map/<tagid>/', 'methods': 'GET'},
+
+            {'path': '/api/docs/', 'methods': 'GET'},
+            {'path': '/api/', 'methods': 'GET'}
+        ],
+        "Write":
+        [
+            {'path': '/api/upload/<token>', 'methods': 'POST'},
+            {'path': '/api/upload/delete/<videoid>/<token>', 'methods': 'POST'},
+            {'path': '/api/upload/revise/<videoid>/<token>', 'methods': 'POST'}
+        ]
+    }
