@@ -87,7 +87,7 @@ def upload(username):
                 thumb_path = os.path.join(upload_folder, filename)
 
                 '''
-                    Generate video thumbs 
+                    Generate video thumbs
                 '''
                 if request.form['type'] == 'video':
                     name = ('.').join(filename.split('.')[:-1])
@@ -111,14 +111,11 @@ def upload(username):
                 if request.form['type'] == 'audio':
                     data['thumb'] = "static/images/audio_thumb.gif"
 
-                 if request.form['type'] == 'doc':
+                if request.form['type'] == 'doc':
                     data['thumb'] = "static/images/doc_thumb.gif"
-
             else:
                 return {'status': "Error", "Type": "incorrect file type"}
         else:
             return {'status': "Error"}
-
-        print(data)
         return data
     return {'status': "Error"}
