@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
 import time
+from PIL import Image
 from werkzeug import secure_filename
 from flask import request, current_app
 from fedora_college.core.models import Media
 from fedora_college.core.database import db
 
+size = (120, 120)
 paths_for_api = {
     "Read": [
         {'path': '/api/content/', 'methods': 'GET'},
@@ -69,7 +71,11 @@ def upload(username):
                 if f.filename.lower().endswith("." + str(end)):
                     proceed = True
             if proceed is True:
-                f.save(os.path.join(upload_folder, filename))
+                try:
+                    f.save(os.path.join(upload_folder, filename))
+                except Exception as e:
+                    return {'status': "Error", 'error': str(e)}
+
                 data['name'] = filename
                 data['status'] = 'success'
                 data['sys_path'] = os.path.join(upload_folder, filename)
@@ -77,8 +83,37 @@ def upload(username):
                     str(username) + "/" + str(filename)
                 data['username'] = username
                 data['type'] = request.form['type']
-                data['thumb'] = 'static/uploads/' + \
-                    'thumb' + str(data['name']) + '.jpeg'
+                data['thumb'] = ""
+                thumb_path = os.path.join(upload_folder, filename)
+
+                '''
+                    Generate video thumbs 
+                '''
+                if request.form['type'] == 'video':
+                    name = ('.').join(filename.split('.')[:-1])
+                    data['thumb'] = "static/uploads/" + \
+                        str(username) + "/" + str(name) + "_0._thumb.jpg"
+                    cd = "cd " + upload_folder
+                    com = cd + " &&  oggThumb -t1 -s240x0 " + \
+                        filename + " -o _thumb.jpg"
+                    os.system(com)
+                '''
+                    Image
+                '''
+                if request.form['type'] == 'image':
+                    name = ('.').join(filename.split('.')[:-1])
+                    data['thumb'] = "static/uploads/" + \
+                        str(username) + "/" + str(filename) + "_thumb.jpg"
+                    im = Image.open(data['sys_path'])
+                    im.thumbnail(size, Image.ANTIALIAS)
+                    im.save(thumb_path + "_thumb.jpg", "JPEG")
+
+                if request.form['type'] == 'audio':
+                    data['thumb'] = "static/images/audio_thumb.gif"
+
+                 if request.form['type'] == 'doc':
+                    data['thumb'] = "static/images/doc_thumb.gif"
+
             else:
                 return {'status': "Error", "Type": "incorrect file type"}
         else:

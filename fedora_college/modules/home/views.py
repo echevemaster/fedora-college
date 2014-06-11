@@ -20,7 +20,6 @@ def index():
                            title='Home',
                            content="Home page",
                            screen=screen,
-                           media=media,
                            posts=posts)
 
 

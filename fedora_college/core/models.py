@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
+import HTMLParser
 import uuid
 from fedora_college.core.database import db
 from flask import (g)
@@ -102,8 +103,9 @@ class Media(db.Model):
     file_type = db.Column(db.String(255))
     user_id = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
     revise = db.Column(db.Text())
+    thumb_url = db.Column(db.String(2024))
 
-    def __init__(self, filename, sys_path, url, user_id, types):
+    def __init__(self, filename, sys_path, url, user_id, types, thumb_url):
         self.name = filename
         self.content_url = url
         self.sys_path = sys_path
@@ -111,6 +113,7 @@ class Media(db.Model):
         self.timestamp = datetime.datetime.utcnow()
         self.file_type = types
         self.revise = "{}"
+        self.thumb_url = thumb_url
 
     def getdata(self):
         data = dict()
@@ -171,6 +174,11 @@ class Content(db.Model):
         data['tags'] = self.tags
         data['user_name'] = self.user_id
         return data
+
+    def tohtml(self):
+        ret = HTMLParser.HTMLParser()
+        ret = ret.unescape(self.description)
+        return ret
 
     def __repr__(self):
         return '<Title %r>' % (self.title)

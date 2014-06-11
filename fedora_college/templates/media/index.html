@@ -34,11 +34,14 @@
            	<div class="column-75">
 	            {% for record in data %}
 	            <div class = 'column-1'>
-		                   
+		                    <img src="/{{record.thumb_url}}" />
 		                    <h4>Record Name : {{record.name}}</h4>
-		                    <h4>Relative Url: <a href="/{{record.content_url}}">{{record.content_url}}</a></h4>
+		                    <h4>Relative Url: 
+                                <a href="/{{record.content_url}}" style="font-color:#000;">
+                                    <b>View</b>
+                                </a>
+                            </h4>
 		                    <h4>File Type : {{record.file_type}}</h4>
-
 		                    <h4>System Path : {{record.sys_path}}</h4>
 		                    <h4>Added By : {{record.user_id}}</h4>
 		                    <h4>Added On : {{record.timestamp}}</h4>		                    
@@ -54,7 +57,6 @@
             </div> 
         </div> 
     </div>
-    <hr/>
 
                
 {% endblock %}

@@ -157,7 +157,8 @@ def uploadvideo(token):
                           data['sys_path'],
                           data['url'],
                           user.username,
-                          data['type'])
+                          data['type'],
+                          data['thumb'])
             db.session.add(media)
             db.session.commit()
             return jsonify(data)
@@ -193,6 +194,7 @@ def revisevideo(videoid, token):
             media.content_url = data['url']
             media.sys_path = data['sys_path']
             media.timestamp = datetime.datetime.utcnow()
+            media.thumb_url = data['thumb']
             old = json.loads(media.revise)
             try:
                 old['old'].append(old_media)

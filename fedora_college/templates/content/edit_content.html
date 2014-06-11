@@ -1,24 +1,43 @@
-        {% extends "base.html" %}
+        {% extends "base_home.html" %}
         {% block title %}
             {{ title }}
         {% endblock %}
         {% block content %}
         {% from "_formhelpers.html" import render_field %}
+
+<script src="{{ url_for('static', filename='js/ckeditor/ckeditor.js') }}"></script>
         <div id="Create Content">
-            <center><h3> {{ request.args.get('updated')}} </h3></center>
-            <h2>{{  title  }}</h2>
+            <center>
+                <h3> {{  title  }}</h3> <br/>
+
+            </center>
+                <h2> 
+                    {% if request.args.get('updated') %}
+                    {{request.args.get('updated')}}
+                    <hr/>
+                    {% endif %}
+                </h2>
             <form method="post" action="">
-                <fieldset>
-                    <legend></legend>
-                    {{form.hidden_tag()}} 
-                    {{ render_field(form.title) }}
-                    {{ render_field(form.slug ) }}
-                    {{ render_field(form.description ) }}
-                    {{ render_field(form.media_added_ids)}}
-                    {{ render_field(form.type_content) }}
-                    {{ render_field(form.active) }}
-                    {{ render_field(form.tags )}}
-            </fieldset>
+            <fieldset>
+             <legend></legend>
+              {{form.hidden_tag()}} 
+              {{ render_field(form.title) }}
+              {{ render_field(form.slug ) }}
+    {% if form.description.errors %}
+    <ul class=errors>
+    {% for error in form.description.errors %}
+      <li>{{ error }}<br/></li>
+    {% endfor %}
+    </ul>
+  {% endif %}<br/><br/>
+
+  {{ form.description(class_="ckeditor",cols_="80",rows_="40")}}
+              
+              {{ render_field(form.media_added_ids)}}
+              {{ render_field(form.type_content) }}
+              {{ render_field(form.active) }}
+              {{ render_field(form.tags )}}
+             </fieldset>
             <input type="submit" class="button" value="Save"/>
         </form>
         </div>

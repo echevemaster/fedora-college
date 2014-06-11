@@ -30,3 +30,6 @@ colorama==0.2.5
 # Development
 flask-sqlalchemy
 flask
+
+#image 
+PIL

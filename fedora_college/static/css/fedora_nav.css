@@ -8,9 +8,8 @@ body {
 	line-height: 1.25em;
 	margin: 0px;
     padding: 0px;
-    font-family: "Source Sans Pro",Helvetica,sans-serif;
+    font-family: "Liberation Sans","Lucida Grande", "Luxi Sans", "Bitstream Vera Sans", helvetica, verdana, arial, sans-serif;
     color: #666;
-    background-color: #e5eaff;
 }
 
 
@@ -24,9 +23,6 @@ a:hover {
 	color: #FFF;
 }
 
-img {
-	width: 80%;
-}
 
 header {
 	background:#212121;

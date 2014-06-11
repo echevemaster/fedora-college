@@ -57,7 +57,7 @@ def addcontent(posturl=None):
                             form.type_content.data
                             )
             tags = str(form.tags.data).split(',')
-            attach_tags(db, tags, query)
+            attach_tags(tags, query)
             try:
                 db.session.add(query)
                 db.session.commit()

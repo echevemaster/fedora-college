@@ -6,20 +6,24 @@
         {% from "_formhelpers.html" import render_field %}
 
         <div class="frame">
-            <h4>Content Created by me </h4>
                 <div class="column-25">
-                    {% for data in data %}
+
+                   <!-- 
+
+            <h4>Content Created by me </h4>
+            {% for data in data %}
                     <p>
                         <div class="box">
                             <a href="/content/edit/xxx">{{data.body}}</a>
                         </div>
                     </p>
-                    {% endfor %}           
-                </div
+                    {% endfor %}
+                    -->           
+                </div>
 
                 <div class="column-75">
                         <div id="Edit Profile">
-                            <h2>{{  title  }}</h2>
+                            <h3>{{  title  }}</h3> <br/>
                             <form method="post" action="">
                                 <fieldset>
                                     <legend></legend>
