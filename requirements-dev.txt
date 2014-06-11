@@ -32,4 +32,4 @@ flask-sqlalchemy
 flask
 
 #image 
-pil
+#pil -allow-external pil
