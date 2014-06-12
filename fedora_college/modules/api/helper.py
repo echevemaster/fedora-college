@@ -31,7 +31,8 @@ paths_for_api = {
 }
 
 
-def gen_thumbs(data, request, filename):
+def gen_thumbs(data, request, filename, upload_folder, username):
+    thumb_path = os.path.join(upload_folder, filename)
     if request.form['type'] == 'video':
         name = ('.').join(filename.split('.')[:-1])
         data['thumb'] = "static/uploads/" + \
@@ -56,6 +57,8 @@ def gen_thumbs(data, request, filename):
 
     if request.form['type'] == 'doc':
         data['thumb'] = "static/images/doc_thumb.gif"
+
+    return data
 
 
 def delete(username, videoid, edit=None):
@@ -111,7 +114,6 @@ def upload(username):
                 data['username'] = username
                 data['type'] = request.form['type']
                 data['thumb'] = ""
-                thumb_path = os.path.join(upload_folder, filename)
 
                 '''
                     Generate thumbs
@@ -120,7 +122,8 @@ def upload(username):
                     data,
                     request,
                     filename,
-                    upload_folder
+                    upload_folder,
+                    username
                 )
             else:
                 return {'status': "Error", "Type": "incorrect file type"}
