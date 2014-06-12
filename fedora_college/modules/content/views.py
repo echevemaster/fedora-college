@@ -29,6 +29,7 @@ def attach_tags(tags, content):
 @bundle.route('/content/edit/<posturl>', methods=['GET', 'POST'])
 @fas_login_required
 def addcontent(posturl=None):
+    media = Media.query.filter_by(user_id=g.fas_user['username']).all()
     form = CreateContent()
     form_action = url_for('content.addcontent')
     if posturl is not None:
@@ -68,12 +69,16 @@ def addcontent(posturl=None):
 
             return redirect(url_for('content.addcontent',
                                     posturl=form.slug.data,
+                                    media =media,
                                     updated="Successfully updated")
                             )
         else:
             print "Please validate form"
-    return render_template('content/edit_content.html', form=form,
-                           form_action=form_action, title="Create Content")
+    return render_template('content/edit_content.html',
+                           form=form,
+                           form_action=form_action,
+                           media = media,
+                           title="Create Content")
 
 
 @bundle.route('/blog', methods=['GET', 'POST'])

@@ -7,38 +7,69 @@
 
 <script src="{{ url_for('static', filename='js/ckeditor/ckeditor.js') }}"></script>
         <div id="Create Content">
-            <center>
-                <h3> {{  title  }}</h3> <br/>
-
-            </center>
+            
                 <h2> 
                     {% if request.args.get('updated') %}
-                    {{request.args.get('updated')}}
-                    <hr/>
+                      {{request.args.get('updated')}}
+                      <hr/>
                     {% endif %}
                 </h2>
-            <form method="post" action="">
-            <fieldset>
-             <legend></legend>
-              {{form.hidden_tag()}} 
-              {{ render_field(form.title) }}
-              {{ render_field(form.slug ) }}
-    {% if form.description.errors %}
-    <ul class=errors>
-    {% for error in form.description.errors %}
-      <li>{{ error }}<br/></li>
-    {% endfor %}
-    </ul>
-  {% endif %}<br/><br/>
+             <div class="frame">
+                <div class="column-25"> 
+                          <h4> Odered by last added </h4><br/>
+                          {% for record in media %}
+                            <div class="sidebar">
+                                <table border="1" >
+                                  <tr>
+                                    <td>
 
-  {{ form.description(class_="ckeditor",cols_="80",rows_="40")}}
-              
-              {{ render_field(form.media_added_ids)}}
-              {{ render_field(form.type_content) }}
-              {{ render_field(form.active) }}
-              {{ render_field(form.tags )}}
-             </fieldset>
-            <input type="submit" class="button" value="Save"/>
-        </form>
+                                      <img src="/{{record.thumb_url}}" /><br/>
+
+                                       Media ID : {{record.media_id}}   <br/>
+                                       Relative Url: 
+                                              <a href="/{{record.content_url}}" style="font-color:#000;">
+                                                  Right click to copy
+                                              </a><br/>
+                                       File Type : {{record.file_type}} <br/>                
+                                    </td>
+                                  </tr>
+                                </table>
+                            </div>
+                            <br/>
+                          {% endfor %}
+                </div>
+                <div class="column-75">
+                       <form method="post" action="">
+                          <fieldset>
+                           <legend>
+
+                           </legend>
+                            {{form.hidden_tag()}} 
+                            {{ render_field(form.title) }}
+                            {{ render_field(form.slug ) }}
+                            {{ render_field(form.media_added_ids)}}
+                            {{ render_field(form.type_content) }}
+                            {{ render_field(form.active) }}
+                            {{ render_field(form.tags )}}
+                            {% if form.description.errors %}
+                                <ul class=errors>
+                                {% for error in form.description.errors %}
+                                   <li>
+                                    {{ error }}<br/>
+                                  </li>
+                                {% endfor %}
+                                </ul>
+                                <br/><br/>
+                            {% endif %}
+                            {{ form.description(class_="ckeditor",cols_="80",rows_="40")}}<br/>
+                            
+                            
+                          </fieldset>
+                          <input type="submit" class="button" value="Save"/>
+                       </form>
+                </div>
+              </div>
+
+            
         </div>
         {% endblock %}
