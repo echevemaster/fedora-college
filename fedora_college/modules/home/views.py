@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template
 from fedora_college.core.models import *  # noqa
@@ -15,7 +14,6 @@ def index():
     screen = Content.query. \
         filter_by(type_content="media").all()
 
-    media = Media.query.all()
     return render_template('home/index.html',
                            title='Home',
                            content="Home page",

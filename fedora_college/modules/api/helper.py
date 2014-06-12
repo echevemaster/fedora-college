@@ -31,6 +31,33 @@ paths_for_api = {
 }
 
 
+def gen_thumbs(data, request, filename):
+    if request.form['type'] == 'video':
+        name = ('.').join(filename.split('.')[:-1])
+        data['thumb'] = "static/uploads/" + \
+            str(username) + "/" + str(name) + "_0._thumb.jpg"
+        cd = "cd " + upload_folder
+        com = cd + " &&  oggThumb -t1 -s240x0 " + \
+            filename + " -o _thumb.jpg"
+        os.system(com)
+    '''
+    Image
+    '''
+    if request.form['type'] == 'image':
+        name = ('.').join(filename.split('.')[:-1])
+        data['thumb'] = "static/uploads/" + \
+            str(username) + "/" + str(filename) + "_thumb.jpg"
+        im = Image.open(data['sys_path'])
+        im.thumbnail(size, Image.ANTIALIAS)
+        im.save(thumb_path + "_thumb.jpg", "JPEG")
+
+    if request.form['type'] == 'audio':
+        data['thumb'] = "static/images/audio_thumb.gif"
+
+    if request.form['type'] == 'doc':
+        data['thumb'] = "static/images/doc_thumb.gif"
+
+
 def delete(username, videoid, edit=None):
     media = Media.query.filter_by(media_id=videoid).first_or_404()
     data = {}
@@ -87,32 +114,14 @@ def upload(username):
                 thumb_path = os.path.join(upload_folder, filename)
 
                 '''
-                    Generate video thumbs
+                    Generate thumbs
                 '''
-                if request.form['type'] == 'video':
-                    name = ('.').join(filename.split('.')[:-1])
-                    data['thumb'] = "static/uploads/" + \
-                        str(username) + "/" + str(name) + "_0._thumb.jpg"
-                    cd = "cd " + upload_folder
-                    com = cd + " &&  oggThumb -t1 -s240x0 " + \
-                        filename + " -o _thumb.jpg"
-                    os.system(com)
-                '''
-                    Image
-                '''
-                if request.form['type'] == 'image':
-                    name = ('.').join(filename.split('.')[:-1])
-                    data['thumb'] = "static/uploads/" + \
-                        str(username) + "/" + str(filename) + "_thumb.jpg"
-                    im = Image.open(data['sys_path'])
-                    im.thumbnail(size, Image.ANTIALIAS)
-                    im.save(thumb_path + "_thumb.jpg", "JPEG")
-
-                if request.form['type'] == 'audio':
-                    data['thumb'] = "static/images/audio_thumb.gif"
-
-                if request.form['type'] == 'doc':
-                    data['thumb'] = "static/images/doc_thumb.gif"
+                data = gen_thumbs(
+                    data,
+                    request,
+                    filename,
+                    upload_folder
+                )
             else:
                 return {'status': "Error", "Type": "incorrect file type"}
         else:
