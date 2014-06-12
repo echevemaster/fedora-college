@@ -22,7 +22,9 @@ Fedora College API
 Run
 ------------
 
-python fedora_college/main.py run
+1. Create a directory "uploads" , in the static folder.
+2. Install oggvideotools (Not a python dependency)
+2. python fedora_college/main.py run
 
 Build Status
 ------------
