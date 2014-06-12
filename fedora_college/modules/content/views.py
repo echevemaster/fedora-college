@@ -1,12 +1,26 @@
 # -*- coding: utf-8 -*-
-from flask import (Blueprint, render_template,
-                   request, redirect, url_for, g)
+from flask import Blueprint, render_template
+from flask import redirect, url_for, g
 from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
 from flask_fas_openid import fas_login_required
 
 bundle = Blueprint('content', __name__, template_folder='templates')
+
+
+from fedora_college.modules.content.media import *  # noqa
+
+
+def attach_tags(tags, content):
+    for tag in tags:
+        tag_db = Tags.query.filter_by(tag_text=tag).first()
+        if tag_db is None:
+            tag_db = Tags(tag)
+        db.session.add(tag_db)
+        Map = TagsMap(tag_db.tag_id, content.content_id)
+        db.session.add(Map)
+    db.session.commit()
 
 
 @bundle.route('/content/add/', methods=['GET', 'POST'])
@@ -20,14 +34,19 @@ def addcontent(posturl=None):
     if posturl is not None:
         content = Content.query.filter_by(slug=posturl).first_or_404()
         form = CreateContent(obj=content)
-
-        if form.slug.data == posturl and request.method == 'POST' and form.validate():
+        if form.slug.data == posturl and form.validate_on_submit():
             form.populate_obj(content)
+            tags = str(form.tags.data).split(',')
+
+            attach_tags(tags, content)
             db.session.commit()
             return redirect(url_for('content.addcontent',
-                                    posturl=posturl, updated="True"))
+                                    posturl=posturl,
+                                    updated="Successfully updated")
+                            )
+
     else:
-        if request.method == 'POST' and form.validate():
+        if form.validate_on_submit():
             query = Content(form.title.data,
                             form.slug.data,
                             form.description.data,
@@ -37,14 +56,20 @@ def addcontent(posturl=None):
                             g.fas_user['username'],
                             form.type_content.data
                             )
+            tags = str(form.tags.data).split(',')
+            attach_tags(tags, query)
             try:
                 db.session.add(query)
                 db.session.commit()
-            except Exception as e:                
+
                 # Duplicate entry
-                return str(e)
+            except Exception as e:
+                print e
+
             return redirect(url_for('content.addcontent',
-                                    posturl=form.slug.data, updated="True"))
+                                    posturl=form.slug.data,
+                                    updated="Successfully updated")
+                            )
         else:
             print "Please validate form"
     return render_template('content/edit_content.html', form=form,
@@ -59,10 +84,11 @@ def blog(slug=None):
     if slug is not None:
         try:
             posts = Content.query. \
-                filter_by(type_content="blog").all()
+                filter_by(slug=slug).all()
         except:
             posts = "No such posts in database."
     else:
+
         try:
             posts = Content.query. \
                 filter_by(type_content="blog").all()

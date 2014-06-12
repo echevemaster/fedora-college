@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+import datetime
+import HTMLParser
+import uuid
 from fedora_college.core.database import db
 from flask import (g)
-import datetime
 
 '''
-Updated Models.
+    Database Models
 '''
 
 
@@ -13,7 +15,8 @@ class UserProfile(db.Model):
 
     user_id = db.Column(db.Integer, primary_key=True)
     open_id = db.Column(db.String(255))
-    username = db.Column(db.String(255))
+    token = db.Column(db.String(1024))
+    username = db.Column(db.String(255), unique=True)
     email = db.Column(db.String(500))
     about = db.Column(db.Text())
     date_registered = db.Column(db.DateTime())
@@ -25,13 +28,27 @@ class UserProfile(db.Model):
                  email, about, website, role):
         self.open_id = open_id
         self.username = username
+        self.token = None
         self.email = email
         self.about = about
         self.date_registered = datetime.datetime.utcnow()
         self.website = website
         self.role = role
 
+    def gentoken(self):
+            if self.token is None:
+                self.token = str(self.username) + '-' + str(uuid.uuid4())
+                return self.token
+            else:
+                return self.token
+
+    def newtoken(self):
+        self.token = str(self.username) + '-' + str(uuid.uuid4())
+        print self.token
+        return self.token
+
     def getdata(self):
+        self.data['user_id'] = self.user_id
         self.data['openid'] = str(self.open_id)
         self.data['username'] = str(self.username)
         self.data['email'] = str(self.email)
@@ -39,6 +56,7 @@ class UserProfile(db.Model):
         self.data['member-since'] = str(self.date_registered)
         self.data['website'] = str(self.website)
         self.data['role'] = str(self.role)
+
         return self.data
 
     def __repr__(self):
@@ -46,7 +64,7 @@ class UserProfile(db.Model):
 
     def getMedia(self):
         '''
-            return all media aadded by user
+            return all media added by user
         '''
         try:
             media = Media.query.filter_by(
@@ -74,6 +92,43 @@ class UserProfile(db.Model):
     '''
 
 
+class Media(db.Model):
+    __tablename__ = 'media'
+
+    media_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(2024))
+    content_url = db.Column(db.String(2024))
+    sys_path = db.Column(db.String(2024))
+    timestamp = db.Column(db.DateTime())
+    file_type = db.Column(db.String(255))
+    user_id = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
+    revise = db.Column(db.Text())
+    thumb_url = db.Column(db.String(2024))
+
+    def __init__(self, filename, sys_path, url, user_id, types, thumb_url):
+        self.name = filename
+        self.content_url = url
+        self.sys_path = sys_path
+        self.user_id = user_id
+        self.timestamp = datetime.datetime.utcnow()
+        self.file_type = types
+        self.revise = "{}"
+        self.thumb_url = thumb_url
+
+    def getdata(self):
+        data = dict()
+        data['id'] = str(self.media_id)
+        data['filename'] = str(self.name)
+        data['content_url'] = str(self.content_url)
+        data['sys_path '] = str(self.sys_path)
+        data['timestamp'] = str(self.timestamp)
+        data['file_type'] = str(self.file_type)
+        return data
+
+    def __repr__(self):
+        return '<Media-Title %r>' % (self.media_id)
+
+
 class Content(db.Model):
     __tablename__ = 'content'
 
@@ -90,8 +145,8 @@ class Content(db.Model):
     type_content = db.Column(db.String(255))
     # Comma seprated media id's
     active = db.Column(db.Boolean())
-    tags = db.Column(db.Text())
     # Comma seprated tag id's
+    tags = db.Column(db.Text())
     user_id = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
 
     def __init__(self, title, slug, description,
@@ -106,12 +161,31 @@ class Content(db.Model):
         self.tags = tags
         self.user_id = user_id
 
+    def getdata(self):
+        data = {}
+        data['id'] = self.content_id
+        data['title'] = self.title
+        data['slug'] = self.slug
+        data['description'] = self.description
+        data['date_added'] = self.date_added
+        data['media_added_ids'] = self.media_added_ids
+        data['type'] = self.type_content
+        data['active'] = self.active
+        data['tags'] = self.tags
+        data['user_name'] = self.user_id
+        return data
+
+    def tohtml(self):
+        ret = HTMLParser.HTMLParser()
+        ret = ret.unescape(self.description)
+        return ret
+
     def __repr__(self):
         return '<Title %r>' % (self.title)
 
 
 class Tags(db.Model):
-    __tablename__ = 'Tags'
+    __tablename__ = 'tags'
 
     tag_id = db.Column(db.Integer, primary_key=True)
     tag_text = db.Column(db.String(255))
@@ -124,40 +198,34 @@ class Tags(db.Model):
     def __repr__(self):
         return '<TagText %r>' % (self.tag_text)
 
-
-class Media(db.Model):
-    __tablename__ = 'media'
-
-    media_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255))
-    about = db.Column(db.Text())
-    content_url = db.Column(db.String())
-    slug = db.Column(db.String(255))
-    timestamp = db.Column(db.DateTime())
-    tags = db.Column(db.Text())
-    data = {}
-    # Comma seprated tag id's
-    user_id = db.Column(db.Integer, db.ForeignKey(UserProfile.user_id),
-                        primary_key=True)
-
-    def __init__(self, title, about, url, slug, time, tags, user_id):
-        self.title = title
-        self.about = about
-        self.content_url = url
-        self.slug = slug
-        self.timestamp = time
-        self.tags = tags
-
     def getdata(self):
-        self.data['media_id'] = str(self.media_id)
-        self.data['title'] = str(self.title)
-        self.data['about'] = str(self.about)
-        self.data['url'] = str(self.content_url)
-        self.data['slug'] = str(self.slug)
-        return self.data
+        return {
+            "id": self.tag_id,
+            "text": self.tag_text,
+            "created": self.date_added
+        }
+
+
+class TagsMap(db.Model):
+    __tablename__ = 'tagsmap'
+
+    id = db.Column(db.Integer, primary_key=True)
+    tag_id = db.Column(db.Integer, db.ForeignKey(Tags.tag_id))
+    content_id = db.Column(db.Integer, db.ForeignKey(Content.content_id))
+
+    def __init__(self, tag_id, content_id):
+        self.tag_id = tag_id
+        self.content_id = content_id
 
     def __repr__(self):
-        return '<Media-Title %r>' % (self.title)
+        return '<TagText %r>' % (self.tag_text)
+
+    def getdata(self):
+        return {
+            "tag_id": self.tag_id,
+            "content_id": self.content_id,
+            "id": self.id
+        }
 
 
 class Comments(db.Model):
@@ -182,7 +250,7 @@ class Comments(db.Model):
 
 
 class Comment_map_content(db.Model):
-    __tablename__ = 'map_comments'
+    __tablename__ = 'commentsmap'
 
     """
     Will be used as relationship table to
@@ -202,34 +270,3 @@ class Comment_map_content(db.Model):
 
     def __repr__(self):
         return '<Relation %r>' % (self.relation)
-
-
-"""
-   From old schema. Removal may cause
-   breaking of application would
-   be removed soon
-"""
-
-
-class Screencast(db.Model):
-    __tablename__ = 'screencast'
-
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255))
-    slug = db.Column(db.String(255))
-    description = db.Column(db.Text())
-    date = db.Column(db.DateTime())
-    url_video = db.Column(db.String())
-    active = db.Column(db.Boolean())
-
-    def __init__(self, title, slug, description,
-                 url_video, date, active):
-        self.title = title
-        self.slug = slug
-        self.description = description
-        self.url_video = url_video
-        self.date = date
-        self.active = active
-
-    def __repr__(self):
-        return '<Title %s>' % self.title

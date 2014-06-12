@@ -1,0 +1,29 @@
+{% extends "base_home.html" %}
+{% block title %}
+     {{title}}
+{% endblock %}
+{% block content %}
+    <div class="frame">
+           <h3>Add New Media</h3>
+        <div class="frame">
+            <div class="column-25">
+
+            </div>
+            <div class="column-75">
+                    <form action="{{form_action}}" method="post"
+                    enctype="multipart/form-data">
+                    <label for="file">Filename:</label>
+                    <input type="file" name="file" id="file"><br>
+                    
+                    <select id="type" name="type">
+                        <option value="image">Image</option>
+                        <option value="video">Video</option>
+                        <option value="audio">Audio</option>
+                        <option value="doc">Documents</option>
+                    </select>
+                    <input type="submit" name="submit" value="Submit">
+                    </form>
+            </div> 
+        </div> 
+    </div>
+{% endblock %}

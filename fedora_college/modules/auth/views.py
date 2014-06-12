@@ -1,7 +1,7 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from flask import (request, Blueprint,
-                   url_for, redirect, g, current_app)
+from flask import request, Blueprint, redirect
+from flask import url_for, g, current_app
+from flask import jsonify
 from flask_fas_openid import fas_login_required
 from fedora_college.core.models import *  # noqa
 
@@ -33,8 +33,9 @@ def testMedia():
     try:
         media = Media.query. \
             filter_by(user_id=g.fas_user['username']).first()
-        return str(media)
-    except:
+        return jsonify(media.getdata())
+    except Exception as e:
+        print e
         return "None"
 
 
@@ -43,8 +44,8 @@ def testMedia():
 def testProfile():
     try:
         user = UserProfile.query. \
-            filter_by(user_id=g.fas_user['username']).first()
-        return str(user.getdata())
+            filter_by(username=g.fas_user['username']).first()
+        return jsonify(user.getdata())
     except:
         return "None"
 
@@ -56,19 +57,37 @@ def after_auth():
         user = UserProfile.query. \
             filter_by(username=g.fas_user['username']).first()
         print user.getdata()
-        return redirect(url_for('home.index'))
-
-        # return jsonify(user.getdata())
+        #return jsonify(user.getdata())
+        return redirect(url_for('profile.user',
+                        nickname=g.fas_user['username'])
+                        )
 
     except Exception as e:
         print e
+        # return jsonify(g.fas_user)
+        groups = g.fas_user['groups']
+        if len(groups) > 0:
+            user_type = "author"
+        else:
+            user_type = "user"
+
         user = UserProfile(
             str(g.fas_user['username']),
             str(g.fas_user['username']),
             str(g.fas_user['email']),
-            " ", " ", "user")
+            " ", " ", user_type)
         db.session.add(user)
         db.session.commit()
-        print str(g.fas_user['username']) + "FAS OK"
-        return redirect(url_for('home.index'))
-        # return str(g.fas_user) + "FAS OK"
+        return redirect(url_for('profile.editprofile',
+                                nickname=g.fas_user['username'])
+                        )
+
+
+@bundle.route('/gettoken', methods=['GET', 'POST'])
+@fas_login_required
+def gentoken():
+    user = UserProfile.query. \
+        filter_by(username=g.fas_user['username']).first()
+    user.newtoken()
+    db.session.commit()
+    return redirect(url_for('profile.user', nickname=g.fas_user['username']))

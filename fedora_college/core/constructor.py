@@ -20,7 +20,7 @@ def build_app(app):
     app.register_blueprint(profile_bundle)
     app.register_blueprint(content_bundle)
     # Config to Flask from objects
-    #app.config.from_object('fedora_college.core.ProductionConfig')
+    # app.config.from_object('fedora_college.core.ProductionConfig')
     app.config.from_object('fedora_college.core.config.DevelopmentConfig')
     db.init_app(app)
 

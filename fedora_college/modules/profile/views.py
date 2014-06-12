@@ -13,25 +13,40 @@ bundle = Blueprint('profile', __name__, template_folder='templates',
                    static_folder='static')
 
 
+@bundle.route('/user/edit/', methods=['GET', 'POST'])
 @bundle.route('/user/edit', methods=['GET', 'POST'])
+@bundle.route('/user/<nickname>/edit/', methods=['GET', 'POST'])
 @bundle.route('/user/<nickname>/edit', methods=['GET', 'POST'])
 @fas_login_required
 def editprofile(nickname=None):
     if g.fas_user['username'] == nickname or request.method == 'POST':
         user = UserProfile.query. \
-            filter_by(username=nickname).first()
+            filter_by(username=nickname).first_or_404()
 
         form = EditProfile(obj=user)
-
+        posts = [
+            {'author': user, 'body': 'Test post #1'},
+            {'author': user, 'body': 'Test post #2'}]
+        data = [
+            {'url': "xxxx", 'body': "Blog Articles"},
+            {'url': "xxxx", 'body': "Blog Articles"},
+            {'url': "xxxx", 'body': "Blog Articles"},
+            {'url': "xxxx", 'body': "Blog Articles"}
+        ]
         form_action = url_for('profile.editprofile')
-        if form.username.data == nickname and request.method == 'POST':
+        if form.username.data == nickname and form.validate_on_submit():
             form.populate_obj(user)
             print user.getdata()
             db.session.commit()
             return redirect(url_for('profile.user',
                             nickname=nickname, updated="True"))
-        return render_template('profile/edit_user_profile.html', form=form,
-                               form_action=form_action, title="Update Profile")
+
+        return render_template('profile/edit_user_profile.html',
+                               form=form,
+                               form_action=form_action,
+                               title="Update Profile",
+                               posts=posts,
+                               data=data)
     else:
         return "Unauthorised"
 
@@ -49,6 +64,13 @@ def user(nickname):
     if user is None:
         return jsonify({gettext('User'): str(nickname)+gettext('not found.')})
 
+    data = [
+        {'url': "xxxx", 'body': "Blog Articles"},
+        {'url': "xxxx", 'body': "Video Lectures"},
+        {'url': "xxxx", 'body': "Documentation"},
+        {'url': "xxxx", 'body': "Others"}
+    ]
+
     posts = [
         {'author': user, 'body': 'Test post #1'},
         {'author': user, 'body': 'Test post #2'}
@@ -59,4 +81,6 @@ def user(nickname):
                            url=str(
                                url_for(
                                    'profile.editprofile', nickname=nickname,)),
-                           message=msg)
+                           message=msg,
+                           data=data,
+                           newtoken=url_for('auth.gentoken'))

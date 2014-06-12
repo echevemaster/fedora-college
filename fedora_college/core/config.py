@@ -25,8 +25,13 @@ class DevelopmentConfig(Config):
     DATABASE_CONNECT_OPTIONS = {}
     CSRF_ENABLED = True
     CSRF_SESSION_KEY = "f3do$a"
-    UPLOADS_FOLDER = os.path.realpath('.') + '/uploads/'
-    ALLOWED_EXTENSIONS = ['ogv', 'avi', 'mpeg']
+    UPLOADS_FOLDER = os.path.realpath('.') + '/fedora_college/static/uploads/'
+    ALLOWED_EXTENSIONS = {
+        'video': ['ogg', 'ogv'],
+        'image': ['jpeg', 'png', 'jpg'],
+        'doc': ['pdf'],
+        'audio': ['mp3', 'flac']
+    }
 
 
 class TestingConfig(Config):

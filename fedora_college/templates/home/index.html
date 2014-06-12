@@ -4,24 +4,31 @@
 {% endblock %}
 {% block content %}
      <div class="frame">
+        <div class = "frame" >
             <div class="column-1">
-                <h3>{{content}}</h3>
-            <hr/>
-            <div class="column-2">
-                <div class="box-blue">
-                        Video Lecture 
-                        <br/>
-                            Latest Video Lecture here
-                </div>
+                {% for record in screen %}
+                        <div class="column-4">
+                            <div class="grid-1">
+                                <b>{{record.title }}</b>:{{ record.description | safe }}
+                                Tags : {{record.tags}}
+                            </div>
+                        </div>     
+                {% endfor %}
             </div>
-            <div class="column-2">
-                <div class="box-blue">
-                        Video Lecture 
-                        <br/>
-                            Latest Video Lecture here
-                </div>
+        </div>  
+        <div class = "frame">
+            <h4>From Our Blog</h4>
+            <div class="column-1">
+                {% for record in posts %}
+                        <div class="column-4">
+                            <div class="grid-1">
+                                <b>{{record.title }}</b>:{{ record.description | safe }}
+                                Tags : {{record.tags}}
+                            </div>
+                        </div>     
+                {% endfor %}
             </div>
-            </div>
-        </div>
+        </div>  
 
+     </div>
 {% endblock %}
