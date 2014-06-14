@@ -69,7 +69,7 @@ def addcontent(posturl=None):
 
             return redirect(url_for('content.addcontent',
                                     posturl=form.slug.data,
-                                    media =media,
+                                    media=media,
                                     updated="Successfully updated")
                             )
         else:
@@ -77,7 +77,7 @@ def addcontent(posturl=None):
     return render_template('content/edit_content.html',
                            form=form,
                            form_action=form_action,
-                           media = media,
+                           media=media,
                            title="Create Content")
 
 
