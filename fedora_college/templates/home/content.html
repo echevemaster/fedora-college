@@ -1,0 +1,25 @@
+{% extends "base_home.html" %}
+{% block title %}
+     {{title}}
+{% endblock %}
+{% block content %}
+    <div class="frame">
+        <div class="column-25">
+        
+        </div>
+        <div class="column-75">
+        {% for record in content %}
+                <hr/>
+                    <div class="blog">
+                               {{ record.title }}
+                               {{ record.description | safe }}
+                                Written By : {{record.user_id}} | Written on : {{record.date_added }} 
+                                <div class ="comments" >
+                                </div>
+                    </div>
+
+                <br/>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}

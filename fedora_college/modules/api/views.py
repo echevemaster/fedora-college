@@ -7,8 +7,6 @@ from fedora_college.core.models import Media, UserProfile
 from fedora_college.core.models import Tags, TagsMap
 from fedora_college.core.models import Content
 from fedora_college.core.database import db
-
-
 from fedora_college.modules.api.helper import paths_for_api, delete, upload
 
 # Upload media Functions
@@ -140,6 +138,22 @@ def mediaview(mediaid=None):
                 json_results['media'].append(media.getdata())
     json_results['count'] = len(json_results['media'])
     return jsonify(json_results)
+
+
+@bundle.route('/api/search/<keyword>', methods=['GET'])
+@bundle.route('/api/search/<keyword>', methods=['GET'])
+def search(keyword=None):
+    data = {}
+    data['blog'] = []
+    data['lecture'] = []
+    if data is not None:
+        result = Content.query.whoosh_search(keyword).all()
+        for obj in result:
+            if obj.type_content == "blog":
+                data['blog'].append(obj.getdata())
+            else:
+                data['lecture'].append(obj.getdata())
+    return jsonify(data)
 
 
 @bundle.route('/api/upload/<token>', methods=['POST'])

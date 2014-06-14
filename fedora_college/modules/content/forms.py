@@ -17,7 +17,7 @@ class CreateContent(Form):
     type_content = SelectField(u'Content Type',
                                [Required()],
                                choices=[('blog', 'Blog Post'),
-                                        ('media', 'Lecture'),
+                                        ('lecture', 'Lecture'),
                                         ('doc', 'Documentation')]
                                )
     # Comma seprated media id's

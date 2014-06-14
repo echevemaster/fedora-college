@@ -1,7 +1,7 @@
 <header>
     <a href="" id="logo"></a>
-    <form id="tfnewsearch" method="get" action="http://www.google.com">
-        <input type="text" class="tftextinput" name="q" size="21" maxlength="120">
+    <form id="tfnewsearch" method="get" action="{{url_for('search.search')}}">
+        <input type="text" class="tftextinput" name="var" size="21" maxlength="120">
         <input type="submit" value="search" class="tfbutton">
     </form>
 

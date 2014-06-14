@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 import os
+import subprocess
 import time
 from PIL import Image
+import hashlib
 from werkzeug import secure_filename
 from flask import request, current_app
 from fedora_college.core.models import Media
 from fedora_college.core.database import db
 
 size = (120, 120)
+
+'''for documentation'''
+
 paths_for_api = {
     "Read": [
         {'path': '/api/content/', 'methods': 'GET'},
@@ -16,6 +21,7 @@ paths_for_api = {
         {'path': '/api/media/<mediaid>/', 'methods': 'GET'},
         {'path': '/api/profile/', 'methods': 'GET'},
         {'path': '/api/profile/<username>/', 'methods': 'GET'},
+        {'path': '/api/search/<keyword>', 'methods': 'GET'},
         {'path': '/api/tags/', 'methods': 'GET'},
         {'path': '/api/tags/<tagid>/', 'methods': 'GET'},
         {'path': '/api/tags/map/', 'methods': 'GET'},
@@ -33,14 +39,18 @@ paths_for_api = {
 
 def gen_thumbs(data, request, filename, upload_folder, username):
     thumb_path = os.path.join(upload_folder, filename)
+    '''
+    video
+    '''
     if request.form['type'] == 'video':
         name = ('.').join(filename.split('.')[:-1])
         data['thumb'] = "static/uploads/" + \
             str(username) + "/" + str(name) + "_0._thumb.jpg"
         cd = "cd " + upload_folder
         com = cd + " &&  oggThumb -t1 -s240x0 " + \
-            filename + " -o _thumb.jpg"
-        os.system(com)
+            filename + "  -o _thumb.jpg"
+        print "\n" * 10, com
+        subprocess.Popen(com, shell=True)
     '''
     Image
     '''
@@ -86,6 +96,7 @@ def delete(username, videoid, edit=None):
 def upload(username):
     data = {}
     ext = current_app.config['ALLOWED_EXTENSIONS']
+    has = hashlib.md5()
     if request.method == 'POST':
         path = current_app.config['UPLOADS_FOLDER'] + str(username) + "/"
         upload_folder = os.path.join(path)
@@ -97,9 +108,16 @@ def upload(username):
             filename = str(time.time())
             filename += str(secure_filename(f.filename))
             proceed = False
+            last = ""
             for end in ext[str(request.form['type'])]:
                 if f.filename.lower().endswith("." + str(end)):
                     proceed = True
+                    last = end
+
+            has.update(str(secure_filename(f.filename)))
+            filename = str(time.time())
+            filename += has.hexdigest()+"."+str(last)
+
             if proceed is True:
                 try:
                     f.save(os.path.join(upload_folder, filename))
@@ -131,3 +149,4 @@ def upload(username):
             return {'status': "Error"}
         return data
     return {'status': "Error"}
+

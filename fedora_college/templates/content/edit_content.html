@@ -7,7 +7,6 @@
 
 <script src="{{ url_for('static', filename='js/ckeditor/ckeditor.js') }}"></script>
         <div id="Create Content">
-            
                 <h2> 
                     {% if request.args.get('updated') %}
                       {{request.args.get('updated')}}

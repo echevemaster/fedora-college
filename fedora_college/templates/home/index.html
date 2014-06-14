@@ -10,7 +10,8 @@
                         <div class="column-4">
                             <div class="grid-1">
                                 <b>{{record.title }}</b>:{{ record.description | safe }}
-                                Tags : {{record.tags}}
+                                Tags : {{record.tags}}<br/>
+                                <a href="/{{record.slug}}" > Read More </a> 
                             </div>
                         </div>     
                 {% endfor %}

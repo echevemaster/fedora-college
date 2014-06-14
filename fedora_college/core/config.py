@@ -10,6 +10,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     ADMIN_GROUP = 'provenpackager'
+    WHOOSH_BASE = os.path.join(basedir, 'search.db')
 
 
 class ProductionConfig(Config):
@@ -21,6 +22,8 @@ class DevelopmentConfig(Config):
     SECRET_KEY = 'FEDORA-DEMO'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir,
                               'fedoracollege.db')
+
+
     SQLALCHEMY_ECHO = True
     DATABASE_CONNECT_OPTIONS = {}
     CSRF_ENABLED = True
