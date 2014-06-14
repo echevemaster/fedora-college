@@ -131,7 +131,7 @@ class Media(db.Model):
 
 class Content(db.Model):
     __tablename__ = 'content'
-    __searchable__ = ['title','description']
+    __searchable__ = ['title', 'description']
 
     """
     This class stores information about the Content
@@ -271,4 +271,3 @@ class Comment_map_content(db.Model):
 
     def __repr__(self):
         return '<Relation %r>' % (self.relation)
-

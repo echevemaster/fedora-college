@@ -21,8 +21,7 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SECRET_KEY = 'FEDORA-DEMO'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir,
-                              'fedoracollege.db')
-
+                                                          'fedoracollege.db')
 
     SQLALCHEMY_ECHO = True
     DATABASE_CONNECT_OPTIONS = {}

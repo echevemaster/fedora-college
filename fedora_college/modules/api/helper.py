@@ -116,7 +116,7 @@ def upload(username):
 
             has.update(str(secure_filename(f.filename)))
             filename = str(time.time())
-            filename += has.hexdigest()+"."+str(last)
+            filename += has.hexdigest() + "." + str(last)
 
             if proceed is True:
                 try:
@@ -149,4 +149,3 @@ def upload(username):
             return {'status': "Error"}
         return data
     return {'status': "Error"}
-
