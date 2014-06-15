@@ -157,7 +157,6 @@ class Content(db.Model):
         self.slug = slug
         self.description = description
         self.date_added = datetime.datetime.utcnow()
-        self.media_added_ids = media_added_ids
         self.active = active
         self.type_content = type_content
         self.tags = tags
