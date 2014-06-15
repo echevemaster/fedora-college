@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import re
-import time
 from unicodedata import normalize
 from flask import Blueprint, render_template
 from flask import redirect, url_for, g
@@ -63,8 +62,9 @@ def addcontent(posturl=None):
 
     else:
         if form.validate_on_submit():
+            myslug = slugify(form.title.data)
             query = Content(form.title.data,
-                            slugify(form.title.data),
+                            myslug,
                             form.description.data,
                             form.media_added_ids.data,
                             form.active.data,
@@ -84,7 +84,7 @@ def addcontent(posturl=None):
                 return str(e)
 
             return redirect(url_for('content.addcontent',
-                                    posturl=slugify(form.title.data),
+                                    posturl=myslug,
                                     updated="Successfully updated")
                             )
         else:
