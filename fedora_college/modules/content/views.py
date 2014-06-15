@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+import time
 from unicodedata import normalize
 from flask import Blueprint, render_template
 from flask import redirect, url_for, g
@@ -8,17 +9,19 @@ from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
 from flask_fas_openid import fas_login_required
 
+
 bundle = Blueprint('content', __name__, template_folder='templates')
 
 
 from fedora_college.modules.content.media import *  # noqa
-
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 
 def slugify(text, delim=u'-'):
     """Generates an slightly worse ASCII-only slug."""
+    stri = (time.strftime("%d/%m/%Y"))
+    text = stri + "-" + text
     result = []
     for word in _punct_re.split(text.lower()):
         word = normalize('NFKD', word).encode('ascii', 'ignore')
@@ -62,11 +65,10 @@ def addcontent(posturl=None):
 
     else:
         if form.validate_on_submit():
-            myslug = slugify(form.title.data)
+            url_name = slugify(form.title.data)
             query = Content(form.title.data,
-                            myslug,
+                            url_name,
                             form.description.data,
-                            form.media_added_ids.data,
                             form.active.data,
                             form.tags.data,
                             g.fas_user['username'],
@@ -81,10 +83,11 @@ def addcontent(posturl=None):
                 # Duplicate entry
             except Exception as e:
                 print e
-                return str(e)
+                db.session.rollback()
+                db.session.flush()
 
             return redirect(url_for('content.addcontent',
-                                    posturl=myslug,
+                                    posturl=url_name,
                                     updated="Successfully updated")
                             )
         else:

@@ -11,7 +11,6 @@ class CreateContent(Form):
     title = TextField(
         'Title',  [validators.Length(min=4, max=255)])
     description = TextAreaField('Content', [validators.Length(min=4)])
-    media_added_ids = TextField('Featured Media ID')
     type_content = SelectField(u'Content Type',
                                [Required()],
                                choices=[('blog', 'Blog Post'),

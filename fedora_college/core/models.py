@@ -151,7 +151,8 @@ class Content(db.Model):
     user_id = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
 
     def __init__(self, title, slug, description,
-                 media_added_ids, active, tags, user_id, type_content="blog"):
+                 active, tags, user_id,
+                 type_content="blog"):
         self.title = title
         self.slug = slug
         self.description = description
