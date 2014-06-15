@@ -76,6 +76,7 @@ def after_auth():
             str(g.fas_user['username']),
             str(g.fas_user['email']),
             " ", " ", user_type)
+        user.newtoken()
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('profile.editprofile',

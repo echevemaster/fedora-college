@@ -21,7 +21,7 @@ class UserProfile(db.Model):
     about = db.Column(db.Text())
     date_registered = db.Column(db.DateTime())
     website = db.Column(db.String(255))
-    role = db.Column(db.Integer)
+    role = db.Column(db.String(50))
     data = {}
 
     def __init__(self, open_id, username,

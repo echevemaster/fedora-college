@@ -28,6 +28,7 @@ Paver==1.2.1
 colorama==0.2.5
 
 # Development
+pymysql
 flask-sqlalchemy
 flask
 
