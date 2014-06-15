@@ -10,7 +10,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     ADMIN_GROUP = 'provenpackager'
-    WHOOSH_BASE = os.path.join(basedir, 'search.db')
+    WHOOSH_BASE = os.path.join(basedir, 'search')
 
 
 class ProductionConfig(Config):
@@ -20,8 +20,11 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEBUG = True
     SECRET_KEY = 'FEDORA-DEMO'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir,
-                                                          'fedoracollege.db')
+    MYSQL_USER = "root"
+    MYSQL_PASS = "kgggdkp1992"
+    MYSQL_DATABASE = "fedora"
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://" + \
+        MYSQL_USER + ":" + MYSQL_PASS + "@localhost/" + MYSQL_DATABASE
 
     SQLALCHEMY_ECHO = True
     DATABASE_CONNECT_OPTIONS = {}

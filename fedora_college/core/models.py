@@ -20,7 +20,7 @@ class UserProfile(db.Model):
     email = db.Column(db.String(500))
     about = db.Column(db.Text())
     date_registered = db.Column(db.DateTime())
-    website = db.Column(db.String())
+    website = db.Column(db.String(255))
     role = db.Column(db.Integer)
     data = {}
 
