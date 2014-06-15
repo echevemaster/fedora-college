@@ -20,11 +20,11 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEBUG = True
     SECRET_KEY = 'FEDORA-DEMO'
-    MYSQL_USER = "root"
-    MYSQL_PASS = "kgggdkp1992"
-    MYSQL_DATABASE = "fedora"
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://" + \
-        MYSQL_USER + ":" + MYSQL_PASS + "@localhost/" + MYSQL_DATABASE
+    PGSQL_USER = "postgres"
+    PGSQL_PASS = "kgggdkp1992"
+    PGSQL_DATABASE = "fedora"
+    SQLALCHEMY_DATABASE_URI = "postgresql://" + \
+        PGSQL_USER + ":" + PGSQL_PASS + "@localhost/" + PGSQL_DATABASE
 
     SQLALCHEMY_ECHO = True
     DATABASE_CONNECT_OPTIONS = {}
