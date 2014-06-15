@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+import time
 from unicodedata import normalize
 from flask import Blueprint, render_template
 from flask import redirect, url_for, g
@@ -67,6 +68,13 @@ def addcontent(posturl=None):
     else:
         if form.validate_on_submit():
             slug = slugify(form.title.data)
+            try:
+                content = Content.query.filter_by(slug=posturl).first_or_404()
+                if content.data:
+                    date = str(time.strftime("%d/%m/%Y %S"))
+                    slug = slugify(form.title.data + date)
+            except:
+                pass
             query = Content(form.title.data,
                             slug,
                             form.description.data,
