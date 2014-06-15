@@ -11,6 +11,7 @@ class Config(object):
     TESTING = False
     ADMIN_GROUP = 'provenpackager'
     WHOOSH_BASE = os.path.join(basedir, 'search')
+    DEBUG_TB_PROFILER_ENABLED = False
 
 
 class ProductionConfig(Config):

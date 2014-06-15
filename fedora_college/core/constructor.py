@@ -2,6 +2,7 @@ import logging
 from flask import current_app, g
 from flask_fas_openid import FAS
 import flask.ext.whooshalchemy as whooshalchemy
+from flask_debugtoolbar import DebugToolbarExtension
 # Imports only in development, in production we use Flask_Bundle
 # for automatic bundle's register.
 from fedora_college.modules.auth import bundle as auth_bundle
@@ -31,6 +32,7 @@ def build_app(app):
     # FAS OpenID Instance
     with app.app_context():
         whooshalchemy.whoosh_index(app, Content)
+        toolbar = DebugToolbarExtension(app)
         current_app.config['fas'] = FAS(app)
 
 
