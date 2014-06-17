@@ -2,8 +2,12 @@
 import datetime
 import HTMLParser
 import uuid
+import re
 from fedora_college.core.database import db
 from flask import (g)
+
+
+regex = re.compile("\[\[([1-9]*)]\]")
 
 '''
     Database Models
@@ -141,6 +145,7 @@ class Content(db.Model):
     title = db.Column(db.String(255))
     slug = db.Column(db.String(255), unique=True)
     description = db.Column(db.Text())
+    html = db.Column(db.Text())
     date_added = db.Column(db.DateTime())
     media_added_ids = db.Column(db.Text())
     type_content = db.Column(db.String(255))
@@ -161,6 +166,32 @@ class Content(db.Model):
         self.type_content = type_content
         self.tags = tags
         self.user_id = user_id
+        self.html = admedia(description)
+
+    def gethtml(self, media_id):
+        data = Media.query.filter_by(media_id=media_id).first_or_404()
+
+        if data is not None:
+            url = data.content_url
+            if data.file_type == "image":
+                html = "<img scr='" + url + "' />"
+            if data.file_type == "video":
+                html = "<video width='auto'  controls>"
+                html = html + "<source src='" + url + "' type='video/ogg'>"
+                html = html + "Your browser does not support the video tag."
+                html = "</video>"
+            return html
+        else:
+            return None
+
+    def admedia(self, text):
+        out = regex.findall(text)
+        for i in out:
+            if gethtml(i) is not None:
+                text = text.replace("[[" + str(i) + "]]", gethtml(i))
+            else:
+                text = text.replace("[[" + str(i) + "]]", " ")
+        return text
 
     def getdata(self):
         data = {}

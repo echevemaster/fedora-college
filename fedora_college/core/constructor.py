@@ -16,6 +16,8 @@ from fedora_college.core.database import db
 from fedora_college.core.models import Content
 
 
+
+
 def build_app(app):
     app.register_blueprint(auth_bundle)
     app.register_blueprint(home_bundle)

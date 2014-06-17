@@ -12,7 +12,7 @@
                 <hr/>
                     <div class="blog">
                                {{ record.title }}
-                               {{ record.description | safe }}
+                               {{ record.html | safe }}
                                 Written By : {{record.user_id}} | Written on : {{record.date_added }} 
                                 <div class ="comments" >
                                 </div>
