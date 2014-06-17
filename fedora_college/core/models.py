@@ -161,24 +161,27 @@ class Content(db.Model):
         if data is not None:
             url = data.content_url
             if data.file_type == "image":
-                html = "<img scr='" + url + "' />"
+                html = "<img src='/" + url + "' />"
             if data.file_type == "video":
                 html = "<video width='auto'  controls>"
                 html = html + "<source src='" + url + "' type='video/ogg'>"
                 html = html + "Your browser does not support the video tag."
-                html = "</video>"
+                html = html + "</video>"
             return html
         else:
             return None
 
     def admedia(self, text):
         out = regex.findall(text)
+        ids = ""
         for i in out:
             if self.gethtml(i) is not None:
                 text = text.replace("[[" + str(i) + "]]", self.gethtml(i))
             else:
                 text = text.replace("[[" + str(i) + "]]", " ")
-        return text
+            ids = ids + i + ","
+
+        return text, ids, out[0]
 
     def __init__(self, title, slug, description,
                  active, tags, user_id,
@@ -191,10 +194,14 @@ class Content(db.Model):
         self.type_content = type_content
         self.tags = tags
         self.user_id = user_id
-        self.html = self.admedia(description)
+        self.html, self.media_added_ids, ids = self.admedia(description)
+        feature = Media.query.filter_by(media_id=ids).first_or_404()
+        self.thumb_url = feature.thumb_url
 
     def rehtml(self):
-        self.html = self.admedia(self.description)
+        self.html, self.media_added_ids, ids = self.admedia(description)
+        feature = Media.query.filter_by(media_id=ids).first_or_404()
+        self.thumb_url = feature.thumb_url
 
     def getdata(self):
         data = {}

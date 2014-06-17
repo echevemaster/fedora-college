@@ -9,7 +9,7 @@
                 {% for record in screen %}
                         <div class="column-4">
                             <div class="grid-1">
-                                <b>{{record.title }}</b>:{{ record.description | safe }}
+                                <b>{{record.title }}</b>:
                                 Tags : {{record.tags}}<br/>
                                 <a href="/{{record.slug}}" > Read More </a> 
                             </div>
@@ -23,7 +23,7 @@
                 {% for record in posts %}
                         <div class="column-4">
                             <div class="grid-1">
-                                <b>{{record.title }}</b>:{{ record.description | safe }}
+                                <b>{{record.title }}</b>
                                 Tags : {{record.tags}}
                             </div>
                         </div>     
