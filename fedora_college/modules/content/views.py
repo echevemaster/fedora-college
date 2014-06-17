@@ -63,6 +63,7 @@ def addcontent(posturl=None):
             form.populate_obj(content)
             tags = str(form.tags.data).split(',')
             attach_tags(tags, content)
+            content.rehtml()
             db.session.commit()
             return redirect(url_for('content.addcontent',
                                     posturl=posturl,

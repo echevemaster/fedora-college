@@ -174,7 +174,7 @@ class Content(db.Model):
     def admedia(self, text):
         out = regex.findall(text)
         for i in out:
-            if gethtml(i) is not None:
+            if self.gethtml(i) is not None:
                 text = text.replace("[[" + str(i) + "]]", self.gethtml(i))
             else:
                 text = text.replace("[[" + str(i) + "]]", " ")
@@ -192,6 +192,9 @@ class Content(db.Model):
         self.tags = tags
         self.user_id = user_id
         self.html = self.admedia(description)
+
+    def rehtml(self):
+        self.html = self.admedia(self.description)
 
     def getdata(self):
         data = {}
