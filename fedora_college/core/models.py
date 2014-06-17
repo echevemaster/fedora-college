@@ -154,7 +154,8 @@ class Content(db.Model):
     # Comma seprated tag id's
     tags = db.Column(db.Text())
     user_id = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
-
+    thumb_url = db.Column(db.String(2024))
+    
     def gethtml(self, media_id):
         data = Media.query.filter_by(media_id=media_id).first_or_404()
 
@@ -199,7 +200,7 @@ class Content(db.Model):
         self.thumb_url = feature.thumb_url
 
     def rehtml(self):
-        self.html, self.media_added_ids, ids = self.admedia(description)
+        self.html, self.media_added_ids, ids = self.admedia(self.description)
         feature = Media.query.filter_by(media_id=ids).first_or_404()
         self.thumb_url = feature.thumb_url
 
