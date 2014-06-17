@@ -155,19 +155,6 @@ class Content(db.Model):
     tags = db.Column(db.Text())
     user_id = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
 
-    def __init__(self, title, slug, description,
-                 active, tags, user_id,
-                 type_content="blog"):
-        self.title = title
-        self.slug = slug
-        self.description = description
-        self.date_added = datetime.datetime.utcnow()
-        self.active = active
-        self.type_content = type_content
-        self.tags = tags
-        self.user_id = user_id
-        self.html = admedia(description)
-
     def gethtml(self, media_id):
         data = Media.query.filter_by(media_id=media_id).first_or_404()
 
@@ -188,10 +175,23 @@ class Content(db.Model):
         out = regex.findall(text)
         for i in out:
             if gethtml(i) is not None:
-                text = text.replace("[[" + str(i) + "]]", gethtml(i))
+                text = text.replace("[[" + str(i) + "]]", self.gethtml(i))
             else:
                 text = text.replace("[[" + str(i) + "]]", " ")
         return text
+
+    def __init__(self, title, slug, description,
+                 active, tags, user_id,
+                 type_content="blog"):
+        self.title = title
+        self.slug = slug
+        self.description = description
+        self.date_added = datetime.datetime.utcnow()
+        self.active = active
+        self.type_content = type_content
+        self.tags = tags
+        self.user_id = user_id
+        self.html = self.admedia(description)
 
     def getdata(self):
         data = {}
