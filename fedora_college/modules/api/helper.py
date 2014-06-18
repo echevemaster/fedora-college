@@ -132,6 +132,8 @@ def upload(username):
                 data['username'] = username
                 data['type'] = request.form['type']
                 data['thumb'] = ""
+                data['tags'] = request.form['tags']
+                data['featured_name'] = request.form['featured_name']
 
                 '''
                     Generate thumbs

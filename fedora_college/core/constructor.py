@@ -13,9 +13,7 @@ from fedora_college.modules.profile import bundle as profile_bundle
 from fedora_college.modules.content import bundle as content_bundle
 from fedora_college.modules.search import bundle as search_bundle
 from fedora_college.core.database import db
-from fedora_college.core.models import Content
-
-
+from fedora_college.core.models import Content, Media
 
 
 def build_app(app):
@@ -34,6 +32,7 @@ def build_app(app):
     # FAS OpenID Instance
     with app.app_context():
         whooshalchemy.whoosh_index(app, Content)
+        whooshalchemy.whoosh_index(app, Media)
         toolbar = DebugToolbarExtension(app)
         current_app.config['fas'] = FAS(app)
 

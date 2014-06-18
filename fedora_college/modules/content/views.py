@@ -4,6 +4,7 @@ import re
 from unicodedata import normalize
 from flask import Blueprint, render_template
 from flask import redirect, url_for, g
+from sqlalchemy import desc
 from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
@@ -55,7 +56,7 @@ def attach_tags(tags, content):
 def addcontent(posturl=None):
     form = CreateContent()
     form_action = url_for('content.addcontent')
-
+    media = Media.query.order_by(desc(Media.timestamp)).limit(10).all()
     if posturl is not None:
         content = Content.query.filter_by(slug=posturl).first_or_404()
         form = CreateContent(obj=content)
@@ -87,7 +88,8 @@ def addcontent(posturl=None):
                 attach_tags(tags, query)
                 return redirect(url_for('content.addcontent',
                                         posturl=url_name,
-                                        updated="Successfully updated")
+                                        updated="Successfully updated",
+                                        media=media)
                                 )
                 # Duplicate entry
             except Exception as e:
@@ -95,7 +97,8 @@ def addcontent(posturl=None):
                 print e
                 pass
     return render_template('content/edit_content.html', form=form,
-                           form_action=form_action, title="Create Content")
+                           form_action=form_action, title="Create Content",
+                           media=media)
 
 
 @bundle.route('/blog', methods=['GET', 'POST'])

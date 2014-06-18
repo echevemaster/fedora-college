@@ -15,6 +15,12 @@
                 </h2>
              <div class="frame">
                 <div class="column-25"> 
+
+                  <b>Search Media</b>
+                  <form id="tfnewsearch" method="get" action="/media/search/" target="_blank">
+                  <input type="text" name="var" size="21" maxlength="70"> 
+                  <input type="submit" value="search" class="tfbutton">
+                  </form>
                           <h4> Odered by last added </h4><br/>
                           {% for record in media %}
                             <div class="sidebar">
@@ -29,7 +35,8 @@
                                               <a href="/{{record.content_url}}" style="font-color:#000;">
                                                   Right click to copy
                                               </a><br/>
-                                       File Type : {{record.file_type}} <br/>                
+                                       File Type : {{record.file_type}} <br/>    
+                                       Embed Code : [[{{record.media_id}}]]            
                                     </td>
                                   </tr>
                                 </table>

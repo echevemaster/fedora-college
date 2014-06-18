@@ -172,7 +172,9 @@ def uploadvideo(token):
                           data['url'],
                           user.username,
                           data['type'],
-                          data['thumb'])
+                          data['thumb'],
+                          data['tags'],
+                          data['featured_name'])
             db.session.add(media)
             db.session.commit()
             return jsonify(data)
