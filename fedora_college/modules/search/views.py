@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import (Blueprint,
                    render_template,
-                   request,
-                   jsonify)
+                   request)
 from fedora_college.core.models import Content, Media
 
 # Upload media Functions

@@ -24,13 +24,13 @@ class DevelopmentConfig(Config):
     PGSQL_USER = "postgres"
     PGSQL_PASS = "kgggdkp1992"
     PGSQL_DATABASE = "fedora"
-    '''SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir,
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir,
                               'fedoracollege.db')
     '''
-    
     SQLALCHEMY_DATABASE_URI = "postgresql://" + \
         PGSQL_USER + ":" + PGSQL_PASS + "@localhost/" + PGSQL_DATABASE
-    
+    '''
+
     SQLALCHEMY_ECHO = True
     DATABASE_CONNECT_OPTIONS = {}
     CSRF_ENABLED = True

@@ -33,7 +33,7 @@ def build_app(app):
     with app.app_context():
         whooshalchemy.whoosh_index(app, Content)
         whooshalchemy.whoosh_index(app, Media)
-        toolbar = DebugToolbarExtension(app)
+        DebugToolbarExtension(app)
         current_app.config['fas'] = FAS(app)
 
 
