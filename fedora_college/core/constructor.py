@@ -1,6 +1,8 @@
 import logging
 from flask import current_app, g
 from flask_fas_openid import FAS
+import flask.ext.whooshalchemy as whooshalchemy
+from flask_debugtoolbar import DebugToolbarExtension
 # Imports only in development, in production we use Flask_Bundle
 # for automatic bundle's register.
 from fedora_college.modules.auth import bundle as auth_bundle
@@ -9,7 +11,9 @@ from fedora_college.modules.admin import bundle as admin_bundle
 from fedora_college.modules.api import bundle as api_bundle
 from fedora_college.modules.profile import bundle as profile_bundle
 from fedora_college.modules.content import bundle as content_bundle
+from fedora_college.modules.search import bundle as search_bundle
 from fedora_college.core.database import db
+from fedora_college.core.models import Content, Media
 
 
 def build_app(app):
@@ -19,6 +23,7 @@ def build_app(app):
     app.register_blueprint(api_bundle)
     app.register_blueprint(profile_bundle)
     app.register_blueprint(content_bundle)
+    app.register_blueprint(search_bundle)
     # Config to Flask from objects
     # app.config.from_object('fedora_college.core.ProductionConfig')
     app.config.from_object('fedora_college.core.config.DevelopmentConfig')
@@ -26,6 +31,9 @@ def build_app(app):
 
     # FAS OpenID Instance
     with app.app_context():
+        whooshalchemy.whoosh_index(app, Content)
+        whooshalchemy.whoosh_index(app, Media)
+        DebugToolbarExtension(app)
         current_app.config['fas'] = FAS(app)
 
 

@@ -12,7 +12,7 @@ def index():
         filter_by(type_content="blog").all()
 
     screen = Content.query. \
-        filter_by(type_content="media").all()
+        filter_by(type_content="lecture").all()
 
     return render_template('home/index.html',
                            title='Home',
@@ -35,3 +35,15 @@ def feedback():
     return render_template('home/index.html',
                            title='Feedback',
                            content='Feedback')
+
+
+@bundle.route('/<slug>/', methods=['GET', 'POST'])
+@bundle.route('/<slug>', methods=['GET', 'POST'])
+def blog(slug=None):
+    pos = []
+    posts = Content.query.filter_by(
+        slug=slug, type_content="lecture").first_or_404()
+    pos.append(posts)
+    return render_template('home/content.html',
+                           title='Lecture',
+                           content=pos)

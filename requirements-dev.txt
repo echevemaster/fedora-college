@@ -1,6 +1,9 @@
 # Runtime requirements
 --requirement requirements.txt
 
+#toolbar
+flask-debugtoolbar
+
 # Testing
 pytest==2.3.5
 py==1.4.15
@@ -28,6 +31,7 @@ Paver==1.2.1
 colorama==0.2.5
 
 # Development
+pymysql
 flask-sqlalchemy
 flask
 

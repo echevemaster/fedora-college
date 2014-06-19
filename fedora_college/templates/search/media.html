@@ -1,0 +1,32 @@
+{% extends "base_home.html" %}
+{% block title %}
+     {{title}}
+{% endblock %}
+{% block content %}
+    <div class="frame">
+        <div class="column-25">
+        
+        </div>
+        <div class="column-75">
+        {% if not media %}
+                <h3>No Results found </h3>
+
+        {% else %}
+        {% for record in media %}
+                <hr/>
+                    <div class="blog">
+                        <p>
+                              Name :  {{ record.name }} <br/>
+                              Tags : {{ record.tags  }} <br/>
+                              Embed Code : [[{{record.id}}]] <br/>
+                               <img src= "/{{ record.thumb }}" /> <br/>
+                              Uploaded by  : {{record.user_id}} | Type : {{record.file_type }}
+                        </p>
+                    </div>
+                <br/>
+        {% endfor %}
+        
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

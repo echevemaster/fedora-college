@@ -32,7 +32,8 @@
 
 /* Floats last ".column-" to the right */
 [class*='column-']:last-of-type {
-  float: right
+  float: left;
+  
 }
 
 /* Clearfix */

@@ -10,14 +10,11 @@ __all__ = ['CreateContent']
 class CreateContent(Form):
     title = TextField(
         'Title',  [validators.Length(min=4, max=255)])
-    slug = TextField(
-        'Url-Slug', [validators.Length(min=4, max=255)])
     description = TextAreaField('Content', [validators.Length(min=4)])
-    media_added_ids = TextField('media')
     type_content = SelectField(u'Content Type',
                                [Required()],
                                choices=[('blog', 'Blog Post'),
-                                        ('media', 'Lecture'),
+                                        ('lecture', 'Lecture'),
                                         ('doc', 'Documentation')]
                                )
     # Comma seprated media id's

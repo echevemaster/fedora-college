@@ -2,8 +2,12 @@
 import datetime
 import HTMLParser
 import uuid
+import re
 from fedora_college.core.database import db
 from flask import (g)
+
+
+regex = re.compile("\[\[([1-9]*)]\]")
 
 '''
     Database Models
@@ -20,8 +24,8 @@ class UserProfile(db.Model):
     email = db.Column(db.String(500))
     about = db.Column(db.Text())
     date_registered = db.Column(db.DateTime())
-    website = db.Column(db.String())
-    role = db.Column(db.Integer)
+    website = db.Column(db.String(255))
+    role = db.Column(db.String(50))
     data = {}
 
     def __init__(self, open_id, username,
@@ -94,6 +98,7 @@ class UserProfile(db.Model):
 
 class Media(db.Model):
     __tablename__ = 'media'
+    __searchable__ = ['featured_name', 'tags']
 
     media_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(2024))
@@ -104,8 +109,20 @@ class Media(db.Model):
     user_id = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
     revise = db.Column(db.Text())
     thumb_url = db.Column(db.String(2024))
+    tags = db.Column(db.String(2024))
+    featured_name = db.Column(db.String(2024))
 
-    def __init__(self, filename, sys_path, url, user_id, types, thumb_url):
+    def process_tags(self, text):
+        stri = text.split(",")
+        ret = ""
+        for i in stri:
+            ret = ret + str(i) + " "
+        return ret
+
+    def __init__(self, filename, sys_path, url,
+                 user_id, types, thumb_url,
+                 tags, featured_name
+                 ):
         self.name = filename
         self.content_url = url
         self.sys_path = sys_path
@@ -114,6 +131,8 @@ class Media(db.Model):
         self.file_type = types
         self.revise = "{}"
         self.thumb_url = thumb_url
+        self.tags = self.process_tags(tags)
+        self.featured_name = featured_name
 
     def getdata(self):
         data = dict()
@@ -122,7 +141,10 @@ class Media(db.Model):
         data['content_url'] = str(self.content_url)
         data['sys_path '] = str(self.sys_path)
         data['timestamp'] = str(self.timestamp)
+        data['thumb'] = str(self.thumb_url)
         data['file_type'] = str(self.file_type)
+        data['tags'] = str(self.tags)
+        data['name'] = str(self.featured_name)
         return data
 
     def __repr__(self):
@@ -131,6 +153,7 @@ class Media(db.Model):
 
 class Content(db.Model):
     __tablename__ = 'content'
+    __searchable__ = ['title', 'description']
 
     """
     This class stores information about the Content
@@ -140,6 +163,7 @@ class Content(db.Model):
     title = db.Column(db.String(255))
     slug = db.Column(db.String(255), unique=True)
     description = db.Column(db.Text())
+    html = db.Column(db.Text())
     date_added = db.Column(db.DateTime())
     media_added_ids = db.Column(db.Text())
     type_content = db.Column(db.String(255))
@@ -148,18 +172,55 @@ class Content(db.Model):
     # Comma seprated tag id's
     tags = db.Column(db.Text())
     user_id = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
+    thumb_url = db.Column(db.String(2024))
+
+    def gethtml(self, media_id):
+        data = Media.query.filter_by(media_id=media_id).first_or_404()
+
+        if data is not None:
+            url = data.content_url
+            if data.file_type == "image":
+                html = "<img src='/" + url + "' />"
+            if data.file_type == "video":
+                html = "<video width='auto'  controls>"
+                html = html + "<source src='" + url + "' type='video/ogg'>"
+                html = html + "Your browser does not support the video tag."
+                html = html + "</video>"
+            return html
+        else:
+            return None
+
+    def admedia(self, text):
+        out = regex.findall(text)
+        ids = ""
+        for i in out:
+            if self.gethtml(i) is not None:
+                text = text.replace("[[" + str(i) + "]]", self.gethtml(i))
+            else:
+                text = text.replace("[[" + str(i) + "]]", " ")
+            ids = ids + i + ","
+
+        return text, ids, out[0]
 
     def __init__(self, title, slug, description,
-                 media_added_ids, active, tags, user_id, type_content="blog"):
+                 active, tags, user_id,
+                 type_content="blog"):
         self.title = title
         self.slug = slug
         self.description = description
         self.date_added = datetime.datetime.utcnow()
-        self.media_added_ids = media_added_ids
         self.active = active
         self.type_content = type_content
         self.tags = tags
         self.user_id = user_id
+        self.html, self.media_added_ids, ids = self.admedia(description)
+        feature = Media.query.filter_by(media_id=ids).first_or_404()
+        self.thumb_url = feature.thumb_url
+
+    def rehtml(self):
+        self.html, self.media_added_ids, ids = self.admedia(self.description)
+        feature = Media.query.filter_by(media_id=ids).first_or_404()
+        self.thumb_url = feature.thumb_url
 
     def getdata(self):
         data = {}
