@@ -1,11 +1,12 @@
 <header>
-    <a href="" id="logo"></a>
-    <form id="tfnewsearch" method="get" action="{{url_for('search.search')}}">
-        <input type="text" class="tftextinput" name="var" size="21" maxlength="120">
-        <input type="submit" value="search" class="tfbutton">
-    </form>
+<div class="header">
+    <div class="row">
+        <div class="large-4 columns"
+          <a href="" id="logo"></a>
+       </div>
+    
 
-
+<div class="large-3 columns">
         <span id="nav-right">
                 {% if g.fas_user.username %}
                     <p class="navbar-text pull-right">
@@ -17,14 +18,30 @@
                     <p class="navbar-text pull-right"><a href="{{ url_for('auth.auth_login') }}" class="navbar-link">Log In</a></p>
                 {% endif %}
         </span>
+</div>
+<div class="large-5 columns">
+<form id="tfnewsearch" method="get" action="{{url_for('search.search')}}">
+    <div class="row collapse">
+        <div class="small-10 columns">
+        <input type="text" class="tftextinput" name="var" size="21" maxlength="120">
+    </div>
+    <div clasS="small-2 columns">
+        <input type="submit" value="search" class="tfbutton">
+    </div>
+    </div>
+    </form>
 
     <div class="tfclear"></div>
+</div>
+</div>
+</div>
 </header>
 
-
-<div id="header-nav">
+<div class="nav-main">
+<div class="row">
+<div id="header-nav large-12 columns">
     <nav>
-        <a href="#" id="menu-icon"></a>
+        <!--<a href="#" id="menu-icon"></a>-->
         <ul id="nav-left">
             <!-- MAIN NAVIGATION -->
             {% if request.path.startswith('/admin') %}
@@ -47,6 +64,8 @@
         </ul>
         <!-- end mainNav -->
     </nav>
+</div>
+</div>
 </div>
 <!-- /.navbar -->
 

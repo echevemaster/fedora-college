@@ -4,19 +4,45 @@
         {% endblock %}
         {% block content %}
         {% from "_formhelpers.html" import render_field %}
-        <div class="frame">
+        <div class="row">
+        <div class="large-12 columns">
             <div class="column-75">
                 <div class="blog">
-                    <h4>User Name :{{ user.username }} </h4> <br/>
-                    <h4>Website : {{user.website}}</h4> <br/>
-                    <h4>About :{{user.about}}</h4> <br/>
-                    <h4>Email : {{user.email}}</h4> <br/>
-                    <h4>Access Token : {{user.token}} </h4><br/>
-                    <a  class="button-blue"  href="/user/{{ g.fas_user.username }}/edit">Edit Profile</a>&nbsp;&nbsp;&nbsp;<a class="button-blue" href="{{  newtoken }}">Re-Generate Access Token </a> 
+                    <h4>User's details</h4>
+<table>
+    <tbody>
+        <tr>
+            <td><strong>User Name:</strong></td>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <td><strong>Website :</strong></td>
+            <td>{{user.website}}</td>
+        </tr>
+        <tr>
+            <td><strong>About:</strong></td>
+            <td>{{ user.about }}</td>
+        <tr>
+            <td><strong>Email:</strong></td>
+            <td>{{ user.email }}</td>
+        </tr>
+         <tr>
+            <td><strong>Token</strong></td>
+            <td>{{ user.token }}</td>
+        </tr>
+    </tbody>
+</table>
+
+            <a  class="button"  href="/user/{{ g.fas_user.username }}/edit">Edit Profile</a>&nbsp;&nbsp;&nbsp;
+            <a class="button" href="{{  newtoken }}">Re-Generate Access Token </a> 
                         <br/>
                 </div>
             </div>
-            <div class="column-25">
+        </div>
+    </div>
+    
+<div class="row">
+            <div class="large-12 columns">
                     {% for data in data %}
                     <p>
                         <div class="blog">
@@ -26,8 +52,9 @@
                     {% endfor %}           
             </div>
             <br/>
-        </div>
-        <div class="frame" >
+        
+
+        <div class="large-12 columns">
                 <div class="column-1">
                    {% for post in posts %}
                     <p>
@@ -38,4 +65,6 @@
                     {% endfor %}
                 </div>
         </div>
+</div>
+</div>
         {% endblock %}

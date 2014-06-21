@@ -4,27 +4,11 @@
         {% endblock %}
         {% block content %}
         {% from "_formhelpers.html" import render_field %}
-
-        <div class="frame">
-                <div class="column-25">
-
-                   <!-- 
-
-            <h4>Content Created by me </h4>
-            {% for data in data %}
-                    <p>
-                        <div class="box">
-                            <a href="/content/edit/xxx">{{data.body}}</a>
-                        </div>
-                    </p>
-                    {% endfor %}
-                    -->           
-                </div>
-
-                <div class="column-75">
-                        <div id="Edit Profile">
-                            <h3>{{  title  }}</h3> <br/>
-                            <form method="post" action="">
+<div class="row">
+     <div class="large-12 columns">
+         <div id="Edit Profile">
+             <h3>{{  title  }}</h3>
+              <form method="post" action="">
                                 <fieldset>
                                     <legend></legend>
                                     {{form.hidden_tag()}} 
@@ -37,8 +21,6 @@
                         </form>
                         </div>
                 </div>
-    </div>
+</div>
 
-
-        
-        {% endblock %}
+{% endblock %}
