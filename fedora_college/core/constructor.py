@@ -7,19 +7,21 @@ from flask_debugtoolbar import DebugToolbarExtension
 # for automatic bundle's register.
 from fedora_college.modules.auth import bundle as auth_bundle
 from fedora_college.modules.home import bundle as home_bundle
-from fedora_college.modules.admin import bundle as admin_bundle
+from fedora_college.modules.admin import *
 from fedora_college.modules.api import bundle as api_bundle
 from fedora_college.modules.profile import bundle as profile_bundle
 from fedora_college.modules.content import bundle as content_bundle
 from fedora_college.modules.search import bundle as search_bundle
 from fedora_college.core.database import db
-from fedora_college.core.models import Content, Media
+from fedora_college.core.models import Content, Media, UserProfile, Tags
+
+from flask.ext.admin.contrib.sqla import ModelView
+from flask.ext.admin import Admin
 
 
 def build_app(app):
     app.register_blueprint(auth_bundle)
     app.register_blueprint(home_bundle)
-    app.register_blueprint(admin_bundle)
     app.register_blueprint(api_bundle)
     app.register_blueprint(profile_bundle)
     app.register_blueprint(content_bundle)
@@ -34,6 +36,11 @@ def build_app(app):
         whooshalchemy.whoosh_index(app, Content)
         whooshalchemy.whoosh_index(app, Media)
         DebugToolbarExtension(app)
+        admin = Admin(app)
+        admin.add_view(ModelView(UserProfile, db.session))
+        admin.add_view(ModelView(Media, db.session))
+        admin.add_view(ModelView(Content, db.session))
+        admin.add_view(ModelView(Tags, db.session))
         current_app.config['fas'] = FAS(app)
 
 
