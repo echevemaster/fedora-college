@@ -1,12 +1,8 @@
-import os
-from flask import Flask, url_for, redirect, render_template, request, g
-from flask.ext.sqlalchemy import SQLAlchemy
-from wtforms import form, fields, validators
-from flask.ext import admin, login
+# -*- coding: utf-8 -*-
+from flask import g
+from flask.ext import admin
 from flask.ext.admin.contrib import sqla
-from flask.ext.admin import helpers, expose
-
-
+from flask.ext.admin import expose
 from flask.ext.admin.contrib.fileadmin import FileAdmin
 
 # Create customized index view class that handles login & registration
@@ -21,7 +17,7 @@ class FedoraModelView(sqla.ModelView):
                 return True
             else:
                 return False
-        except Exception as e:
+        except:
             return False
 
 
@@ -34,17 +30,27 @@ class FedoraFileView(FileAdmin):
                 return True
             else:
                 return False
-        except Exception as e:
+        except:
             return False
 
 
 class FedoraAdminIndexView(admin.AdminIndexView):
+
+    def is_accessible(self):
+        try:
+            groups = list(g.fas_user['groups'])
+            if len(groups) > 0:
+                return True
+            else:
+                return False
+        except:
+            return False
 
     @expose('/')
     def index(self):
         try:
             if g.fas_user.username:
                 return super(FedoraAdminIndexView, self).index()
-            return str(is_accessible())
+            return str(self.is_accessible())
         except:
             return "404"
