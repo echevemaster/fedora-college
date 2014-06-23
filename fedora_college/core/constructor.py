@@ -7,7 +7,6 @@ from flask_debugtoolbar import DebugToolbarExtension
 # for automatic bundle's register.
 from fedora_college.modules.auth import bundle as auth_bundle
 from fedora_college.modules.home import bundle as home_bundle
-from fedora_college.modules.admin import *
 from fedora_college.modules.api import bundle as api_bundle
 from fedora_college.modules.profile import bundle as profile_bundle
 from fedora_college.modules.content import bundle as content_bundle
@@ -15,7 +14,8 @@ from fedora_college.modules.search import bundle as search_bundle
 from fedora_college.core.database import db
 from fedora_college.core.models import Content, Media, UserProfile, Tags
 
-from flask.ext.admin.contrib.sqla import ModelView
+
+from fedora_college.modules.admin.views import *
 from flask.ext.admin import Admin
 
 
@@ -36,11 +36,18 @@ def build_app(app):
         whooshalchemy.whoosh_index(app, Content)
         whooshalchemy.whoosh_index(app, Media)
         DebugToolbarExtension(app)
-        admin = Admin(app)
-        admin.add_view(ModelView(UserProfile, db.session))
-        admin.add_view(ModelView(Media, db.session))
-        admin.add_view(ModelView(Content, db.session))
-        admin.add_view(ModelView(Tags, db.session))
+        admin = Admin(
+            app, 'Auth', index_view=FedoraAdminIndexView())
+        admin.add_view(FedoraModelView(UserProfile, db.session))
+        admin.add_view(FedoraModelView(Content, db.session))
+        admin.add_view(FedoraModelView(Media, db.session))
+        admin.add_view(FedoraModelView(Tags, db.session))
+        admin.add_view(
+            FedoraFileView(
+                current_app.config['STATIC_FOLDER'],
+                name='Static Files'
+            )
+        )
         current_app.config['fas'] = FAS(app)
 
 
