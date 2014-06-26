@@ -191,6 +191,7 @@ class Content(db.Model):
             return None
 
     def admedia(self, text):
+        out = []
         out = regex.findall(text)
         ids = ""
         for i in out:
@@ -200,7 +201,10 @@ class Content(db.Model):
                 text = text.replace("[[" + str(i) + "]]", " ")
             ids = ids + i + ","
 
-        return text, ids, out[0]
+        try:
+            return text, ids, out[0]
+        except:
+            return text, "", []
 
     def __init__(self, title, slug, description,
                  active, tags, user_id,
@@ -214,13 +218,15 @@ class Content(db.Model):
         self.tags = tags
         self.user_id = user_id
         self.html, self.media_added_ids, ids = self.admedia(description)
-        feature = Media.query.filter_by(media_id=ids).first_or_404()
-        self.thumb_url = feature.thumb_url
+        if len(ids) > 0:
+            feature = Media.query.filter_by(media_id=ids).first_or_404()
+            self.thumb_url = feature.thumb_url
 
     def rehtml(self):
         self.html, self.media_added_ids, ids = self.admedia(self.description)
-        feature = Media.query.filter_by(media_id=ids).first_or_404()
-        self.thumb_url = feature.thumb_url
+        if len(ids) > 0:
+            feature = Media.query.filter_by(media_id=ids).first_or_404()
+            self.thumb_url = feature.thumb_url
 
     def getdata(self):
         data = {}
@@ -298,36 +304,24 @@ class Comments(db.Model):
 
     comment_id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255))
-    parent = db.Column(db.Integer, default=0)
     date_added = db.Column(db.DateTime())
+    content_id = db.Column(db.Integer, db.ForeignKey(Content.content_id))
+    username = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
 
-    def __init__(self, text, parent, date_added):
+    def __init__(self, text, content_id):
         self.text = text
-        self.parent = parent
-        self.date_added = date_added
+        self.date_added = datetime.datetime.utcnow()
+        self.content_id = content_id
+        self.username = g.fas_user['username']
+
+    def getdata(self):
+        data = {}
+        data['id'] = self.comment_id
+        data['text'] = self.text
+        data['content_id'] = self.content_id
+        data['date_added'] = self.date_added
+        data['user'] = self.username
+        return data
 
     def __repr__(self):
         return '<Text %r>' % (self.text)
-
-
-class Comment_map_content(db.Model):
-    __tablename__ = 'commentsmap'
-
-    """
-    Will be used as relationship table to
-    map comments to media or content Items
-    """
-
-    comment_id = db.Column(db.Integer, db.ForeignKey(Comments.comment_id),
-                           primary_key=True)
-    content_id = db.Column(db.Integer, db.ForeignKey(Content.content_id),
-                           primary_key=True)
-    relation = ""
-
-    def __init__(self, comment_id, content_id):
-        self.comment_id = comment_id
-        self.content_id = content_id
-        self.relation = str(comment_id) + " " + str(content_id)
-
-    def __repr__(self):
-        return '<Relation %r>' % (self.relation)

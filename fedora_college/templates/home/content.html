@@ -3,6 +3,7 @@
      {{title}}
 {% endblock %}
 {% block content %}
+{% from "_formhelpers.html" import render_field %}
     <div class="row">
         <div class="large-12 columns">
         
@@ -14,8 +15,37 @@
                                {{ record.title }}
                                {{ record.html | safe }}
                                 Written By : {{record.user_id}} | Written on : {{record.date_added }} 
-                                <div class ="comments" >
+                    </div>
+                    <hr/>
+                    <div class ="comments row" >
+                        <h5>Comments</h5>
+                                <div class="large-12 columns">
+
+                                    {% for record in tree %}
+                                    <div class= "row">
+                                        <div class="large-8 columns">
+                                            {{record.text}}
+                                        </div>
+                                        <div class="large-4 columns">
+                                            {{ record.date_added }} |  {{record.username }}
+                                        </div>
+                                    <div><br/>
+                                    {% endfor %}
+                                    <hr/>
+                                    <form method="post" action="">
+                                      <fieldset>
+                                       <legend>
+
+                                       </legend>
+                                        {{form.hidden_tag()}} 
+                                        {{ render_field(form.text) }} 
+                                        {{ render_field(form.content_id ) }} 
+                                      </fieldset>
+                                      <input type="submit" class="button" value="Save"/>
+                                    </form>
                                 </div>
+
+                    
                     </div>
 
                 <br/>

@@ -14,7 +14,8 @@ from fedora_college.modules.profile import bundle as profile_bundle
 from fedora_college.modules.content import bundle as content_bundle
 from fedora_college.modules.search import bundle as search_bundle
 from fedora_college.core.database import db
-from fedora_college.core.models import Content, Media, UserProfile, Tags
+from fedora_college.core.models import Content, Media, UserProfile
+from fedora_college.core.models import Comments, Tags
 
 
 from fedora_college.modules.admin.views import FedoraModelView
@@ -46,6 +47,7 @@ def build_app(app):
         admin.add_view(FedoraModelView(Content, db.session))
         admin.add_view(FedoraModelView(Media, db.session))
         admin.add_view(FedoraModelView(Tags, db.session))
+        admin.add_view(FedoraModelView(Comments, db.session))
         admin.add_view(
             FedoraFileView(
                 current_app.config['STATIC_FOLDER'],
