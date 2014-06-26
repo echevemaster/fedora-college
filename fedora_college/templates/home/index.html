@@ -3,12 +3,12 @@
      {{title}}
 {% endblock %}
 {% block content %}
-     <div class="frame">
-        <div class = "frame" >
-            <div class="column-1">
+     <div class="row">
+        <div class = "row" >
+            <div class="large-12 columns">
                 {% for record in screen %}
-                        <div class="column-4">
-                            <div class="grid-1">
+                        <div class="large-4 columns">
+                            <div class="row">
                                 <b>{{record.title }}</b>:
 				<img src ="/{{record.thumb_url}} "/>
 				<br/>
@@ -19,12 +19,12 @@
                 {% endfor %}
             </div>
         </div>  
-        <div class = "frame">
+        <div class = "row">
             <h4>From Our Blog</h4>
-            <div class="column-1">
+            <div class="large-12 columns">
                 {% for record in posts %}
-                        <div class="column-4">
-                            <div class="grid-1">
+                        <div class="large-4 columns">
+                            <div class="row">
                                 <b>{{record.title }}</b>
                                 Tags : {{record.tags}}
                             </div>

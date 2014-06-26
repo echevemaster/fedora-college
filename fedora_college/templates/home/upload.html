@@ -3,16 +3,17 @@
      {{title}}
 {% endblock %}
 {% block content %}
-    <div class="col col-12 col-sm-12 col-lg-12">
-        {{content}}
-
-	<br/>
-	<br/>
-	<hr/>
-		 <form enctype="multipart/form-data" action="/api/upload" method="POST">
-		 Please choose a file: <input name="file" type="file" /><br />
-		 <input type="submit" value="Upload" />
-		 </form> 
-	<br/>
+ <div class = "row" >
+         <div class="large-12 columns">
+	         {{content}}
+			 <br/>
+			 <br/>
+			 <hr/>
+			 <form enctype="multipart/form-data" action="/api/upload" method="POST">
+				 Please choose a file: <input name="file" type="file" /><br />
+			 	 <input type="submit" value="Upload" />
+			 </form> 
+			 <br/>
+		 </div>
     </div>
 {% endblock %}
