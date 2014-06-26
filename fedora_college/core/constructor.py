@@ -3,8 +3,10 @@ from flask import current_app, g
 from flask_fas_openid import FAS
 import flask.ext.whooshalchemy as whooshalchemy
 from flask_debugtoolbar import DebugToolbarExtension
+
 # Imports only in development, in production we use Flask_Bundle
 # for automatic bundle's register.
+
 from fedora_college.modules.auth import bundle as auth_bundle
 from fedora_college.modules.home import bundle as home_bundle
 from fedora_college.modules.api import bundle as api_bundle
@@ -15,7 +17,9 @@ from fedora_college.core.database import db
 from fedora_college.core.models import Content, Media, UserProfile, Tags
 
 
-from fedora_college.modules.admin.views import *
+from fedora_college.modules.admin.views import FedoraModelView
+from fedora_college.modules.admin.views import FedoraFileView
+from fedora_college.modules.admin.views import FedoraAdminIndexView
 from flask.ext.admin import Admin
 
 
