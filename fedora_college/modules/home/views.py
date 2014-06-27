@@ -39,17 +39,28 @@ def index():
 @bundle.route('/about', methods=['GET', 'POST'])
 @bundle.route('/about/', methods=['GET', 'POST'])
 def about():
-    return render_template('home/index.html',
+    text = '''
+    Acts as a platform for new contributors
+    to engage with the community and learn
+    how they can contribute best in the community.
+    Mostly this service will be used to run online
+    courses on contributing at various levels be
+    it documentation, bug-fixing or packaging.
+    The project would certainly increase the
+    activeness in the community and certainly
+    make it easy for newer members to craft their
+    way around the fedora community. The use of
+    virtual classroom environment for training
+    new contributors to the community using
+    know educational resources by a
+    combination of written, images
+    and video content.
+    '''
+
+    return render_template('home/page.html',
+                           text=text,
                            title='About',
                            content='About Us')
-
-
-@bundle.route('/feedback', methods=['GET', 'POST'])
-@bundle.route('/feedback/', methods=['GET', 'POST'])
-def feedback():
-    return render_template('home/index.html',
-                           title='Feedback',
-                           content='Feedback')
 
 
 @bundle.route('/<slug>/', methods=['GET', 'POST'])

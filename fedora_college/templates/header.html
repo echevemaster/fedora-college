@@ -44,23 +44,20 @@
         <!--<a href="#" id="menu-icon"></a>-->
         <ul id="nav-left">
             <!-- MAIN NAVIGATION -->
-            {% if request.path.startswith('/admin') %}
-            <li id="indexTab"><a href="{{  url_for('admin.index') }}">Home</a></li>
-            <li id="ScreenCastsTab"><a href="{{  url_for('admin.screencast'  )}}">Add ScreenCast</a></li>
-            {% else %}
-            <li id="indexTab"><a href="{{url_for('home.index')}}">Home</a></li>
-            {% if g.fas_user.username %}
-            <li><a href="{{url_for('content.addcontent')}}">Create Content</a></li>
-            <li><a href="{{url_for('content.uploadmedia')}}">Add Media</a></li>
-            {% endif %}
-            <li><a href="{{url_for('content.displaymedia')}}">Media</a></li>
-            <li id="AboutTab"><a href="{{url_for('home.about')}}">About</a></li>
-            <li id="Blong"><a href="{{url_for('content.blog')}}">Blog</a></li>
-            <li id="FeedBack"><a href="{{url_for('home.feedback')}}">Feedback</a></li>
-            <li id="API"><a href="{{url_for('api.index')}}">API Documentation</a></li>
-            {% if is_admin %}
-            <li id="adminTab"><a href="{{  url_for('admin.index')}}">Admin</a></li>
-            {% endif %} {% endif %}
+           
+                <li id="indexTab"><a href="{{url_for('home.index')}}">Home</a></li>
+                {% if g.fas_user.username %}
+                   <li><a href="{{url_for('content.addcontent')}}">Add Content</a></li>
+                   <li><a href="{{url_for('content.uploadmedia')}}">Add Media</a></li>
+                {% endif %}
+                           
+                <li><a href="{{url_for('content.displaymedia')}}">All Media</a></li>
+                <li id="Blong"><a href="{{url_for('content.blog')}}">Blog</a></li>
+                <li id="AboutTab"><a href="{{url_for('home.about')}}">About</a></li>
+                <li id="API"><a href="{{url_for('api.docs')}}">API Documentation</a></li>
+                {% if is_admin %}
+                    <li id="adminTab"><a href="{{  url_for('admin.index')}}">Admin</a></li>
+                {% endif %} 
         </ul>
         <!-- end mainNav -->
     </nav>

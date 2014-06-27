@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %} Soluciones SAEF, C.A. - {{title}} {% endblock %}</title>
+  <title>{% block title %}{% endblock %} - Fedora College</title>
   
   {% block foundation_css %}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
@@ -21,10 +21,12 @@
   <div class="off-canvas-wrap" data-offcanvas>
     <div class="inner-wrap">
         {% include 'header.html' %}
+    <br/><br/>
      <section class="main-section">
         {% block content %}
         {% endblock %}
      </section>
+     {% include 'middle.html' %}
     <a class="exit-off-canvas"></a>
         {% include 'footer.html' %}
    </div>
