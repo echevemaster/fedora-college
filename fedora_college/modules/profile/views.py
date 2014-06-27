@@ -6,7 +6,6 @@ from fedora_college.core.database import db
 from fedora_college.modules.profile.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
 from flask.ext.babel import gettext
-from flask_fas_openid import fas_login_required
 
 
 bundle = Blueprint('profile', __name__, template_folder='templates',
@@ -66,7 +65,7 @@ def user(nickname):
     user = UserProfile.query. \
         filter_by(username=nickname).first()
     if user is None:
-        return jsonify({gettext('User'): str(nickname) + gettext('not found.')})
+        return jsonify({'User': str(nickname) + 'not found.'})
 
     data = [
         {'url': "xxxx", 'body': "Blog Articles"},

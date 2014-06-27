@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import re
-#import time
 from unicodedata import normalize
 from flask import Blueprint, render_template
 from flask import redirect, url_for, g, abort
@@ -8,7 +7,6 @@ from sqlalchemy import desc
 from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
-from flask_fas_openid import fas_login_required
 
 
 bundle = Blueprint('content', __name__, template_folder='templates')
