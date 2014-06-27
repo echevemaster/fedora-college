@@ -14,14 +14,14 @@ bundle = Blueprint('profile', __name__, template_folder='templates',
 
 def getuserdata():
     media = Media.query.filter_by(
-        user_id=g.fas_user['username']).order_by(
-            desc(Media.timestamp)).limit(10).all()
+        user_id=g.fas_user['username']).\
+        order_by(desc(Media.timestamp)).limit(10).all()
     comments = Comments.query.filter_by(
-        username=g.fas_user['username']).order_by(
-            desc(Comments.date_added)).limit(10).all()
+        username=g.fas_user['username']).\
+        order_by(desc(Comments.date_added)).limit(10).all()
     content = Content.query.filter_by(
-        user_id=g.fas_user['username']).order_by(
-            desc(Content.date_added)).limit(10).all()
+        user_id=g.fas_user['username']). \
+        order_by(desc(Content.date_added)).limit(10).all()
     return media, content, comments
 
 
