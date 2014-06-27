@@ -31,7 +31,6 @@ class DevelopmentConfig(Config):
     '''
     SQLALCHEMY_DATABASE_URI = "postgresql://" + \
         PGSQL_USER + ":" + PGSQL_PASS + "@localhost/" + PGSQL_DATABASE
-    
 
     SQLALCHEMY_ECHO = True
     DATABASE_CONNECT_OPTIONS = {}
