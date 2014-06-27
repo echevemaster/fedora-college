@@ -27,11 +27,12 @@
                                             {{record.text}}
                                         </div>
                                         <div class="large-4 columns">
-                                            {{ record.date_added }} |  {{record.username }}
+                                            {{ record.date_added }}   {{record.username }}
                                         </div>
                                     <div><br/>
                                     {% endfor %}
                                     <hr/>
+                                    {% if form %}
                                     <form method="post" action="">
                                       <fieldset>
                                        <legend>
@@ -43,6 +44,7 @@
                                       </fieldset>
                                       <input type="submit" class="button" value="Save"/>
                                     </form>
+                                    {% endif %}
                                 </div>
 
                     

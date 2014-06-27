@@ -31,10 +31,11 @@
                             </tr>
                         </tbody>
                     </table>
-
+                    {% if g.fas_user.username %}
                     <a  class="button"  href="/user/{{ g.fas_user.username }}/edit">Edit Profile</a>&nbsp;&nbsp;&nbsp;
                     <a class="button" href="{{  newtoken }}">Re-Generate Access Token </a> 
                                 <br/>
+                    {% endif %}
                 </div></div>
             </div>
         </div>

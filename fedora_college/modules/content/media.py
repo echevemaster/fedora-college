@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, abort
 from flask import url_for, g
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
 
 bundle = Blueprint('content', __name__, template_folder='templates')
+
+
+def authenticated():
+    return hasattr(g, 'fas_user') and g.fas_user
 
 
 @bundle.route('/media/view')
@@ -24,25 +28,30 @@ def displaymedia(mediaid=None):
 @bundle.route('/media/add/', methods=['GET', 'POST'])
 @bundle.route('/media/add', methods=['GET', 'POST'])
 def uploadmedia():
-    user = UserProfile.query. \
-        filter_by(username=g.fas_user['username']).first_or_404()
-    token = user.token
-    form_action = url_for('api.uploadvideo', token=token)
-    return render_template('media/uploadmedia.html',
-                           form_action=form_action,
-                           title="add media"
-                           )
+
+    if authenticated():
+        user = UserProfile.query. \
+            filter_by(username=g.fas_user['username']).first_or_404()
+        token = user.token
+        form_action = url_for('api.uploadvideo', token=token)
+        return render_template('media/uploadmedia.html',
+                               form_action=form_action,
+                               title="add media"
+                               )
+    abort(404)
 
 
 @bundle.route('/media/view/<mediaid>/revise')
 @bundle.route('/media/view/<mediaid>/revise/')
 def revisemedia(mediaid=None):
-    user = UserProfile.query. \
-        filter_by(username=g.fas_user['username']).first_or_404()
-    token = user.token
-    form_action = url_for('api.revisevideo',
-                          videoid=mediaid,
-                          token=token)
-    return render_template('media/revise.html',
-                           form_action=form_action,
-                           title="add media")
+    if authenticated():
+        user = UserProfile.query. \
+            filter_by(username=g.fas_user['username']).first_or_404()
+        token = user.token
+        form_action = url_for('api.revisevideo',
+                              videoid=mediaid,
+                              token=token)
+        return render_template('media/revise.html',
+                               form_action=form_action,
+                               title="add media")
+    abort(404)

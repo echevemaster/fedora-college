@@ -9,6 +9,10 @@ from fedora_college.modules.home.forms import *  # noqa
 bundle = Blueprint('home', __name__, template_folder='templates')
 
 
+def authenticated():
+    return hasattr(g, 'fas_user') and g.fas_user
+
+
 def getcommenttree(content_id):
     tree = []
     query = Comments.query.filter_by(
@@ -67,20 +71,29 @@ def about():
 @bundle.route('/<slug>', methods=['GET', 'POST'])
 def content(slug=None):
     pos = []
-
-    form = AddComment()
-    form_action = url_for('home.content', slug=slug)
-    if form.validate_on_submit():
-        query = Comments(form.text.data, form.content_id.data)
-        db.session.add(query)
-        db.session.commit()
-    posts = Content.query.filter_by(
-        slug=slug, type_content="lecture").first_or_404()
-    pos.append(posts)
-    tree = getcommenttree(posts.content_id)
-    return render_template('home/content.html',
-                           title='Lecture',
-                           content=pos,
-                           tree=tree,
-                           form=form,
-                           form_action=form_action,)
+    if authenticated():
+        form = AddComment()
+        form_action = url_for('home.content', slug=slug)
+        if form.validate_on_submit():
+            query = Comments(form.text.data, form.content_id.data)
+            db.session.add(query)
+            db.session.commit()
+        posts = Content.query.filter_by(
+            slug=slug, type_content="lecture").first_or_404()
+        pos.append(posts)
+        tree = getcommenttree(posts.content_id)
+        return render_template('home/content.html',
+                               title='Lecture',
+                               content=pos,
+                               tree=tree,
+                               form=form,
+                               form_action=form_action)
+    else:
+            posts = Content.query.filter_by(
+                slug=slug, type_content="lecture").first_or_404()
+            pos.append(posts)
+            tree = getcommenttree(posts.content_id)
+            return render_template('home/content.html',
+                                   title='Lecture',
+                                   content=pos,
+                                   tree=tree)
