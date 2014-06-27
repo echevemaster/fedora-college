@@ -24,7 +24,6 @@ class DevelopmentConfig(Config):
     PGSQL_USER = "postgres"
     PGSQL_PASS = "kgggdkp1992"
     PGSQL_DATABASE = "fedora"
-
     '''
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir,
                                                           'fedoracollege.db')
