@@ -5,66 +5,83 @@
         {% block content %}
         {% from "_formhelpers.html" import render_field %}
         <div class="row">
-        <div class="large-12 columns">
-            <div class="column-75">
-                <div class="blog">
-                    <h4>User's details</h4>
-<table>
-    <tbody>
-        <tr>
-            <td><strong>User Name:</strong></td>
-            <td>{{ user.username }}</td>
-        </tr>
-        <tr>
-            <td><strong>Website :</strong></td>
-            <td>{{user.website}}</td>
-        </tr>
-        <tr>
-            <td><strong>About:</strong></td>
-            <td>{{ user.about }}</td>
-        <tr>
-            <td><strong>Email:</strong></td>
-            <td>{{ user.email }}</td>
-        </tr>
-         <tr>
-            <td><strong>Token</strong></td>
-            <td>{{ user.token }}</td>
-        </tr>
-    </tbody>
-</table>
-
-            <a  class="button"  href="/user/{{ g.fas_user.username }}/edit">Edit Profile</a>&nbsp;&nbsp;&nbsp;
-            <a class="button" href="{{  newtoken }}">Re-Generate Access Token </a> 
-                        <br/>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-<div class="row">
             <div class="large-12 columns">
-                    {% for data in data %}
-                    <p>
-                        <div class="blog">
-                        	<a href="{{data.url}}">{{data.body}}</a>
-                        </div>
-                    </p>
-                    {% endfor %}           
-            </div>
-            <br/>
-        
-
-        <div class="large-12 columns">
-                <div class="column-1">
-                   {% for post in posts %}
-                    <p>
-                        <div class="blog">
-                        {{post.body}}
-                        </div>
-                    </p>
-                    {% endfor %}
+                <div class="large-6 columns">
+                        <h4>User's details</h4>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><strong>User Name:</strong></td>
+                                    <td>{{ user.username }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Website :</strong></td>
+                                    <td>{{user.website}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>About:</strong></td>
+                                    <td>{{ user.about }}</td>
+                                <tr>
+                                    <td><strong>Email:</strong></td>
+                                    <td>{{ user.email }}</td>
+                                </tr>
+                                 <tr>
+                                    <td><strong>Token</strong></td>
+                                    <td>{{ user.token }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% if g.fas_user.username %}
+                        <a  class="button"  href="/user/{{ g.fas_user.username }}/edit">Edit Profile</a>&nbsp;&nbsp;&nbsp;
+                        <a class="button" href="{{  newtoken }}">Re-Generate Access Token </a> 
+                                    <br/>
+                        {% endif    %}
                 </div>
+                <div class="large-6 columns">
+                     <h4>Media Added by user </h4>
+                        {% for media in medias %}
+                        <p>
+                            <div class="large-6 columns">
+                                <b>Media Name: </b>
+                                <a href="/media/view/{{media.media_id}}">
+                                    {{media.featured_name}}
+                                </a>
+                                <b>Tags :</b>{{media.tags}}
+                            </div>
+                        </p>
+
+                        <hr/>
+                        {% endfor %}           
+                </div>   
+            </div>   
+
+            <div class="large-12 columns"> 
+                <div class="large-6 columns">
+                    <h4>Content added by user </h4>
+                        {% for content in contents %}
+                        <p>
+                            <div class='large-6 columns'>
+                               <b>Title : </b> {{content.title}}<br/>
+                               <b> URL  : </b> <a href="/{{content.slug}}">{{content.slug}}</a>
+                               <b> Type : </b> {{content.type_content}}
+                            </div>
+                        </p>
+                        <hr/>
+                        {% endfor %}           
+                </div>
+                <div class="large-6 columns">
+                     <h4>Comments By user </h4>
+                     <table>
+                         <tbody>
+                             <tr>
+                         {% for comment in comments %}
+                             <td><b>Text </b>{{comment.text}}</td>
+                             <td><b>Added By </b>{{comment.username}}</td>
+                         {% endfor %}
+                             </tr>
+                         </tbody>
+                     </table>           
+                </div>
+            </div>
         </div>
-</div>
-</div>
         {% endblock %}

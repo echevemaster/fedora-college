@@ -8,24 +8,23 @@
 <script src="{{ url_for('static', filename='js/ckeditor/ckeditor.js') }}"></script>
 <div class="row">
   <div class="large-12 columns">
-        <div id="Create Content">
-                <h2> 
-                    {% if request.args.get('updated') %}
-                      {{request.args.get('updated')}}
-                      <hr/>
-                    {% endif %}
-                </h2>
-             <div class="frame">
+              <h2> 
+                {% if request.args.get('updated') %}
+                  {{request.args.get('updated')}}
+                  <hr/>
+                {% endif %}
+              </h2>
               <div class="row">
                 <div class="large-4 columns">
-                <div class="column-25"> 
 
                   <b>Search Media</b>
                   <form id="tfnewsearch" method="get" action="/media/search/" target="_blank">
                   <input type="text" name="var" size="21" maxlength="70"> 
                   <input type="submit" value="search" class="tfbutton">
                   </form>
-                          <h4> Ordered by last added </h4><br/>
+                  <br/>
+                  <h5> Ordered by last added </h5>
+                          <br/>
                           {% for record in media %}
                             <div class="sidebar">
                                 <table border="1" >
@@ -48,9 +47,8 @@
                             <br/>
                           {% endfor %}
                 </div>
-              </div>
-              <div class="large-8 columns">
-                <div class="column-75">
+                <div class="large-8 columns">
+             
                        <form method="post" action="">
                           <fieldset>
                            <legend>
@@ -76,13 +74,9 @@
                             
                           </fieldset>
                           <input type="submit" class="button" value="Save"/>
-                       </form>
+                       </form></div>
                 </div>
               </div>
-              </div>
-
-            
-        </div>
-      </div>
-    </div>
+  </div>
+</div>
         {% endblock %}

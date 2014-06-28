@@ -25,17 +25,17 @@ class DevelopmentConfig(Config):
     PGSQL_PASS = "kgggdkp1992"
     PGSQL_DATABASE = "fedora"
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir,
-                              'fedoracollege.db')
+                                                          'fedoracollege.db')
     '''
     SQLALCHEMY_DATABASE_URI = "postgresql://" + \
         PGSQL_USER + ":" + PGSQL_PASS + "@localhost/" + PGSQL_DATABASE
     '''
-
     SQLALCHEMY_ECHO = True
     DATABASE_CONNECT_OPTIONS = {}
     CSRF_ENABLED = True
     CSRF_SESSION_KEY = "f3do$a"
     UPLOADS_FOLDER = os.path.realpath('.') + '/fedora_college/static/uploads/'
+    STATIC_FOLDER = os.path.realpath('.') + '/fedora_college/static/'
     ALLOWED_EXTENSIONS = {
         'video': ['ogg', 'ogv'],
         'image': ['jpeg', 'png', 'jpg'],

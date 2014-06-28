@@ -8,15 +8,26 @@ Fedora College API
 ------------
 
 
-|    Endpoint    |                             Feature                           |                               Description                                                              |
+|    Endpoint (Read only)   |                             Feature                           |                               Description                                                              |
 |----------------|---------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| /api           | Home page , documentation                                     |  General api documentation and usage                                                                   |
-| /api/user/     | User profile, list users, get user by ID, name or email.      |  Get Information about the user and ability to edit and delete profiles. According to privilege level. |
+| /api  /api/docs         | Home page , documentation                                     |  General api documentation and usage                                                                   |
+| /api/profile/     | User profile, list users, get user by ID, name or email.      |  Get Information about the user  |
 | /api/media/    | media information, get media by ID, version , date , tags     |  Get information about the media content and publish revisions, edit information and delete media.     |
 | /api/content/  | content information, get content by ID, version , date , tags |  Get information about the content and publish revisions, edit information and delete content.         |
-| /api/comments/ | Get a thread, edits, add more, delete.                        |  Manage Comment stream                                                                                 |
-| /api/search    | by Tags , by author , media / content ID                      |  Offer an abstraction for easy searching.                                                              |
+| /api/search/< keyword >    | by Tags , by author , media / content ID                      |  Offer an abstraction for easy searching.                                                              |
 | /api/tags      | Add / remove tags                                             |  Manage tags.                                                                                          |
+| /api/tags/map/< tagid >      | Map tags to content                                             |  relate tags |
+
+
+
+ 
+
+|    Endpoint (Write)   |                             Feature                           |                               Description                                                              |
+|----------------|---------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+|/api/upload/< token >         | Upload content                                  |  POST, request. Upload media content.                                                                 |
+|/api/upload/delete/< videoid >/< token >     | Delete Content   | POST Delete media content. According to privilege level. |
+| /api/upload/revise/< videoid >/< token > | Upload content revisions | POST |
+
  
 
 Run
@@ -25,6 +36,15 @@ Run
 1. Create a directory "uploads" , in the static folder.
 2. Install oggvideotools (Not a python dependency)
 2. python fedora_college/main.py run
+
+
+
+Demo 
+------------
+
+You can find a demo here : http://engineerinme.com:5000
+
+If the demo is not working please create github issue in the repository.
 
 Build Status
 ------------

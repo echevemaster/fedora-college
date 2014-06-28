@@ -5,10 +5,10 @@
 {% block content %}
 
   
-    <div class="frame">
+    <div class="row">
            
-        <div class="frame">
-            <div class="column-25">
+        <div class="row">
+            <div class="large-4 columns">
             	<h3>File Names </h3><br/>
 				
 				<table border="1" >
@@ -16,42 +16,43 @@
             	{% for record in data %}
             	<tr>
             		<td>
+                        <p>Record Name : {{record.featured_name }}</p>
             			<a class= 'button-blue' href="{{url}}{{record.media_id}}">
             			&nbsp;&nbsp;&nbsp;&nbsp;	Media Id : {{record.media_id}}  &nbsp;&nbsp;&nbsp;&nbsp;
             			</a>
-            		</td>
-            	</tr>
 
-            	<tr>
-            		<td>
-            			&nbsp;&nbsp;
+
             		</td>
             	</tr>
 
             	{% endfor %}
             	</table>
             </div>
-           	<div class="column-75">
+           	<div class="large-8 columns">
+                <br/>
 	            {% for record in data %}
-	            <div class = 'column-1'>
-		                    <img src="/{{record.thumb_url}}" />
-		                    <h4>Record Name : {{record.name}}</h4>
-		                    <h4>Relative Url: 
-                                <a href="/{{record.content_url}}" style="font-color:#000;">
-                                    <b>View</b>
-                                </a>
-                            </h4>
-		                    <h4>File Type : {{record.file_type}}</h4>
-		                    <h4>System Path : {{record.sys_path}}</h4>
-		                    <h4>Added By : {{record.user_id}}</h4>
-		                    <h4>Added On : {{record.timestamp}}</h4>		                    
-		                    <h4>Revisions : {{ record.revise}}</h4>
-		                    <h4>
-		                    	<a class= 'button-blue' href="{{url}}{{record.media_id}}/revise" style="font-color:#000;">&nbsp;&nbsp;&nbsp; Revise &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a> | <a class= 'button-blue' href="{{url_delete}}{{record.media_id}}" style="font-color:#000;">
-		                    		&nbsp;&nbsp;&nbsp; Delete &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-		                    	</a>
-		                    </h4>
-		          </div> 
+                <div class='row'>
+    	            <div class = 'large-4 columns'>
+    		                    
+    		                    <p>Record Name : {{record.featured_name }}</p>
+    		                    <p>Relative Url: 
+                                    <a href="/{{record.content_url}}" style="font-color:#000;">
+                                        <b>View</b>
+                                    </a>
+                                </p>
+    		                    <p>File Type : {{record.file_type}}</p>
+    		                    <p>Added By : {{record.user_id}} | Added On : {{record.timestamp}}</p>		                    
+    		                    <p>Revisions : {{ record.revise}}</p>
+    		                    <p>
+    		                    	<a class= 'button [tiny small large]' href="{{url}}{{record.media_id}}/revise" style="font-color:#000;">&nbsp;&nbsp;&nbsp; Revise &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a><a class= 'button [tiny small large]' href="{{url_delete}}{{record.media_id}}" style="font-color:#000;">
+    		                    		&nbsp;&nbsp;&nbsp; Delete &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    		                    	</a>
+    		                    </p>
+    		        </div> 
+                    <div class = 'large-4 columns'>
+                        <img src="/{{record.thumb_url}}" />
+                    </div>
+                </div>
 		          <hr/>
 	             {% endfor %}
             </div> 

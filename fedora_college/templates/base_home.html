@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.css') }}">
   {% endblock %}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+  <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
   {% block css_custom %}
   
   {% endblock %}
@@ -20,10 +21,12 @@
   <div class="off-canvas-wrap" data-offcanvas>
     <div class="inner-wrap">
         {% include 'header.html' %}
+    <br/><br/>
      <section class="main-section">
         {% block content %}
         {% endblock %}
      </section>
+     {% include 'middle.html' %}
     <a class="exit-off-canvas"></a>
         {% include 'footer.html' %}
    </div>

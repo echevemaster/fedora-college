@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 import re
-#import time
 from unicodedata import normalize
 from flask import Blueprint, render_template
-from flask import redirect, url_for, g
+from flask import redirect, url_for, g, abort
 from sqlalchemy import desc
 from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
-from flask_fas_openid import fas_login_required
 
 
 bundle = Blueprint('content', __name__, template_folder='templates')
@@ -17,6 +15,10 @@ bundle = Blueprint('content', __name__, template_folder='templates')
 from fedora_college.modules.content.media import *  # noqa
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
+
+
+def authenticated():
+    return hasattr(g, 'fas_user') and g.fas_user
 
 
 def slugify(text, delim=u'-'):
@@ -52,53 +54,54 @@ def attach_tags(tags, content):
 @bundle.route('/content/add', methods=['GET', 'POST'])
 @bundle.route('/content/edit/<posturl>/', methods=['GET', 'POST'])
 @bundle.route('/content/edit/<posturl>', methods=['GET', 'POST'])
-@fas_login_required
 def addcontent(posturl=None):
-    form = CreateContent()
-    form_action = url_for('content.addcontent')
-    media = Media.query.order_by(desc(Media.timestamp)).limit(10).all()
-    if posturl is not None:
-        content = Content.query.filter_by(slug=posturl).first_or_404()
-        form = CreateContent(obj=content)
-        if form.validate_on_submit():
-            form.populate_obj(content)
-            tags = str(form.tags.data).split(',')
-            attach_tags(tags, content)
-            content.rehtml()
-            db.session.commit()
-            return redirect(url_for('content.addcontent',
-                                    posturl=posturl,
-                                    updated="Successfully updated")
-                            )
-    else:
-        if form.validate_on_submit():
-            url_name = slugify(form.title.data)
-            query = Content(form.title.data,
-                            url_name,
-                            form.description.data,
-                            form.active.data,
-                            form.tags.data,
-                            g.fas_user['username'],
-                            form.type_content.data
-                            )
-            tags = str(form.tags.data).split(',')
-            try:
-                db.session.add(query)
+    if authenticated():
+        form = CreateContent()
+        form_action = url_for('content.addcontent')
+        media = Media.query.order_by(desc(Media.timestamp)).limit(10).all()
+        if posturl is not None:
+            content = Content.query.filter_by(slug=posturl).first_or_404()
+            form = CreateContent(obj=content)
+            if form.validate_on_submit():
+                form.populate_obj(content)
+                tags = str(form.tags.data).split(',')
+                attach_tags(tags, content)
+                content.rehtml()
                 db.session.commit()
-                attach_tags(tags, query)
                 return redirect(url_for('content.addcontent',
-                                        posturl=url_name,
-                                        updated="Successfully updated",
-                                        media=media)
+                                        posturl=posturl,
+                                        updated="Successfully updated")
                                 )
-                # Duplicate entry
-            except Exception as e:
-                db.session.rollback()
-                print e
-                pass
-    return render_template('content/edit_content.html', form=form,
-                           form_action=form_action, title="Create Content",
-                           media=media)
+        else:
+            if form.validate_on_submit():
+                url_name = slugify(form.title.data)
+                query = Content(form.title.data,
+                                url_name,
+                                form.description.data,
+                                form.active.data,
+                                form.tags.data,
+                                g.fas_user['username'],
+                                form.type_content.data
+                                )
+                tags = str(form.tags.data).split(',')
+                try:
+                    db.session.add(query)
+                    db.session.commit()
+                    attach_tags(tags, query)
+                    return redirect(url_for('content.addcontent',
+                                            posturl=url_name,
+                                            updated="Successfully updated",
+                                            media=media)
+                                    )
+                    # Duplicate entry
+                except Exception as e:
+                    db.session.rollback()
+                    print e
+                    pass
+        return render_template('content/edit_content.html', form=form,
+                               form_action=form_action, title="Create Content",
+                               media=media)
+    abort(404)
 
 
 @bundle.route('/blog', methods=['GET', 'POST'])
