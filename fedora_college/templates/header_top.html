@@ -1,0 +1,127 @@
+<style>
+
+.top-bar {
+background: #2B5795;
+}
+
+.top-bar-section li:not(.has-form) a:not(.button) {
+padding: 0 15px;
+line-height: 45px;
+background: #2B5795;
+}
+
+.top-bar-section li.active:not(.has-form) a:not(.button) {
+padding: 0 15px;
+line-height: 45px;
+color: white;
+background: #2B5795;
+}
+
+.top-bar-section .dropdown li:not(.has-form) a:not(.button) {
+color: white;
+background: #2B5795;
+}
+
+</style>
+<header>
+    <div class="header">
+        <div class="row">
+            <div class="large-4 columns">
+                <a href="" id="logo">
+                </a>
+            </div>
+
+
+            <div class="large-3 columns">
+                <span id="nav-right">
+             
+                    <form id="tfnewsearch" method="get" action="{{url_for('search.search')}}">
+                            <div class="row collapse">
+                                <div class="small-10 columns">
+                                    <input type="text" class="tftextinput" name="var" size="21" maxlength="120">
+                                </div>
+                                <div clasS="small-2 columns">
+                                    <input type="submit" value="search" class="tfbutton">
+                                </div>
+                            </div>
+                    </form>
+
+                    <div class="tfclear"></div>
+                </span>
+            </div>
+        </div>
+    </div>
+
+        <nav class="top-bar" data-topbar data-options="sticky_on: large"> 
+
+            <ul class="title-area">
+            <li class="name">
+                
+            </li>
+             <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+        </ul>
+        <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <ul class="right">
+                <!-- MAIN NAVIGATION -->
+
+                <li id="indexTab"><a href="{{url_for('home.index')}}">Home</a>
+                </li>
+                {% if g.fas_user.username %}
+                <li class="has-dropdown">
+                    <a href="">Contribute Content</a>
+                    <ul class="dropdown">
+                      <li><a href="{{url_for('content.addcontent')}}">Add Content</a></li>
+                      <li><a href="{{url_for('content.uploadmedia')}}">Add Media</a></li>
+                    </ul>
+               
+                </li>
+                
+                {% endif %}
+
+                <li><a href="{{url_for('content.displaymedia')}}">All Media</a>
+                </li>
+                <li id="Blong"><a href="{{url_for('content.blog')}}">Blog</a>
+                </li>
+                <li id="AboutTab"><a href="{{url_for('home.about')}}">About</a>
+                </li>
+                <li id="API"><a href="{{url_for('api.docs')}}">API Documentation</a>
+                </li>
+                {% if is_admin %}
+                <li id="adminTab"><a href="{{  url_for('admin.index')}}">Admin</a>
+                </li>
+                {% endif %}
+            </ul>
+
+            <!-- Left Nav Section -->
+            <ul class="left">
+                {% if g.fas_user.username %}
+            <li class="active" >
+                
+                <a href="/user/{{ g.fas_user.username }}">
+                     Hello,{{ g.fas_user.username }}
+                </a>
+            </li>
+            <li>
+                <a href="/user/{{ g.fas_user.username }}/edit">
+                            Edit Profile
+                        </a>
+            </li>
+            <li>
+                <a href="{{ url_for('auth.auth_logout') }}" class="navbar-link">
+                            Log Out
+                        </a>
+            </li>
+            {% else %}
+            <li class="active">
+                <a href="{{ url_for('auth.auth_login') }}" class="navbar-link">
+                        Log In
+                    </a>
+            </li>
+            {% endif %}
+            </ul>
+        </section>
+    </nav>
+</div>
+</header>
