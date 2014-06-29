@@ -3,12 +3,11 @@
 import sys
 sys.path[0:0] = [""]
 import flask
-from flask.ext.script import Manager
 from flask.ext.babel import Babel
 from flask import request
 from fedora_college import metadata
 from fedora_college.core.constructor import (build_app as build_fedora,
-                                             create_db, drop_db, authenticated,
+                                             authenticated,
                                              logger, is_admin)
 
 
