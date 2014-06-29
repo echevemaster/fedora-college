@@ -1,13 +1,13 @@
 <VirtualHost *:80>
 		ServerName mywebsite.com
 		ServerAdmin admin@mywebsite.com
-		WSGIScriptAlias / /var/www/fedora-college/fedora_college.wsgi
-		<Directory /var/www/fedora-college/fedora_college/>
+		WSGIScriptAlias / /home/engineer/fedora-college/fedora_college.wsgi
+		<Directory /home/engineer/fedora-college/fedora_college/>
 			Order allow,deny
 			Allow from all
 		</Directory>
-		Alias /static /var/www/fedora-college/fedora_college/static
-		<Directory /var/www/fedora-college/fedora_college/static/>
+		Alias /static /home/engineer/fedora-college/fedora_college/static
+		<Directory /home/engineer/fedora-college/fedora_college/static/>
 			Order allow,deny
 			Allow from all
 		</Directory>
