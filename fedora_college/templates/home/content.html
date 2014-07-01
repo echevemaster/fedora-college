@@ -16,14 +16,17 @@
                                <h2>{{ record.title }}</h2>
                                <br/>
                                <b>
-                                        Written By : {{record.user_id}} | Written on : {{record.date_added }} 
-                                </b>
+                                    Written By : {{record.user_id}} | Written on : {{record.date_added }} 
+                               </b>
 
                         </div>
                                <hr/>
-                               {{ record.html | safe }}
-                                
+                                {{ record.html | safe }}
+                                  
                     </div>
+                    {% if record.user_id ==  g.fas_user.username %}
+                        <a href="{{ url_for('content.addcontent',posturl=record.slug) }}" class="button" > Edit Post </a>
+                    {% endif %}
                     <hr/>
                     <div class ="comments row panel" >
                         <h3>Comments</h3>
@@ -31,25 +34,19 @@
 
                                     {% for record in tree %}
                                         <div class= "row panel callout radius">
-                                            <div class="large-2 columns">
-                                                <img scr="http://placehold.it/75x75" />
-                                            </div>
-                                            <div class="large-4 columns">
-                                                <h4>{{record.text}}</h4>
-                                            </div>
-                                           
-                                            <div class="large-3 columns">
-                                                By : {{record.username }}
-                                            </div>
-                                            <div class="large-3 columns">
-                                                Data : {{ record.date_added }}
+                                            <div class="large-8 columns">
+                                            <p>
+                                               <img src="http://placehold.it/50x50&text={{record.username }}" />
+                                               <b> {{record.username }} &nbsp;</b> {{record.text}}                                            
+                                                <h6>Added : {{ record.date_added }}</h6>
+                                            </p>
                                             </div>
                                             <hr>
                                         <div>
-                                        <br/>
                                     {% endfor %}
-                                    <hr/>
                                     {% if form %}
+
+                                    <hr/>
                                     <form method="post" action="">
                                         <fieldset>
                                            <legend>
@@ -61,6 +58,8 @@
                                         </fieldset>
                                         <input type="submit" class="button" value="Save"/>
                                     </form>
+                                    {% else %}
+                                    <a href="/auth/login" class="button" > Login to Add comments </a>
                                     {% endif %}
                     </div>
 

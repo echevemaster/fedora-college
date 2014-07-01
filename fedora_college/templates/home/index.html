@@ -11,16 +11,12 @@
                 <h4>Recent Screencasts</h4>
                 {% for record in screen %}
 
-                        <div class="large-4 columns">
+                        <div class="large-3 columns">
                             <div class="panel radius callout" style="text-align: justify">
-                                <div class="row">
-                                    <p>
-                                        <a href="/{{record.slug}}" >
-                                        <b>{{record.title }}</b>
-                                        <br/>
-    				                    <img src ="/{{record.thumb_url}} "/>
-                                        </a> 
-                                    </p>
+                                <a href="/{{record.slug}}" >
+                                <h6>{{record.title }}</h6>
+    				            <img src ="/{{record.thumb_url}} "/>
+                                </a> 
                                 </div>
                             </div>
                         </div>     

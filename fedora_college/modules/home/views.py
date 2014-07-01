@@ -28,10 +28,10 @@ def getcommenttree(content_id):
 @bundle.route('/home/', methods=['GET', 'POST'])
 def index():
     posts = Content.query. \
-        filter_by(type_content="blog").all()
+        filter_by(type_content="blog", active=True).all()
 
     screen = Content.query. \
-        filter_by(type_content="lecture").all()
+        filter_by(type_content="lecture", active=True).all()
 
     return render_template('home/index.html',
                            title='Home',

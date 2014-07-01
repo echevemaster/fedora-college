@@ -23,8 +23,6 @@ def authenticated():
 
 def slugify(text, delim=u'-'):
     """Generates an slightly worse ASCII-only slug."""
-    #stri = (time.strftime("%d/%m/%Y"))
-    #text = stri + "-" + text
     result = []
     for word in _punct_re.split(text.lower()):
         word = normalize('NFKD', word).encode('ascii', 'ignore')
@@ -68,10 +66,7 @@ def addcontent(posturl=None):
                 attach_tags(tags, content)
                 content.rehtml()
                 db.session.commit()
-                return redirect(url_for('content.addcontent',
-                                        posturl=posturl,
-                                        updated="Successfully updated")
-                                )
+                return redirect(url_for('home.content', slug=posturl))
         else:
             if form.validate_on_submit():
                 url_name = slugify(form.title.data)
@@ -88,11 +83,7 @@ def addcontent(posturl=None):
                     db.session.add(query)
                     db.session.commit()
                     attach_tags(tags, query)
-                    return redirect(url_for('content.addcontent',
-                                            posturl=url_name,
-                                            updated="Successfully updated",
-                                            media=media)
-                                    )
+                    return redirect(url_for('home.content', slug=url_name))
                     # Duplicate entry
                 except Exception as e:
                     db.session.rollback()
