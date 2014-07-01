@@ -9,7 +9,7 @@ from flask import request, current_app
 from fedora_college.core.models import Media
 from fedora_college.core.database import db
 
-size = (120, 120)
+size = (125, 200)
 
 '''for documentation'''
 

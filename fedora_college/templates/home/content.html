@@ -12,26 +12,37 @@
         {% for record in content %}
                 <hr/>
                     <div class="blog">
-                               {{ record.title }}
+                        <div class="panel" >
+                               <h2>{{ record.title }}</h2>
+                               <br/>
+                               <b>
+                                        Written By : {{record.user_id}} | Written on : {{record.date_added }} 
+                                </b>
+
+                        </div>
+                               <hr/>
                                {{ record.html | safe }}
-                                Written By : {{record.user_id}} | Written on : {{record.date_added }} 
+                                
                     </div>
                     <hr/>
-                    <div class ="comments row" >
-                        <h5>Comments</h5>
+                    <div class ="comments row panel" >
+                        <h3>Comments</h3>
                                 <div class="large-12 columns">
 
                                     {% for record in tree %}
-                                        <div class= "row">
+                                        <div class= "row panel callout radius">
                                             <div class="large-2 columns">
                                                 <img scr="http://placehold.it/75x75" />
                                             </div>
-                                            <div class="large-6 columns">
-                                                {{record.text}}
+                                            <div class="large-4 columns">
+                                                <h4>{{record.text}}</h4>
                                             </div>
                                            
-                                            <div class="large-4 columns">
-                                                {{ record.date_added }}   {{record.username }}
+                                            <div class="large-3 columns">
+                                                By : {{record.username }}
+                                            </div>
+                                            <div class="large-3 columns">
+                                                Data : {{ record.date_added }}
                                             </div>
                                             <hr>
                                         <div>
@@ -40,15 +51,15 @@
                                     <hr/>
                                     {% if form %}
                                     <form method="post" action="">
-                                      <fieldset>
-                                       <legend>
+                                        <fieldset>
+                                           <legend>
 
-                                       </legend>
-                                        {{form.hidden_tag()}} 
-                                        {{ render_field(form.text) }} 
-                                <input id="content_id" name="content_id" type="hidden" value="{{record.content_id}}">
-                                      </fieldset>
-                                      <input type="submit" class="button" value="Save"/>
+                                           </legend>
+                                            {{form.hidden_tag()}} 
+                                            {{ render_field(form.text) }} 
+                                            <input id="content_id" name="content_id" type="hidden" value="{{record.content_id}}">
+                                        </fieldset>
+                                        <input type="submit" class="button" value="Save"/>
                                     </form>
                                     {% endif %}
                     </div>

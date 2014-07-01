@@ -12,7 +12,7 @@ class Config(object):
     ADMIN_GROUP = 'provenpackager'
     WHOOSH_BASE = os.path.join(basedir, 'search')
     DEBUG_TB_PROFILER_ENABLED = False
-    DEBUG_TB_INTERCEPT_REDIRECTS = False.
+    DEBUG_TB_INTERCEPT_REDIRECTS = False
 
 
 class ProductionConfig(Config):

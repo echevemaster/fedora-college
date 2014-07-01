@@ -14,10 +14,13 @@
                         <div class="large-4 columns">
                             <div class="panel radius callout" style="text-align: justify">
                                 <div class="row">
-                                        <b>{{record.title }}</b>:
+                                    <p>
+                                        <a href="/{{record.slug}}" >
+                                        <b>{{record.title }}</b>
+                                        <br/>
     				                    <img src ="/{{record.thumb_url}} "/>
-    				                    <br/>Tags : {{record.tags}}<br/>
-                                        <a href="/{{record.slug}}" > Read More </a> 
+                                        </a> 
+                                    </p>
                                 </div>
                             </div>
                         </div>     
