@@ -21,6 +21,7 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEBUG = True
     SECRET_KEY = 'FEDORA-DEMO'
+    #SERVER_NAME = 'demo.engineerinme.com'
     PGSQL_USER = "postgres"
     PGSQL_PASS = "kgggdkp1992"
     PGSQL_DATABASE = "fedora"
