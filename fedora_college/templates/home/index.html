@@ -28,7 +28,7 @@
                 <h4>Latest Blog Posts</h4>
                 {% for record in posts %}
                 <div class="large-3 columns">
-                            <div class="panel radius callout" style="text-align: justify">
+                            <div class="panel radius" style="text-align: justify">
                                 <a href="{{ url_for('content.blog',slug=record.slug ) }}" >
                                 <h6>{{record.title }}</h6>
                                     <b>Tags : {{record.tags}}</b>
