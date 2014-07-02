@@ -101,6 +101,13 @@ def addcontent(posturl=None):
 @bundle.route('/blog/<slug>', methods=['GET', 'POST'])
 def blog(slug=None):
     if slug is not None:
+
+        screen = Content.query. \
+            filter_by(
+                type_content="lecture",
+                active=True
+            ).limit(10).all()
+
         try:
             posts = Content.query. \
                 filter_by(slug=slug).all()
@@ -114,4 +121,6 @@ def blog(slug=None):
             posts = "Databse is empty"
     return render_template('blog/index.html',
                            title='Blog',
-                           content=posts)
+                           content=posts,
+                           screen=screen
+                           )
