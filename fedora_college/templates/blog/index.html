@@ -4,39 +4,38 @@
 {% endblock %}
 {% block content %}
     <div class="row">
-        <div class="large-3 columns">
-            <h3> Recent Screencast </h3>
-            {% for record in screen %}
+        <div claas="large-12 columns">
+            <div class="large-3 columns">
+                <h3> Recent Screencast </h3>
+                {% for record in screen %}
 
-                        <div class="large-3 columns">
-                            <div class="panel radius callout" style="text-align: justify">
-                                <a href="/{{record.slug}}" >
-                                <h6>{{record.title }}</h6>
-                                <img src ="/{{record.thumb_url}} "/>
-                                </a> 
+                                <div class="panel radius callout" style="text-align: justify">
+                                    <a href="/{{record.slug}}" >
+                                    <h6>{{record.title }}</h6>
+                                    <img src ="/{{record.thumb_url}} "/>
+                                    </a> 
                                 </div>
-                            </div>
-                        </div>     
 
-            {% endfor %}
+                {% endfor %}
 
-        </div>
-        <div class="large-9 columns">
-    {% for record in content %}
-            
-            <hr/>
-                <div class="panel radius" style="text-align: justify" >
-                       <h3> {{ record.title }}</h3>
-                        <br/>
-                           {{ record.html | safe }}
-                        <br/>
-                           <h5> Written By : {{record.user_id}} | Written on : {{record.date_added }} </h5>
-
-                </div>
-                <br/>
+            </div>
+            <div class="large-9 columns">
+             {% for record in content %}
                 
-       
-            {% endfor %}
-         </div>
+                <hr/>
+                    <div class="panel radius" style="text-align: justify" >
+                           <h3> {{ record.title }}</h3>
+                            <br/>
+                               {{ record.html | safe }}
+                            <br/>
+                               <h5> Written By : {{record.user_id}} | Written on : {{record.date_added }} </h5>
+
+                    </div>
+                    <br/>
+                    
+           
+                {% endfor %}
+             </div>
+        </div>
      </div>
 {% endblock %}
