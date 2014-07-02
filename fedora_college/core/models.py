@@ -307,7 +307,6 @@ class Comments(db.Model):
     date_added = db.Column(db.DateTime())
     content_id = db.Column(db.Integer, db.ForeignKey(Content.content_id))
     username = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
-    comment_id = db.Column(db.Integer)
 
     def __init__(self, text, content_id):
         self.text = text
