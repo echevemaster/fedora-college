@@ -35,6 +35,7 @@ colorama==0.2.5
 pymysql
 flask-sqlalchemy
 flask-script
+Flask-AutoIndex
 flask-openid
 flask-babel
 Flask-WhooshAlchemy

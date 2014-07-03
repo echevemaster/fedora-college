@@ -35,7 +35,6 @@ def testMedia():
             filter_by(user_id=g.fas_user['username']).first()
         return jsonify(media.getdata())
     except Exception as e:
-        print e
         return "None"
 
 
@@ -56,15 +55,11 @@ def after_auth():
     try:
         user = UserProfile.query. \
             filter_by(username=g.fas_user['username']).first()
-        print user.getdata()
-        #return jsonify(user.getdata())
         return redirect(url_for('profile.user',
                         nickname=g.fas_user['username'])
                         )
 
     except Exception as e:
-        print e
-        # return jsonify(g.fas_user)
         groups = g.fas_user['groups']
         if len(groups) > 0:
             user_type = "author"
