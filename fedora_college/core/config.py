@@ -31,9 +31,9 @@ class ProductionConfig(Config):
     DATABASE_CONNECT_OPTIONS = {}
     CSRF_ENABLED = True
     CSRF_SESSION_KEY = "f3do$a"
-    UPLOADS_FOLDER = '/home/hammad/Desktop/fedora-college/' + \
+    UPLOADS_FOLDER = '/home/engineer/fedora-college/' + \
         'fedora_college/static/uploads/'
-    STATIC_FOLDER = '/home/hammad/Desktop/fedora-college/fedora_college/static'
+    STATIC_FOLDER = '/home/engineer/fedora-college/fedora_college/static'
     ALLOWED_EXTENSIONS = {
         'video': ['ogg', 'ogv'],
         'image': ['jpeg', 'png', 'jpg'],
