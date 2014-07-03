@@ -11,6 +11,12 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.css') }}">
   {% endblock %}
+  <script src="{{ url_for('static', filename='js/highlight.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/highlightjs.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/sunburst.css') }}">
+
+  <script>hljs.initHighlightingOnLoad();</script>
+
   <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
   <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
   {% block css_custom %}

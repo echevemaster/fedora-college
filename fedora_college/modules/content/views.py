@@ -66,6 +66,9 @@ def addcontent(posturl=None):
                 attach_tags(tags, content)
                 content.rehtml()
                 db.session.commit()
+                if content.type_content == "blog":
+                    print url_for('content.blog', slug=posturl)
+                    return redirect(url_for('content.blog', slug=posturl))
                 return redirect(url_for('home.content', slug=posturl))
         else:
             if form.validate_on_submit():
@@ -83,11 +86,12 @@ def addcontent(posturl=None):
                     db.session.add(query)
                     db.session.commit()
                     attach_tags(tags, query)
+                    if query.type_content == "blog":
+                        return redirect(url_for('content.blog', slug=posturl))
                     return redirect(url_for('home.content', slug=url_name))
                     # Duplicate entry
                 except Exception as e:
                     db.session.rollback()
-                    print e
                     pass
         return render_template('content/edit_content.html', form=form,
                                form_action=form_action, title="Create Content",
@@ -107,12 +111,6 @@ def blog(slug=None):
         ).limit(10).all()
 
     if slug is not None:
-
-        screen = Content.query. \
-            filter_by(
-                type_content="lecture",
-                active=True
-            ).limit(10).all()
 
         try:
             posts = Content.query. \
