@@ -99,7 +99,13 @@ def addcontent(posturl=None):
 @bundle.route('/blog/', methods=['GET', 'POST'])
 @bundle.route('/blog/<slug>/', methods=['GET', 'POST'])
 @bundle.route('/blog/<slug>', methods=['GET', 'POST'])
-def blog(slug=None):
+def blog(slug=None): 
+    screen = Content.query. \
+            filter_by(
+                type_content="lecture",
+                active=True
+            ).limit(10).all()
+
     if slug is not None:
 
         screen = Content.query. \

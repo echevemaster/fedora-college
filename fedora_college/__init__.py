@@ -2,19 +2,19 @@
 # -*- coding: utf-8 -*-
 import sys
 sys.path[0:0] = [""]
-import flask
+from flask import Flask
 from flask.ext.babel import Babel
 from flask import request
-from fedora_college import metadata
+#from fedora_college import metadata
 from fedora_college.core.constructor import (build_app as build_fedora,
                                              authenticated,
                                              logger, is_admin)
 
 
-__version__ = metadata.version
-__author__ = metadata.authors[0]
-__license__ = metadata.license
-__copyright__ = metadata.copyright
+#__version__ = metadata.version
+#__author__ = metadata.authors[0]
+#__license__ = metadata.license
+#__copyright__ = metadata.copyright
 
 
 LANGUAGES = {
@@ -23,9 +23,17 @@ LANGUAGES = {
 }
 
 
-app = flask.Flask(__name__)
+def build_app(app):
+    build_fedora(app)
+    authenticated()
+    logger(app)
+    is_admin(app)
+    return app
+
+
+apps = Flask(__name__)
 #manager = Manager(app)
-babel = Babel(app)
+babel = Babel(apps)
 
 
 @babel.localeselector
@@ -33,13 +41,8 @@ def get_locale():
     return request.accept_languages.best_match(LANGUAGES.keys())
 
 
-def build_app():
-    build_fedora(app)
-    authenticated()
-    logger(app)
-    is_admin(app)
-
-
+app = build_app(apps)
+ 
 @app.context_processor
 def inject_variables():
     user_admin = is_admin(app)
@@ -66,6 +69,7 @@ def run():
     app.run(debug=True, host='0.0.0.0')
 '''
 if __name__ == '__main__':
-    build_app()
-    is_admin(app)
-    app.run(debug=True, host='0.0.0.0')
+    #build_app(app)
+    #is_admin(app)
+    app.run()
+    #app.run(debug=True, host='0.0.0.0')
