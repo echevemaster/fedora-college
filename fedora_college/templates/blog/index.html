@@ -7,6 +7,11 @@
         <div claas="large-12 columns">
             <div class="large-3 columns">
                 <h3> Recent Screencast </h3>
+                {% if not screen%}
+                    <h5>
+                     No Screens added 
+                    </h5>
+                {% endif %}
                 {% for record in screen %}
 
                                 <div class="panel radius callout" style="text-align: justify">
@@ -35,7 +40,14 @@
                     
            
                 {% endfor %}
-             </div>
+            
+         <ul class="pagination">
+                          <li><a href="{{ url_for('content.blog',id=id-5)}}">Previous</a></li>
+                          <li class="current"><a href="">{{id}}</a></li>
+                          <li><a href="{{ url_for('content.blog',id=id+5)}}">Next</a></li>
+        </ul>
+
+        </div>
         </div>
      </div>
 {% endblock %}

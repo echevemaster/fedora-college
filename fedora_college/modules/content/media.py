@@ -15,14 +15,27 @@ def authenticated():
 @bundle.route('/media/view/')
 @bundle.route('/media/view/<mediaid>')
 @bundle.route('/media/view/<mediaid>/')
-def displaymedia(mediaid=None):
+@bundle.route('/media/view/page/<id>')
+@bundle.route('/media/view/page/<id>/')
+def displaymedia(mediaid=None, id=0):
     url = url_for('content.displaymedia')
     if mediaid is not None:
-        media = Media.query.filter_by(media_id=mediaid).all()
-        return render_template('media/index.html', data=media, url=url)
+            media = Media.query.filter_by(media_id=mediaid).limit(10).all()
+            return render_template('media/index.html', data=media, url=url)
     else:
-        media = Media.query.all()
-        return render_template('media/index.html', data=media, url=url)
+        lists = Media.query.all()
+        id = int(id)
+        if id > 0:
+            media = lists[id:id + 10]
+        else:
+            id = 0
+            media = lists[0:10]
+        return render_template(
+            'media/index.html', data=media,
+            lists=lists,
+            url=url,
+            id=id
+        )
 
 
 @bundle.route('/media/add/', methods=['GET', 'POST'])

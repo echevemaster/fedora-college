@@ -90,7 +90,7 @@ def addcontent(posturl=None):
                         return redirect(url_for('content.blog', slug=posturl))
                     return redirect(url_for('home.content', slug=url_name))
                     # Duplicate entry
-                except Exception as e:
+                except Exception:
                     db.session.rollback()
                     pass
         return render_template('content/edit_content.html', form=form,
@@ -103,7 +103,10 @@ def addcontent(posturl=None):
 @bundle.route('/blog/', methods=['GET', 'POST'])
 @bundle.route('/blog/<slug>/', methods=['GET', 'POST'])
 @bundle.route('/blog/<slug>', methods=['GET', 'POST'])
-def blog(slug=None):
+@bundle.route('/blog/page/<id>', methods=['GET', 'POST'])
+@bundle.route('/blog/page/<id>', methods=['GET', 'POST'])
+def blog(slug=None, id=0):
+
     screen = Content.query. \
         filter_by(
             type_content="lecture",
@@ -118,13 +121,19 @@ def blog(slug=None):
         except:
             posts = "No such posts in database."
     else:
+        id = int(id)
         try:
             posts = Content.query. \
                 filter_by(type_content="blog").all()
+            if id > 0:
+                posts = posts[id-1:id+5]
+            else:
+                posts = posts[0:5]
         except:
-            posts = "Databse is empty"
+            posts = []
     return render_template('blog/index.html',
                            title='Blog',
                            content=posts,
-                           screen=screen
+                           screen=screen,
+                           id=id
                            )

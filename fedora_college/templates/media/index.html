@@ -8,21 +8,26 @@
     <div class="row">
            
         <div class="row">
-            <div class="large-4 columns">
-            	<h3>File Names </h3><br/>
+            <div class="large-4 columns panel">
+            	<h4>Recently Added</h4><br/>
 				
 				<table border="1" >
-
-            	{% for record in data %}
+                <tr>
+                    <td><b>&nbsp;&nbsp;&nbsp;&nbsp;Name &nbsp;&nbsp;&nbsp;&nbsp; </b>
+                    </td>
+                    <td><b>&nbsp;&nbsp;&nbsp;&nbsp;Media ID&nbsp;&nbsp;&nbsp;&nbsp;</b>
+                    </td>
+                </tr>
+            	{% for record in lists %}
             	<tr>
             		<td>
-                        <p>Record Name : {{record.featured_name }}</p>
-            			<a class= 'button-blue' href="{{url}}{{record.media_id}}">
-            			&nbsp;&nbsp;&nbsp;&nbsp;	Media Id : {{record.media_id}}  &nbsp;&nbsp;&nbsp;&nbsp;
-            			</a>
-
-
+                       {{record.featured_name }}
             		</td>
+                    <td>
+                        <a class= 'button-blue' href="{{url}}{{record.media_id}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;  {{record.media_id}}  &nbsp;&nbsp;&nbsp;&nbsp;
+                        </a>
+                    </td>
             	</tr>
 
             	{% endfor %}
@@ -30,9 +35,11 @@
             </div>
            	<div class="large-8 columns">
                 <br/>
+                {% if not data %}
+                <center><h3>No Records Found</h3></center>
+                {% endif %}
 	            {% for record in data %}
-                <div class='row'>
-    	            <div class = 'large-4 columns'>
+    	            <div class = 'panel radius callout'>
     		                    
     		                    <p>Record Name : {{record.featured_name }}</p>
     		                    <p>Relative Url: 
@@ -40,23 +47,28 @@
                                         <b>View</b>
                                     </a>
                                 </p>
+                                <img src="/{{record.thumb_url}}" />
     		                    <p>File Type : {{record.file_type}}</p>
     		                    <p>Added By : {{record.user_id}} | Added On : {{record.timestamp}}</p>		                    
     		                    <p>Revisions : {{ record.revise}}</p>
     		                    <p>
-    		                    	<a class= 'button [tiny small large]' href="{{url}}{{record.media_id}}/revise" style="font-color:#000;">&nbsp;&nbsp;&nbsp; Revise &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a><a class= 'button [tiny small large]' href="{{url_delete}}{{record.media_id}}" style="font-color:#000;">
+    		                    	<a class= 'button [tiny small large]' href="{{url}}{{record.media_id}}/revise" style="font-color:#000;">&nbsp;&nbsp;&nbsp; Revise &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                    &nbsp;&nbsp;
+                                    <a class= 'button [tiny small large]' href="{{url_delete}}{{record.media_id}}" style="font-color:#000;">
     		                    		&nbsp;&nbsp;&nbsp; Delete &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     		                    	</a>
     		                    </p>
-    		        </div> 
-                    <div class = 'large-4 columns'>
-                        <img src="/{{record.thumb_url}}" />
-                    </div>
-                </div>
-		          <hr/>
-	             {% endfor %}
+    		        </div>
+	             {% endfor %}       
             </div> 
         </div> 
+        <center>
+            <ul class="pagination">
+                          <li><a href="{{ url_for('content.displaymedia',id=id-10)}}">Previous</a></li>
+                          <li class="current"><a href="">{{id}}</a></li>
+                          <li><a href="{{ url_for('content.displaymedia',id=id+10)}}">Next</a></li>
+            </ul>
+        </center>
     </div>
 
                

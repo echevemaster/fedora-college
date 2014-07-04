@@ -4,9 +4,27 @@
 {% endblock %}
 {% block content %}
     <div class="row">
-        <div class="large-4 columns">        
-        </div>
-        <div class="large-8 columns">
+        <center>
+            <form id="tfnewsearch" method="get" action="/search/">
+                <div class="row collapse">
+                    <div class="small-10 columns">
+                        <input type="text" class="tftextinput" name="var" size="21" maxlength="120">
+                    </div>
+                    <div class="small-2 columns">
+                        <input type="submit" value="search" class="tfbutton">
+                    </div>
+                </div>
+            </form>
+        </center>
+        <div class="large-12 columns">
+            {% if not lecture %}
+            <h5>
+                No screenCast Found 
+            </h5>
+            <hr/>
+            {% else %}
+            <h3> ScreenCast </h3>
+            {% endif %}
             {% for record in lecture %}
                     <hr/>
                         <div class="blog">
@@ -19,6 +37,14 @@
 
                     <br/>
             {% endfor %}
+            {% if not blog %}
+            <h5>
+                No Blog Found 
+            </h5>
+            {% else %}
+            <h3> Blog Post </h3>
+            {% endif %}
+
             {% for record in blog %}
                     <hr/>
                         <div class="blog">
@@ -28,9 +54,29 @@
                                     <div class ="comments" >
                                     </div>
                         </div>
-
                     <br/>
             {% endfor %}
+            <br/><br/>
+            <hr/>
+            <center>
+                <ul class="pagination">
+                            <li>
+                                <a href="{{ url_for('search.search',id=id-5,keyword=keyword)}}">
+                                    Previous
+                                </a>
+                            </li>
+                            <li class="current">
+                                    <a href="">
+                                        {{id}}
+                                    </a>
+                            <li>
+                            <li>
+                                <a href="{{ url_for('search.search',id=id+5,keyword=keyword)}}">
+                                Next
+                                </a>
+                            </li>
+                </ul>
+            </center>
         </div>
     </div>
 {% endblock %}
