@@ -34,14 +34,21 @@
                                {{ record.html | safe }}
                             <br/>
                                <h5> Written By : {{record.user_id}} | Written on : {{record.date_added }} </h5>
+                    <br/><br/>
+                    <a href="{{ url_for('content.blog',slug=record.slug) }}" class="button" >
+                      Read More
+                    </a>
 
-                    </div>
-                    <br/>
-                    
+                    {% if record.user_id ==  g.fas_user.username %}
+                      <a href="{{ url_for('content.addcontent',posturl=record.slug) }}" class="button" >
+                         Edit Blog
+                      </a>
+                    {% endif %}
+                    </div>                   
            
                 {% endfor %}
             
-         <ul class="pagination">
+        <ul class="pagination">
                           <li><a href="{{ url_for('content.blog',id=id-5)}}">Previous</a></li>
                           <li class="current"><a href="">{{id}}</a></li>
                           <li><a href="{{ url_for('content.blog',id=id+5)}}">Next</a></li>
