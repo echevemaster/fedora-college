@@ -106,7 +106,7 @@ def addcontent(posturl=None):
 @bundle.route('/blog/page/<id>', methods=['GET', 'POST'])
 @bundle.route('/blog/page/<id>', methods=['GET', 'POST'])
 def blog(slug=None, id=0):
-
+    id = int(id)
     screen = Content.query. \
         filter_by(
             type_content="lecture",
@@ -121,12 +121,11 @@ def blog(slug=None, id=0):
         except:
             posts = "No such posts in database."
     else:
-        id = int(id)
         try:
             posts = Content.query. \
                 filter_by(type_content="blog").all()
             if id > 0:
-                posts = posts[id-1:id+5]
+                posts = posts[id - 1:id + 5]
             else:
                 posts = posts[0:5]
         except:
