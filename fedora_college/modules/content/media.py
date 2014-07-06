@@ -18,6 +18,7 @@ def authenticated():
 @bundle.route('/media/view/page/<id>')
 @bundle.route('/media/view/page/<id>/')
 def displaymedia(mediaid=None, id=0):
+    id = int(id)
     url = url_for('content.displaymedia')
     if mediaid is not None:
             media = Media.query.filter_by(media_id=mediaid).limit(10).all()
