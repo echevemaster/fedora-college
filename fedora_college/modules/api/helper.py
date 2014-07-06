@@ -93,6 +93,15 @@ def delete(username, videoid, edit=None):
         return {'status': 'Unauthorized'}
 
 
+# Generator to buffer file chunks
+def fbuffer(f, chunk_size=10000):
+    while True:
+        chunk = f.read(chunk_size)
+        if not chunk:
+            break
+        yield chunk
+
+
 def upload(username):
     data = {}
     ext = current_app.config['ALLOWED_EXTENSIONS']
@@ -117,10 +126,13 @@ def upload(username):
             has.update(str(secure_filename(f.filename)))
             filename = str(time.time())
             filename += has.hexdigest() + "." + str(last)
-
             if proceed is True:
                 try:
-                    f.save(os.path.join(upload_folder, filename))
+                    out = open(
+                        os.path.join(upload_folder, filename), 'wb', 10000)
+                    for chunk in fbuffer(f.stream):
+                        out.write(chunk)
+                    out.close()
                 except Exception as e:
                     return {'status': "Error", 'error': str(e)}
 
