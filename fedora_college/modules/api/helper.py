@@ -102,6 +102,14 @@ def fbuffer(f, chunk_size=10000):
         yield chunk
 
 
+# write file to disk
+def write_to_disk(path, filestorage):
+    out = open(path, 'wb', 10000)
+    for chunk in fbuffer(filestorage.stream):
+        out.write(chunk)
+    out.close()
+
+
 def upload(username):
     data = {}
     ext = current_app.config['ALLOWED_EXTENSIONS']
@@ -128,11 +136,7 @@ def upload(username):
             filename += has.hexdigest() + "." + str(last)
             if proceed is True:
                 try:
-                    out = open(
-                        os.path.join(upload_folder, filename), 'wb', 10000)
-                    for chunk in fbuffer(f.stream):
-                        out.write(chunk)
-                    out.close()
+                    write_to_disk(os.path.join(upload_folder, filename), f)
                 except Exception as e:
                     return {'status': "Error", 'error': str(e)}
 
