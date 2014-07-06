@@ -195,8 +195,9 @@ class Content(db.Model):
             return None
 
     def admedia(self, text):
-        text= text.replace("[[[code]]]","<div class='large-8 columns'><pre><code>")
-        text= text.replace("[[[end]]]","</pre></code></div>")
+        text = text.replace(
+            "[[[code]]]", "<div class='large-8 columns'><pre><code>")
+        text = text.replace("[[[end]]]", "</pre></code></div>")
         out = []
         out = regex.findall(text)
         ids = ""
