@@ -181,16 +181,22 @@ class Content(db.Model):
             url = data.content_url
             if data.file_type == "image":
                 html = "<img src='/" + url + "' />"
-            if data.file_type == "video":
+            elif data.file_type == "video":
                 html = "<video width='auto'  controls>"
                 html = html + "<source src='" + url + "' type='video/ogg'>"
                 html = html + "Your browser does not support the video tag."
                 html = html + "</video>"
+            else:
+                html = "< a href= '" + url + "' claas ='button'>"
+                html = html + "Click Here To View the attached Media"
+                html = html + "</a>"
             return html
         else:
             return None
 
     def admedia(self, text):
+        text= text.replace("[[[code]]]","<div class='large-8 columns'><pre><code>")
+        text= text.replace("[[[end]]]","</pre></code></div>")
         out = []
         out = regex.findall(text)
         ids = ""
