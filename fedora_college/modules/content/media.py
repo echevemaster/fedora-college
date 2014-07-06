@@ -22,7 +22,7 @@ def displaymedia(mediaid=None, id=0):
     url = url_for('content.displaymedia')
     if mediaid is not None:
             media = Media.query.filter_by(media_id=mediaid).limit(10).all()
-            return render_template('media/index.html', data=media, url=url)
+            return render_template('media/index.html', data=media, url=url,id=id,lists=media)
     else:
         lists = Media.query.all()
         id = int(id)
@@ -47,10 +47,12 @@ def uploadmedia():
         user = UserProfile.query. \
             filter_by(username=g.fas_user['username']).first_or_404()
         token = user.token
+        tags = Tags.query.all()
         form_action = url_for('api.uploadvideo', token=token)
         return render_template('media/uploadmedia.html',
                                form_action=form_action,
-                               title="add media"
+                               title="add media",
+                               tags=tags
                                )
     abort(404)
 
