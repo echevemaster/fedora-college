@@ -93,11 +93,11 @@ def addcontent(posturl=None):
                 except Exception:
                     db.session.rollback()
                     pass
-        
+
         tags = Tags.query.all()
         return render_template('content/edit_content.html', form=form,
                                form_action=form_action, title="Create Content",
-                               media=media,tags=tags)
+                               media=media, tags=tags)
     abort(404)
 
 
