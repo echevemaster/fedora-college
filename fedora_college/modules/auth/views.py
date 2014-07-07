@@ -8,6 +8,12 @@ from fedora_college.core.models import *  # noqa
 bundle = Blueprint('auth', __name__, url_prefix='/auth')
 
 
+def send_email(sender, recipients, subject, body, html):
+    msg = Message(subject, sender)
+    msg = mail.send(msg)
+    return str(msg)
+
+
 @bundle.route('/login', methods=['GET', 'POST'])
 def auth_login():
     if 'next' in request.args:
@@ -71,6 +77,14 @@ def after_auth():
             str(g.fas_user['username']),
             str(g.fas_user['email']),
             " ", " ", user_type)
+        try:
+            sender = "fedoracollege@engineerinme.com"
+            subject = "Welcome to Fedora Virtual Classroom"
+            body = "On Behalf of fedora COmmunity I welcome you."
+            html = "Welcome to world of learning "
+            send_email(sender, g.fas_user['email'], subject, body, html)
+        except:
+            pass
         user.newtoken()
         db.session.add(user)
         db.session.commit()

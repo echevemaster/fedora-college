@@ -22,6 +22,7 @@ from fedora_college.modules.admin.views import FedoraModelView
 from fedora_college.modules.admin.views import FedoraFileView
 from fedora_college.modules.admin.views import FedoraAdminIndexView
 from flask.ext.admin import Admin
+from flask.ext.mail import Mail
 
 
 def build_app(app):
@@ -54,6 +55,10 @@ def build_app(app):
                 name='Static Files'
             )
         )
+
+        mail = Mail(app)
+        current_app.mail = mail
+
         current_app.config['fas'] = FAS(app)
 
 

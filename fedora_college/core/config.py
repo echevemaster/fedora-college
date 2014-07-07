@@ -14,6 +14,17 @@ class Config(object):
     DEBUG_TB_PROFILER_ENABLED = False
     DEBUG_TB_INTERCEPT_REDIRECTS = False
 
+    DEBUG = True
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 465
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = 'fedoracollege@engineerinme.com',
+    MAIL_PASSWORD = '********',
+
+    ADMINS = ['hammadhaleem@fedoraproject.org',
+              'fedoracollege@engineerinme.com']
+
 
 class ProductionConfig(Config):
     DEBUG = True

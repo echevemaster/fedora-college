@@ -58,6 +58,7 @@
                             {{ render_field(form.title) }}
                             {{ render_field(form.type_content) }}
                             {{ render_field(form.active) }}
+                            {{ tags.label }}
                             {% if form.tags.errors %}
                                 <ul class=errors>
                                 {% for error in form.tags.errors %}
