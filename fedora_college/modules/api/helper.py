@@ -9,7 +9,7 @@ from flask import request, current_app
 from fedora_college.core.models import Media
 from fedora_college.core.database import db
 
-size = (120, 120)
+size = (125, 200)
 
 '''for documentation'''
 
@@ -93,6 +93,23 @@ def delete(username, videoid, edit=None):
         return {'status': 'Unauthorized'}
 
 
+# Generator to buffer file chunks
+def fbuffer(f, chunk_size=10000):
+    while True:
+        chunk = f.read(chunk_size)
+        if not chunk:
+            break
+        yield chunk
+
+
+# write file to disk
+def write_to_disk(path, filestorage):
+    out = open(path, 'wb', 10000)
+    for chunk in fbuffer(filestorage.stream):
+        out.write(chunk)
+    out.close()
+
+
 def upload(username):
     data = {}
     ext = current_app.config['ALLOWED_EXTENSIONS']
@@ -117,10 +134,9 @@ def upload(username):
             has.update(str(secure_filename(f.filename)))
             filename = str(time.time())
             filename += has.hexdigest() + "." + str(last)
-
             if proceed is True:
                 try:
-                    f.save(os.path.join(upload_folder, filename))
+                    write_to_disk(os.path.join(upload_folder, filename), f)
                 except Exception as e:
                     return {'status': "Error", 'error': str(e)}
 

@@ -4,38 +4,36 @@
 {% endblock %}
 {% block content %}
 
-     <div class="row">
-        <div class = "row" >
-            <div class="large-12 columns">
+     <div class="row" data-equalizer>
+        <div class = "row" data-equalizer >
+            <div class="large-12 columns" data-equalizer>
 
                 <h4>Recent Screencasts</h4>
                 {% for record in screen %}
-
-                        <div class="large-4 columns">
-                            <div class="panel radius callout" style="text-align: justify">
-                                <div class="row">
-                                        <b>{{record.title }}</b>:
-    				                    <img src ="/{{record.thumb_url}} "/>
-    				                    <br/>Tags : {{record.tags}}<br/>
-                                        <a href="/{{record.slug}}" > Read More </a> 
-                                </div>
+                        <div class="large-3 columns" >
+                            <div class="panel radius callout" style="text-align: justify" data-equalizer-watch>
+                                    <a href="/{{record.slug}}" >
+                                    <h6>{{record.title }}</h6>
+        				            <img src ="/{{record.thumb_url}} "/>
+                                    </a>
                             </div>
                         </div>     
                 {% endfor %}
             </div>
         </div>  
-        <div class = "row">
-            <div class="large-12 columns">                
+        <div class = "row" data-equalizer>
+            <div class="large-12 columns" data-equalizer>                 
                 <h4>Latest Blog Posts</h4>
                 {% for record in posts %}
-                        <div class="large-4 columns">
-                            <div class="panel radius" style="text-align: center">
-                                <div class="row">
-                                    <b>{{record.title }}</b>
-                                    Tags : {{record.tags}}
-                                </div>
+                <div class="large-3 columns" >
+                            <div class="panel radius" data-equalizer-watch >
+                                <a href="{{ url_for('content.blog',slug=record.slug ) }}" >
+                                <h6>{{record.title }}</h6><br/>
+                                    <b>Tags : {{record.tags}}</b><br/>
+                                    <b>Written By: {{record.user_id}} </b>
+                                </a> 
                             </div>
-                        </div>     
+                </div>     
                 {% endfor %}
             </div>
         </div>  

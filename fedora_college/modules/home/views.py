@@ -6,7 +6,33 @@ from fedora_college.core.models import *  # noqa
 from fedora_college.core.database import db
 from fedora_college.modules.home.forms import *  # noqa
 
+from urlparse import urljoin
+from flask import request
+from werkzeug.contrib.atom import AtomFeed
+
+
 bundle = Blueprint('home', __name__, template_folder='templates')
+
+
+def make_external(url):
+    url = 'blog/' + str(url)
+    return urljoin(request.url_root, url)
+
+
+@bundle.route('/recent.atom')
+def recent_feed():
+    feed = AtomFeed('Recent Articles',
+                    feed_url=request.url, url=request.url_root)
+    articles = Content.query. \
+        filter_by(type_content="blog", active=True).limit(30).all()
+    for article in articles:
+        feed.add(article.title, unicode(article.html),
+                 content_type='html',
+                 author=article.user_id,
+                 url=make_external(article.slug),
+                 updated=article.date_added
+                 )
+    return feed.get_response()
 
 
 def authenticated():
@@ -28,10 +54,10 @@ def getcommenttree(content_id):
 @bundle.route('/home/', methods=['GET', 'POST'])
 def index():
     posts = Content.query. \
-        filter_by(type_content="blog").all()
+        filter_by(type_content="blog", active=True).limit(30).all()
 
     screen = Content.query. \
-        filter_by(type_content="lecture").all()
+        filter_by(type_content="lecture", active=True).limit(30).all()
 
     return render_template('home/index.html',
                            title='Home',

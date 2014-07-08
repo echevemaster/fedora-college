@@ -8,6 +8,12 @@ from fedora_college.core.models import *  # noqa
 bundle = Blueprint('auth', __name__, url_prefix='/auth')
 
 
+def send_email(sender, recipients, subject, body, html):
+    msg = Message(subject, sender)
+    msg = mail.send(msg)
+    return str(msg)
+
+
 @bundle.route('/login', methods=['GET', 'POST'])
 def auth_login():
     if 'next' in request.args:
@@ -34,8 +40,7 @@ def testMedia():
         media = Media.query. \
             filter_by(user_id=g.fas_user['username']).first()
         return jsonify(media.getdata())
-    except Exception as e:
-        print e
+    except Exception:
         return "None"
 
 
@@ -56,15 +61,11 @@ def after_auth():
     try:
         user = UserProfile.query. \
             filter_by(username=g.fas_user['username']).first()
-        print user.getdata()
-        #return jsonify(user.getdata())
         return redirect(url_for('profile.user',
                         nickname=g.fas_user['username'])
                         )
 
-    except Exception as e:
-        print e
-        # return jsonify(g.fas_user)
+    except Exception:
         groups = g.fas_user['groups']
         if len(groups) > 0:
             user_type = "author"
@@ -76,6 +77,14 @@ def after_auth():
             str(g.fas_user['username']),
             str(g.fas_user['email']),
             " ", " ", user_type)
+        try:
+            sender = "fedoracollege@engineerinme.com"
+            subject = "Welcome to Fedora Virtual Classroom"
+            body = "On Behalf of fedora COmmunity I welcome you."
+            html = "Welcome to world of learning "
+            send_email(sender, g.fas_user['email'], subject, body, html)
+        except:
+            pass
         user.newtoken()
         db.session.add(user)
         db.session.commit()

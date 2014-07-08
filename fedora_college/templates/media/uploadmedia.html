@@ -3,6 +3,8 @@
      {{title}}
 {% endblock %}
 {% block content %}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
 <div class="row">
     <div class="large-12 columns">
            <h3>Add New Media</h3>
@@ -14,16 +16,67 @@
                     <label for="file">Display Name:</label>
                     <input type="text" name="featured_name" id="file"><br><br>
                     <label for="file">Tags:</label>
-                    <input type="text" name="tags" id="file"><br><br>
+                    <input type="text" name="tags" id="tags"><br><br>
                     <select id="type" name="type">
                         <option value="image">Image</option>
                         <option value="video">Video</option>
                         <option value="audio">Audio</option>
                         <option value="doc">Documents</option>
                     </select>
-                    <input type="submit" name="submit" value="Submit">
+                    <input type="submit" name="submit"  class="button" value="Submit">
                     </form>
     
     </div>
 </div>
+
+{% block tags%}
+<script>
+  $(function() {
+    var availableTags = [
+     {% for tag in tags %}
+      "{{tag.tag_text}}",
+      {% endfor %}
+    ];
+
+    function split( val ) {
+      return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+      return split( term ).pop();
+    }
+ 
+    $( "#tags" )
+      // don't navigate away from the field on tab when selecting an item
+      .bind( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).autocomplete( "instance" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+          // delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            availableTags, extractLast( request.term ) ) );
+        },
+        focus: function() {
+          // prevent value inserted on focus
+          return false;
+        },
+        select: function( event, ui ) {
+          var terms = split( this.value );
+          // remove the current input
+          terms.pop();
+          // add the selected item
+          terms.push( ui.item.value );
+          // add placeholder to get the comma-and-space at the end
+          terms.push( "" );
+          this.value = terms.join( "," );
+          return false;
+        }
+      });
+  });
+  </script>
+{% endblock%}
 {% endblock %}

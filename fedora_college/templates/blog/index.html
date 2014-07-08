@@ -4,19 +4,57 @@
 {% endblock %}
 {% block content %}
     <div class="row">
-    {% for record in content %}
-            
-            <hr/>
-                <div class="blog">
-                        {{ record.title }}
-                        <br/>
-                           {{ record.description }}
-                        <br/>
-                            Written By : {{record.user_id}} | Written on : {{record.date_added }} | <a href="{{record.slug}}">Read More</a> 
+        <div claas="large-12 columns">
+            <div class="large-3 columns">
+                <h3> Recent Screencast </h3>
+                {% if not screen%}
+                    <h5>
+                     No Screens added 
+                    </h5>
+                {% endif %}
+                {% for record in screen %}
 
-                </div>
-                <br/>
+                                <div class="panel radius callout" style="text-align: justify">
+                                    <a href="/{{record.slug}}" >
+                                    <h6>{{record.title }}</h6>
+                                    <img src ="/{{record.thumb_url}} "/>
+                                    </a> 
+                                </div>
+
+                {% endfor %}
+
+            </div>
+            <div class="large-9 columns">
+             {% for record in content %}
                 
-       
-            {% endfor %}
+                <hr/>
+                    <div class="panel radius" style="text-align: justify" >
+                           <h3> {{ record.title }}</h3>
+                            <br/>
+                               {{ record.html | safe }}
+                            <br/>
+                               <h5> Written By : {{record.user_id}} | Written on : {{record.date_added }} </h5>
+                    <br/><br/>
+                    <a href="{{ url_for('content.blog',slug=record.slug) }}" class="button" >
+                      Read More
+                    </a>
+
+                    {% if record.user_id ==  g.fas_user.username %}
+                      <a href="{{ url_for('content.addcontent',posturl=record.slug) }}" class="button" >
+                         Edit Blog
+                      </a>
+                    {% endif %}
+                    </div>                   
+           
+                {% endfor %}
+            
+        <ul class="pagination">
+                          <li><a href="{{ url_for('content.blog',id=id-5)}}">Previous</a></li>
+                          <li class="current"><a href="">{{id}}</a></li>
+                          <li><a href="{{ url_for('content.blog',id=id+5)}}">Next</a></li>
+        </ul>
+
+        </div>
+        </div>
+     </div>
 {% endblock %}

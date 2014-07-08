@@ -12,40 +12,56 @@
         {% for record in content %}
                 <hr/>
                     <div class="blog">
-                               {{ record.title }}
-                               {{ record.html | safe }}
-                                Written By : {{record.user_id}} | Written on : {{record.date_added }} 
+                        <div class="panel" >
+                               <h2>{{ record.title }}</h2>
+                               <br/>
+                               <b>
+                                    Written By : {{record.user_id}} | Written on : {{record.date_added }} 
+                               </b>
+
+                        </div>
+                               <hr/>
+                                {{ record.html | safe }}
+                                  
                     </div>
+                    {% if record.user_id ==  g.fas_user.username %}
+                        <a href="{{ url_for('content.addcontent',posturl=record.slug) }}" class="button" > Edit Screencast</a>
+                    {% endif %}
                     <hr/>
-                    <div class ="comments row" >
-                        <h5>Comments</h5>
+                    <div class ="comments row panel" >
+                        <h3>Comments</h3>
                                 <div class="large-12 columns">
 
                                     {% for record in tree %}
-                                    <div class= "row">
-                                        <div class="large-8 columns">
-                                            {{record.text}}
-                                        </div>
-                                        <div class="large-4 columns">
-                                            {{ record.date_added }}   {{record.username }}
-                                        </div>
-                                    <div><br/>
+                                        <div class= "row panel callout radius">
+                                            <div class="large-8 columns">
+                                            <p>
+                                               <img src="http://placehold.it/50x50&text={{record.username }}" />
+                                               <b> {{record.username }} &nbsp;</b> {{record.text}}                                            
+                                                <h6>Added : {{ record.date_added }}</h6>
+                                            </p>
+                                            </div>
+                                            <hr>
+                                        <div>
                                     {% endfor %}
-                                    <hr/>
                                     {% if form %}
-                                    <form method="post" action="">
-                                      <fieldset>
-                                       <legend>
 
-                                       </legend>
-                                        {{form.hidden_tag()}} 
-                                        {{ render_field(form.text) }} 
-                                        {{ render_field(form.content_id ) }} 
-                                      </fieldset>
-                                      <input type="submit" class="button" value="Save"/>
+                                    <hr/>
+                                    <form method="post" action="">
+                                        <fieldset>
+                                           <legend>
+
+                                           </legend>
+                                            {{form.hidden_tag()}} 
+                                            {{ render_field(form.text) }} 
+                                            <input id="content_id" name="content_id" type="hidden" value="{{record.content_id}}">
+                                        </fieldset>
+                                        <input type="submit" class="button" value="Save"/>
                                     </form>
+                                    {% else %}
+                                    <a href="/auth/login" class="button" > Login to Add comments </a>
                                     {% endif %}
-                                </div>
+                    </div>
 
                     
                     </div>

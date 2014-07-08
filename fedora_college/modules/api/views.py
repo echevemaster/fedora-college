@@ -2,7 +2,8 @@
 import json
 import datetime
 from flask.ext.babel import gettext
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, redirect
+from flask import url_for
 from fedora_college.core.models import Media, UserProfile
 from fedora_college.core.models import Tags, TagsMap
 from fedora_college.core.models import Content
@@ -157,7 +158,10 @@ def search(keyword=None):
 
 
 @bundle.route('/api/upload/<token>', methods=['POST'])
-def uploadvideo(token):
+@bundle.route('/api/upload/<token>/', methods=['POST'])
+@bundle.route('/api/upload/<token>/<url>/', methods=['POST'])
+@bundle.route('/api/upload/<token>/<url>/', methods=['POST'])
+def uploadvideo(token, url=None):
     data = dict()
     if token is not None:
         user = UserProfile.query. \
@@ -177,6 +181,9 @@ def uploadvideo(token):
                           data['featured_name'])
             db.session.add(media)
             db.session.commit()
+            if url is not None:
+                url = url_for('content.displaymedia')
+                return redirect(url)
             return jsonify(data)
         else:
             return jsonify(data)

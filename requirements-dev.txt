@@ -26,6 +26,7 @@ Jinja2==2.7
 MarkupSafe==0.18
 Pygments==1.6
 
+
 # Miscellaneous
 Paver==1.2.1
 colorama==0.2.5
@@ -33,9 +34,22 @@ colorama==0.2.5
 # Development
 pymysql
 flask-sqlalchemy
+flask-script
+Flask-AutoIndex
+flask-openid
+flask-babel
+Flask-WhooshAlchemy
+flask-admin
+python-fedora
+python-openid-cla
+python-openid-teams
+Flask-WTF
+flask-mail
 flask
-
+Pillow
+#Pil
 #image 
 #pil -allow-external pil
 
+ordereddict
 networkx

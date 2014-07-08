@@ -23,8 +23,6 @@ def authenticated():
 
 def slugify(text, delim=u'-'):
     """Generates an slightly worse ASCII-only slug."""
-    #stri = (time.strftime("%d/%m/%Y"))
-    #text = stri + "-" + text
     result = []
     for word in _punct_re.split(text.lower()):
         word = normalize('NFKD', word).encode('ascii', 'ignore')
@@ -68,10 +66,10 @@ def addcontent(posturl=None):
                 attach_tags(tags, content)
                 content.rehtml()
                 db.session.commit()
-                return redirect(url_for('content.addcontent',
-                                        posturl=posturl,
-                                        updated="Successfully updated")
-                                )
+                if content.type_content == "blog":
+                    print url_for('content.blog', slug=posturl)
+                    return redirect(url_for('content.blog', slug=posturl))
+                return redirect(url_for('home.content', slug=posturl))
         else:
             if form.validate_on_submit():
                 url_name = slugify(form.title.data)
@@ -88,19 +86,18 @@ def addcontent(posturl=None):
                     db.session.add(query)
                     db.session.commit()
                     attach_tags(tags, query)
-                    return redirect(url_for('content.addcontent',
-                                            posturl=url_name,
-                                            updated="Successfully updated",
-                                            media=media)
-                                    )
+                    if query.type_content == "blog":
+                        return redirect(url_for('content.blog', slug=posturl))
+                    return redirect(url_for('home.content', slug=url_name))
                     # Duplicate entry
-                except Exception as e:
+                except Exception:
                     db.session.rollback()
-                    print e
                     pass
+
+        tags = Tags.query.all()
         return render_template('content/edit_content.html', form=form,
                                form_action=form_action, title="Create Content",
-                               media=media)
+                               media=media, tags=tags)
     abort(404)
 
 
@@ -108,8 +105,18 @@ def addcontent(posturl=None):
 @bundle.route('/blog/', methods=['GET', 'POST'])
 @bundle.route('/blog/<slug>/', methods=['GET', 'POST'])
 @bundle.route('/blog/<slug>', methods=['GET', 'POST'])
-def blog(slug=None):
+@bundle.route('/blog/page/<id>', methods=['GET', 'POST'])
+@bundle.route('/blog/page/<id>', methods=['GET', 'POST'])
+def blog(slug=None, id=0):
+    id = int(id)
+    screen = Content.query. \
+        filter_by(
+            type_content="lecture",
+            active=True
+        ).limit(10).all()
+
     if slug is not None:
+
         try:
             posts = Content.query. \
                 filter_by(slug=slug).all()
@@ -119,8 +126,15 @@ def blog(slug=None):
         try:
             posts = Content.query. \
                 filter_by(type_content="blog").all()
+            if id > 0:
+                posts = posts[id - 1:id + 5]
+            else:
+                posts = posts[0:5]
         except:
-            posts = "Databse is empty"
+            posts = []
     return render_template('blog/index.html',
                            title='Blog',
-                           content=posts)
+                           content=posts,
+                           screen=screen,
+                           id=id
+                           )

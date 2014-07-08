@@ -12,10 +12,45 @@ class Config(object):
     ADMIN_GROUP = 'provenpackager'
     WHOOSH_BASE = os.path.join(basedir, 'search')
     DEBUG_TB_PROFILER_ENABLED = False
+    DEBUG_TB_INTERCEPT_REDIRECTS = False
+
+    DEBUG = True
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 465
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = 'fedoracollege@engineerinme.com',
+    MAIL_PASSWORD = '********',
+
+    ADMINS = ['hammadhaleem@fedoraproject.org',
+              'fedoracollege@engineerinme.com']
 
 
 class ProductionConfig(Config):
-    pass
+    DEBUG = True
+    SECRET_KEY = 'FEDORA-DEMO'
+    PGSQL_USER = "postgres"
+    PGSQL_PASS = "kgggdkp1992"
+    PGSQL_DATABASE = "fedora"
+    '''
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir,
+                                                          'fedoracollege.db')
+    '''
+    SQLALCHEMY_DATABASE_URI = "postgresql://" + \
+        PGSQL_USER + ":" + PGSQL_PASS + "@localhost/" + PGSQL_DATABASE
+    SQLALCHEMY_ECHO = True
+    DATABASE_CONNECT_OPTIONS = {}
+    CSRF_ENABLED = True
+    CSRF_SESSION_KEY = "f3do$a"
+    UPLOADS_FOLDER = '/home/engineer/fedora-college/' + \
+        'fedora_college/static/uploads/'
+    STATIC_FOLDER = '/home/engineer/fedora-college/fedora_college/static'
+    ALLOWED_EXTENSIONS = {
+        'video': ['ogg', 'ogv'],
+        'image': ['jpeg', 'png', 'jpg'],
+        'doc': ['pdf'],
+        'audio': ['mp3', 'flac']
+    }
 
 
 class DevelopmentConfig(Config):
@@ -24,6 +59,7 @@ class DevelopmentConfig(Config):
     PGSQL_USER = "postgres"
     PGSQL_PASS = "kgggdkp1992"
     PGSQL_DATABASE = "fedora"
+
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir,
                                                           'fedoracollege.db')
     '''

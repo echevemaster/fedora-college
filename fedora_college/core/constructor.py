@@ -22,6 +22,7 @@ from fedora_college.modules.admin.views import FedoraModelView
 from fedora_college.modules.admin.views import FedoraFileView
 from fedora_college.modules.admin.views import FedoraAdminIndexView
 from flask.ext.admin import Admin
+from flask.ext.mail import Mail
 
 
 def build_app(app):
@@ -32,7 +33,7 @@ def build_app(app):
     app.register_blueprint(content_bundle)
     app.register_blueprint(search_bundle)
     # Config to Flask from objects
-    # app.config.from_object('fedora_college.core.ProductionConfig')
+    # app.config.from_object('fedora_college.core.config.ProductionConfig')
     app.config.from_object('fedora_college.core.config.DevelopmentConfig')
     db.init_app(app)
 
@@ -54,6 +55,10 @@ def build_app(app):
                 name='Static Files'
             )
         )
+
+        mail = Mail(app)
+        current_app.mail = mail
+
         current_app.config['fas'] = FAS(app)
 
 
