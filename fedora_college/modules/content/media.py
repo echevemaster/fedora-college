@@ -22,7 +22,13 @@ def displaymedia(mediaid=None, id=0):
     url = url_for('content.displaymedia')
     if mediaid is not None:
             media = Media.query.filter_by(media_id=mediaid).limit(10).all()
-            return render_template('media/index.html', data=media, url=url, id=id, lists=media)
+            return render_template(
+                'media/index.html',
+                data=media,
+                url=url,
+                id=id,
+                lists=media
+            )
     else:
         lists = Media.query.all()
         id = int(id)
