@@ -9,6 +9,8 @@ from flask.ext.admin.contrib.fileadmin import FileAdmin
 
 
 class FedoraModelView(sqla.ModelView):
+    column_display_pk = True
+    column_display_pk = True
 
     def is_accessible(self):
         try:
@@ -35,6 +37,9 @@ class FedoraFileView(FileAdmin):
 
 
 class FedoraAdminIndexView(admin.AdminIndexView):
+
+    column_display_pk = True
+    column_display_fk = True
 
     def is_accessible(self):
         try:

@@ -7,7 +7,7 @@ from sqlalchemy import desc
 from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
-
+import fedmsg
 
 bundle = Blueprint('content', __name__, template_folder='templates')
 
@@ -66,6 +66,9 @@ def addcontent(posturl=None):
                 attach_tags(tags, content)
                 content.rehtml()
                 db.session.commit()
+
+                fedmsg.publish(
+                    topic='Fedora-college', modname='fedora_college', msg=content)
                 if content.type_content == "blog":
                     print url_for('content.blog', slug=posturl)
                     return redirect(url_for('content.blog', slug=posturl))
@@ -86,6 +89,9 @@ def addcontent(posturl=None):
                     db.session.add(query)
                     db.session.commit()
                     attach_tags(tags, query)
+                    fedmsg.publish(
+                        topic='Fedora-college', modname='fedora_college', msg=query)
+
                     if query.type_content == "blog":
                         return redirect(url_for('content.blog', slug=posturl))
                     return redirect(url_for('home.content', slug=url_name))
