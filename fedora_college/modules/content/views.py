@@ -68,7 +68,10 @@ def addcontent(posturl=None):
                 db.session.commit()
 
                 fedmsg.publish(
-                    topic='Fedora-college', modname='fedora_college', msg=content)
+                    topic='Fedora-college',
+                    modname='fedora_college',
+                    msg=content
+                )
                 if content.type_content == "blog":
                     print url_for('content.blog', slug=posturl)
                     return redirect(url_for('content.blog', slug=posturl))
@@ -90,7 +93,10 @@ def addcontent(posturl=None):
                     db.session.commit()
                     attach_tags(tags, query)
                     fedmsg.publish(
-                        topic='Fedora-college', modname='fedora_college', msg=query)
+                        topic='Fedora-college',
+                        modname='fedora_college',
+                        msg=query
+                    )
 
                     if query.type_content == "blog":
                         return redirect(url_for('content.blog', slug=posturl))

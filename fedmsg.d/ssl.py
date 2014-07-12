@@ -18,7 +18,6 @@
 # Authors:  Ralph Bean <rbean@redhat.com>
 #
 import os
-import socket
 
 SEP = os.path.sep
 here = os.getcwd()
