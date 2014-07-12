@@ -164,8 +164,8 @@ def upload(username):
                     username
                 )
                 try:
-                fedmsg.publish(
-                    topic='Fedora-college', modname='fedora_college', msg=data)
+                    fedmsg.publish(
+                        topic='Fedora-college', modname='fedora_college', msg=data)
                 except:
                     pass
             else:
