@@ -163,9 +163,11 @@ def upload(username):
                     upload_folder,
                     username
                 )
-
+                try:
                 fedmsg.publish(
                     topic='Fedora-college', modname='fedora_college', msg=data)
+                except:
+                    pass
             else:
                 return {'status': "Error", "Type": "incorrect file type"}
         else:
