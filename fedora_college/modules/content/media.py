@@ -58,8 +58,8 @@ def uploadmedia():
         return render_template('media/uploadmedia.html',
                                form_action=form_action,
                                title="add media",
-                               tags=tags
-                               )
+                               tags=tags,
+                               head="Add New Media")
     abort(404)
 
 
@@ -70,10 +70,13 @@ def revisemedia(mediaid=None):
         user = UserProfile.query. \
             filter_by(username=g.fas_user['username']).first_or_404()
         token = user.token
+        tags = Tags.query.all()
         form_action = url_for('api.revisevideo',
                               videoid=mediaid,
                               token=token)
-        return render_template('media/revise.html',
+        return render_template('media/uploadmedia.html',
                                form_action=form_action,
-                               title="add media")
+                               title="add media",
+                               tags=tags,
+                               head="Revise media")
     abort(404)

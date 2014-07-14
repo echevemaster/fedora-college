@@ -51,13 +51,16 @@
     		                    <p>File Type : {{record.file_type}}</p>
     		                    <p>Added By : {{record.user_id}} | Added On : {{record.timestamp}}</p>		                    
     		                    <p>Revisions : {{ record.revise}}</p>
+                                {% if g.fas_user.username %}
     		                    <p>
+
     		                    	<a class= 'button [tiny small large]' href="{{url}}{{record.media_id}}/revise" style="font-color:#000;">&nbsp;&nbsp;&nbsp; Revise &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                     &nbsp;&nbsp;
                                     <a class= 'button [tiny small large]' href="{{url_delete}}{{record.media_id}}" style="font-color:#000;">
     		                    		&nbsp;&nbsp;&nbsp; Delete &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     		                    	</a>
     		                    </p>
+                                {% endif %}
     		        </div>
 	             {% endfor %}       
             </div> 
