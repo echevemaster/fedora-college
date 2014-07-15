@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 import re
 from unicodedata import normalize
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, current_app
 from flask import redirect, url_for, g, abort
 from sqlalchemy import desc
 from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
-import fedmsg
+from fedora_college.fedmsgshim import publish
 
 bundle = Blueprint('content', __name__, template_folder='templates')
 
-
 from fedora_college.modules.content.media import *  # noqa
+
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
@@ -48,6 +48,31 @@ def attach_tags(tags, content):
     db.session.commit()
 
 
+@bundle.route('/content/delete/<posturl>', methods=['GET', 'POST'])
+@bundle.route('/content/delete/<posturl>/', methods=['GET', 'POST'])
+def delete_content(posturl=None):
+    if posturl is not None:
+        db.session.rollback()
+        content = Content.query.filter_by(slug=posturl).first_or_404()
+        rem = TagsMap.query.filter_by(
+            content_id=content.content_id).all()
+        '''delete mapped tags'''
+        for r in rem:
+            db.session.delete(r)
+
+        comments = Comments.query.filter_by(
+            content_id=content.content_id).all()
+        '''delete comments with foriegn keys'''
+        for r in comments:
+            db.session.delete(r)
+
+        db.session.delete(content)
+        db.session.commit()
+        return redirect(url_for('profile.user',
+                                nickname=g.fas_user['username']))
+    abort(404)
+
+
 @bundle.route('/content/add/', methods=['GET', 'POST'])
 @bundle.route('/content/add', methods=['GET', 'POST'])
 @bundle.route('/content/edit/<posturl>/', methods=['GET', 'POST'])
@@ -66,14 +91,17 @@ def addcontent(posturl=None):
                 attach_tags(tags, content)
                 content.rehtml()
                 db.session.commit()
-                try:
-                    fedmsg.publish(
-                        topic='Fedora-college',
-                        modname='fedora_college',
-                        msg=content
-                    )
-                except:
-                    pass
+
+                '''Publish the message'''
+                msg = content.getdata()
+                msg['text'] = g.fas_user['username'] + \
+                    ": Edited some content in fedora college"
+                publish(
+                    topic=current_app.config['CONTENT_EDIT_TOPIC'],
+                    msg=msg
+
+                )
+
                 if content.type_content == "blog":
                     print url_for('content.blog', slug=posturl)
                     return redirect(url_for('content.blog', slug=posturl))
@@ -94,14 +122,15 @@ def addcontent(posturl=None):
                     db.session.add(query)
                     db.session.commit()
                     attach_tags(tags, query)
-                    try:
-                        fedmsg.publish(
-                            topic='Fedora-college',
-                            modname='fedora_college',
-                            msg=query
-                        )
-                    except:
-                        pass
+
+                    '''Publish the message'''
+                    msg = content.getdata()
+                    msg['text'] = g.fas_user['username'] + \
+                        ": Publised a new post in fedora college"
+                    publish(
+                        topic=current_app.config['CONTENT_CREATE_TOPIC'],
+                        msg=msg
+                    )
 
                     if query.type_content == "blog":
                         return redirect(url_for('content.blog', slug=posturl))

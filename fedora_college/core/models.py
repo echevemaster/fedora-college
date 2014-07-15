@@ -283,9 +283,6 @@ class Tags(db.Model):
         self.tag_text = tag_text
         self.date_added = datetime.datetime.utcnow()
 
-    def __repr__(self):
-        return '<TagText %r>' % (self.tag_text)
-
     def __unicode__(self):
         return (self.tag_text)
 
@@ -308,11 +305,11 @@ class TagsMap(db.Model):
         self.tag_id = tag_id
         self.content_id = content_id
 
-    def __repr__(self):
-        return '<TagText %r>' % (self.tag_id)
-
     def __unicode__(self):
-        return '<TagText %r>' % (self.tag_id)
+        tag = Tags.query.filter_by(
+            tag_id=self.tag_id).first()
+
+        return (str(tag.tag_text))
 
     def getdata(self):
         return {

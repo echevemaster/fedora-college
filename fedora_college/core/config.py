@@ -25,6 +25,10 @@ class Config(object):
     ADMINS = ['hammadhaleem@fedoraproject.org',
               'fedoracollege@engineerinme.com']
 
+    UPLOAD_TOPIC = "fedoracollege.media.upload"
+    CONTENT_EDIT_TOPIC = "fedoracollege.content.edit"
+    CONTENT_CREATE_TOPIC = "fedoracollege.content.added"
+
 
 class ProductionConfig(Config):
     DEBUG = True
