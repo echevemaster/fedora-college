@@ -94,8 +94,8 @@ def addcontent(posturl=None):
 
                 '''Publish the message'''
                 msg = content.getdata()
-                msg['text'] = g.fas_user['username'] + \
-                    ": Edited some content in fedora college"
+                msg['text'] = "%s : Edited some content in fedora college",
+                g.fas_user['username']
                 publish(
                     topic=current_app.config['CONTENT_EDIT_TOPIC'],
                     msg=msg
@@ -125,8 +125,8 @@ def addcontent(posturl=None):
 
                     '''Publish the message'''
                     msg = content.getdata()
-                    msg['text'] = g.fas_user['username'] + \
-                        ": Publised a new post in fedora college"
+                    msg['text'] = "%s: Publised a new post in fedora college",
+                    g.fas_user['username']
                     publish(
                         topic=current_app.config['CONTENT_CREATE_TOPIC'],
                         msg=msg

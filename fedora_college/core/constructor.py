@@ -41,7 +41,8 @@ def build_app(app):
     with app.app_context():
         whooshalchemy.whoosh_index(app, Content)
         whooshalchemy.whoosh_index(app, Media)
-        DebugToolbarExtension(app)
+        if current_app.config['DEBUG_TOOLBAR'] is True:
+            DebugToolbarExtension(app)
         admin = Admin(
             app, 'Fedora College Admin', index_view=FedoraAdminIndexView())
         admin.add_view(FedoraModelView(UserProfile, db.session))

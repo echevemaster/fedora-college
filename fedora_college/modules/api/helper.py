@@ -168,7 +168,7 @@ def upload(username):
                 return {'status': "Error", "Type": "incorrect file type"}
         else:
             return {'status': "Error"}
-        data['text'] = username + ": Uploaded new media to fedoracollege"
+        data['text'] = " %s : Uploaded new media to fedoracollege", username
         publish(
             topic=current_app.config['UPLOAD_TOPIC'],
             modname='fedora_college',
