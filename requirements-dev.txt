@@ -47,6 +47,9 @@ Flask-WTF
 flask-mail
 flask
 Pillow
+fedmsg>=0.7.0
+fedmsg_meta_fedora_infrastructure
+
 #Pil
 #image 
 #pil -allow-external pil

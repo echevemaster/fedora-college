@@ -27,6 +27,9 @@ class UserProfile(db.Model):
     website = db.Column(db.String(255))
     role = db.Column(db.String(50))
     data = {}
+    content = db.relationship('Content', backref='author', lazy='dynamic')
+    media = db.relationship('Media', backref='author', lazy='dynamic')
+    Comments = db.relationship('Comments', backref='author', lazy='dynamic')
 
     def __init__(self, open_id, username,
                  email, about, website, role):
@@ -40,11 +43,11 @@ class UserProfile(db.Model):
         self.role = role
 
     def gentoken(self):
-            if self.token is None:
-                self.token = str(self.username) + '-' + str(uuid.uuid4())
-                return self.token
-            else:
-                return self.token
+        if self.token is None:
+            self.token = str(self.username) + '-' + str(uuid.uuid4())
+            return self.token
+        else:
+            return self.token
 
     def newtoken(self):
         self.token = str(self.username) + '-' + str(uuid.uuid4())
@@ -65,6 +68,9 @@ class UserProfile(db.Model):
 
     def __repr__(self):
         return '<Username %r>' % (self.username)
+
+    def __unicode__(self):
+        return str(self.username)
 
     def getMedia(self):
         '''
@@ -150,6 +156,9 @@ class Media(db.Model):
     def __repr__(self):
         return '<Media-Title %r>' % (self.media_id)
 
+    def __unicode__(self):
+        return (self.media_id)
+
 
 class Content(db.Model):
     __tablename__ = 'content'
@@ -173,6 +182,7 @@ class Content(db.Model):
     tags = db.Column(db.Text())
     user_id = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
     thumb_url = db.Column(db.String(2024))
+    maps = db.relationship('TagsMap', backref='Content', lazy='dynamic')
 
     def gethtml(self, media_id):
         data = Media.query.filter_by(media_id=media_id).first_or_404()
@@ -257,6 +267,9 @@ class Content(db.Model):
     def __repr__(self):
         return '<Title %r>' % (self.title)
 
+    def __unicode__(self):
+        return (self.title)
+
 
 class Tags(db.Model):
     __tablename__ = 'tags'
@@ -264,13 +277,14 @@ class Tags(db.Model):
     tag_id = db.Column(db.Integer, primary_key=True)
     tag_text = db.Column(db.String(255))
     date_added = db.Column(db.DateTime())
+    maped = db.relationship('TagsMap', backref='tag', lazy='dynamic')
 
     def __init__(self, tag_text):
         self.tag_text = tag_text
         self.date_added = datetime.datetime.utcnow()
 
-    def __repr__(self):
-        return '<TagText %r>' % (self.tag_text)
+    def __unicode__(self):
+        return (self.tag_text)
 
     def getdata(self):
         return {
@@ -291,8 +305,11 @@ class TagsMap(db.Model):
         self.tag_id = tag_id
         self.content_id = content_id
 
-    def __repr__(self):
-        return '<TagText %r>' % (self.tag_text)
+    def __unicode__(self):
+        tag = Tags.query.filter_by(
+            tag_id=self.tag_id).first()
+
+        return (str(tag.tag_text))
 
     def getdata(self):
         return {
@@ -331,4 +348,7 @@ class Comments(db.Model):
         return data
 
     def __repr__(self):
+        return '<Text %r>' % (self.text)
+
+    def __unicode__(self):
         return '<Text %r>' % (self.text)

@@ -8,6 +8,8 @@ from werkzeug import secure_filename
 from flask import request, current_app
 from fedora_college.core.models import Media
 from fedora_college.core.database import db
+from fedora_college.fedmsgshim import publish
+
 
 size = (125, 200)
 
@@ -161,9 +163,15 @@ def upload(username):
                     upload_folder,
                     username
                 )
+
             else:
                 return {'status': "Error", "Type": "incorrect file type"}
         else:
             return {'status': "Error"}
+        data['text'] = " %s : Uploaded new media to fedoracollege", username
+        publish(
+            topic=current_app.config['UPLOAD_TOPIC'],
+            modname='fedora_college',
+            msg=data)
         return data
     return {'status': "Error"}

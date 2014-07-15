@@ -15,7 +15,7 @@ from fedora_college.modules.content import bundle as content_bundle
 from fedora_college.modules.search import bundle as search_bundle
 from fedora_college.core.database import db
 from fedora_college.core.models import Content, Media, UserProfile
-from fedora_college.core.models import Comments, Tags
+from fedora_college.core.models import Comments, Tags,  TagsMap
 
 
 from fedora_college.modules.admin.views import FedoraModelView
@@ -41,13 +41,15 @@ def build_app(app):
     with app.app_context():
         whooshalchemy.whoosh_index(app, Content)
         whooshalchemy.whoosh_index(app, Media)
-        DebugToolbarExtension(app)
+        if current_app.config['DEBUG_TOOLBAR'] is True:
+            DebugToolbarExtension(app)
         admin = Admin(
-            app, 'Auth', index_view=FedoraAdminIndexView())
+            app, 'Fedora College Admin', index_view=FedoraAdminIndexView())
         admin.add_view(FedoraModelView(UserProfile, db.session))
         admin.add_view(FedoraModelView(Content, db.session))
-        admin.add_view(FedoraModelView(Media, db.session))
+        admin.add_view(FedoraModelView(TagsMap, db.session))
         admin.add_view(FedoraModelView(Tags, db.session))
+        admin.add_view(FedoraModelView(Media, db.session))
         admin.add_view(FedoraModelView(Comments, db.session))
         admin.add_view(
             FedoraFileView(
