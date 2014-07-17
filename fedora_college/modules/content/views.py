@@ -95,6 +95,8 @@ def addcontent(posturl=None):
                 '''Publish the message'''
                 msg = content.getdata()
                 msg['title'] = content.title
+                data['link'] = current_app.config[
+                    'EXTERNAL_URL'] + content.slug
                 publish(
                     topic=current_app.config['CONTENT_EDIT_TOPIC'],
                     msg=msg
@@ -124,6 +126,8 @@ def addcontent(posturl=None):
                     '''Publish the message'''
                     msg = content.getdata()
                     msg['title'] = content.title
+                    data['link'] = current_app.config[
+                        'EXTERNAL_URL'] + url_name
                     publish(
                         topic=current_app.config['CONTENT_CREATE_TOPIC'],
                         msg=msg

@@ -22,6 +22,7 @@ class Config(object):
     MAIL_USERNAME = 'fedoracollege@engineerinme.com',
     MAIL_PASSWORD = '********',
 
+    EXTERNAL_URL = "http://demo.engineerinme.com"
     ADMINS = ['hammadhaleem@fedoraproject.org',
               'fedoracollege@engineerinme.com']
 

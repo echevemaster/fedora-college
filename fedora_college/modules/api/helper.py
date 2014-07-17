@@ -170,6 +170,7 @@ def upload(username):
             return {'status': "Error"}
 
         data['title'] = filename
+        data['link'] = current_app.config['EXTERNAL_URL']+data['url']
         publish(
             topic=current_app.config['UPLOAD_TOPIC'],
             msg=data)
