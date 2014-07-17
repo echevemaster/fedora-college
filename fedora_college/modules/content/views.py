@@ -94,12 +94,10 @@ def addcontent(posturl=None):
 
                 '''Publish the message'''
                 msg = content.getdata()
-                msg['text'] = "%s : Edited some content in fedora college",
-                g.fas_user['username']
+                msg['title'] = content.title
                 publish(
                     topic=current_app.config['CONTENT_EDIT_TOPIC'],
                     msg=msg
-
                 )
 
                 if content.type_content == "blog":
@@ -125,8 +123,7 @@ def addcontent(posturl=None):
 
                     '''Publish the message'''
                     msg = content.getdata()
-                    msg['text'] = "%s: Publised a new post in fedora college",
-                    g.fas_user['username']
+                    msg['title'] = content.title
                     publish(
                         topic=current_app.config['CONTENT_CREATE_TOPIC'],
                         msg=msg
