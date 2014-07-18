@@ -3,40 +3,42 @@
      {{title}}
 {% endblock %}
 {% block content %}
+<div class="row">
+    <div class="large-12 columns">
+<div id="wrapper">
 
-     <div class="row" data-equalizer>
-        <div class = "row" data-equalizer >
-            <div class="large-12 columns" data-equalizer>
+    <h4>Recent Screencasts</h4>
+    <hr/>
+    <div id="columns">
+    {% for record in screen %}
+        <div class="pin">
+            <a href="/{{record.slug}}" >        
+                <img src ="/{{record.thumb_url}} "/>
+                <p><h6>{{record.title }}</h6></p>
+            </a>   
+        </div>
+    {% endfor %}
+</div>
+</div>
+<hr/>
+<div id="wrapper">
 
-                <h4>Recent Screencasts</h4>
-                {% for record in screen %}
-                        <div class="large-3 columns" >
-                            <div class="panel radius callout" style="text-align: justify" data-equalizer-watch>
-                                    <a href="/{{record.slug}}" >
+    <h4>Latest Blog Posts</h4>
+    <hr/>
+    <div id="columns">
+            {% for record in posts %}
+               <div class="pin">
+                <a href="{{ url_for('content.blog',slug=record.slug ) }}" >
+                                <p>
                                     <h6>{{record.title }}</h6>
-        				            <img src ="/{{record.thumb_url}} "/>
-                                    </a>
-                            </div>
-                        </div>     
-                {% endfor %}
-            </div>
-        </div>  
-        <div class = "row" data-equalizer>
-            <div class="large-12 columns" data-equalizer>                 
-                <h4>Latest Blog Posts</h4>
-                {% for record in posts %}
-                <div class="large-3 columns" >
-                            <div class="panel radius" data-equalizer-watch >
-                                <a href="{{ url_for('content.blog',slug=record.slug ) }}" >
-                                <h3>{{record.title }}</h3>
-                                    Tags : {{record.tags}}<br/>
-                                    Written By: {{record.user_id}} 
-                                </a> 
-                            </div>
-                </div>     
-                {% endfor %}
-            </div>
-        </div>  
-
-     </div>
+                                    <b>Tags<b/> {{record.tags}}<br/>
+                                    <b>Written By</b> {{record.user_id}}
+                                </p> 
+                </a> 
+                </div>
+            {% endfor %}
+    </div>
+</div>
+</div>
+</div>
 {% endblock %}
