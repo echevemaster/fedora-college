@@ -11,7 +11,7 @@ from fedora_college.core.database import db
 from fedora_college.fedmsgshim import publish
 
 
-size = (250,190)
+size = (250, 190)
 
 '''for documentation'''
 
@@ -170,7 +170,7 @@ def upload(username):
             return {'status': "Error"}
 
         data['title'] = filename
-        data['link'] = current_app.config['EXTERNAL_URL']+data['url']
+        data['link'] = current_app.config['EXTERNAL_URL'] + data['url']
         publish(
             topic=current_app.config['UPLOAD_TOPIC'],
             msg=data)
