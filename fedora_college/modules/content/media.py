@@ -4,6 +4,8 @@ from flask import url_for, g
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
 
+from sqlalchemy import desc
+
 bundle = Blueprint('content', __name__, template_folder='templates')
 
 
@@ -21,7 +23,8 @@ def displaymedia(mediaid=None, id=0):
     id = int(id)
     url = url_for('content.displaymedia')
     if mediaid is not None:
-            media = Media.query.filter_by(media_id=mediaid).limit(10).all()
+            media = Media.query.filter_by(media_id=mediaid). order_by(
+                desc(Media.media_id)).limit(10).all()
             return render_template(
                 'media/index.html',
                 data=media,
@@ -30,7 +33,8 @@ def displaymedia(mediaid=None, id=0):
                 lists=media
             )
     else:
-        lists = Media.query.all()
+        lists = Media.query.order_by(
+            desc(Media.media_id)).all()
         id = int(id)
         if id > 0:
             media = lists[id:id + 10]
@@ -39,7 +43,7 @@ def displaymedia(mediaid=None, id=0):
             media = lists[0:10]
         return render_template(
             'media/index.html', data=media,
-            lists=lists,
+            lists=lists[0:20],
             url=url,
             id=id
         )
