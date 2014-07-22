@@ -183,5 +183,6 @@ def blog(slug=None, id=0):
                            title='Blog',
                            content=posts,
                            screen=screen,
-                           id=id
+                           id=id,
+                           slug=slug
                            )

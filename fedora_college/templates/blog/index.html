@@ -35,9 +35,11 @@
                             <br/>
                                <h5> Written By : {{record.user_id}} | Written on : {{record.date_added }} </h5>
                     <br/><br/>
+                    {% if slug == None %}
                     <a href="{{ url_for('content.blog',slug=record.slug) }}" class="button" >
                       Read More
                     </a>
+                    {% endif %}
 
                     {% if record.user_id ==  g.fas_user.username %}
                       <a href="{{ url_for('content.addcontent',posturl=record.slug) }}" class="button" >
@@ -47,12 +49,14 @@
                     </div>                   
            
                 {% endfor %}
-            
+          
+         {% if slug == None %}
         <ul class="pagination">
                           <li><a href="{{ url_for('content.blog',id=id-5)}}">Previous</a></li>
                           <li class="current"><a href="">{{id}}</a></li>
                           <li><a href="{{ url_for('content.blog',id=id+5)}}">Next</a></li>
         </ul>
+        {% endif %}
 
         </div>
         </div>

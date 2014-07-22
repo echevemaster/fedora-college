@@ -11,7 +11,7 @@ from fedora_college.core.database import db
 from fedora_college.fedmsgshim import publish
 
 
-size = (125, 200)
+size = (250,190)
 
 '''for documentation'''
 
