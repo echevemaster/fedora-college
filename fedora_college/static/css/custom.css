@@ -83,20 +83,16 @@ display: inline-block;
     color:#fff;
 }
 
-body {
-    background: url(http://subtlepatterns.com/patterns/scribble_light.png) ;
-}
 
 #wrapper {
-    width: 90%;
+    width: 100%;
     max-width: 1100px;
     min-width: 800px;
-    margin: 50px auto;
 }
 
 #columns {
     -webkit-column-count: 3;
-    -webkit-column-gap: 10px;
+    -webkit-column-gap: 7px;
     -webkit-column-fill: auto;
     -moz-column-count: 3;
     -moz-column-gap: 10px;

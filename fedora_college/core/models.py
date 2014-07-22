@@ -256,7 +256,7 @@ class Content(db.Model):
         data['type'] = self.type_content
         data['active'] = self.active
         data['tags'] = self.tags
-        data['user_name'] = self.user_id
+        data['username'] = self.user_id
         return data
 
     def tohtml(self):

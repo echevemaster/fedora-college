@@ -42,7 +42,7 @@ Run
 Demo 
 ------------
 
-You can find a demo here : http://engineerinme.com:5000
+You can find a demo here : http://demo.engineerinme.com/
 
 If the demo is not working please create github issue in the repository.
 

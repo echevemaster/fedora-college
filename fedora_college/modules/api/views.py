@@ -43,7 +43,7 @@ def tagsview(tagid=None):
     json_results = {}
     if request.method == 'GET':
         if tagid is not None:
-            tag = Tags.query.filter_by(tag_id=tagid).first()
+            tag = Tags.query.filter_by(tag_id=tagid).first_or_404()
             if tag is None:
                 json_results = {tagid: "None"}
             else:
@@ -83,7 +83,8 @@ def profileview(username=None):
 
     if request.method == 'GET':
         if username is not None:
-            user = UserProfile.query.filter_by(username=username).first()
+            user = UserProfile.query.filter_by(
+                username=username).first_or_404()
             return jsonify(user.getdata())
         else:
             users = UserProfile.query.all()
@@ -106,7 +107,8 @@ def contentview(contentid=None):
     json_results['content'] = []
     if request.method == 'GET':
         if contentid is not None:
-            content = Content.query.filter_by(content_id=contentid).first()
+            content = Content.query.filter_by(
+                content_id=contentid).first_or_404()
             if content is None:
                 json_results['content'].append({contentid: "None"})
             else:
