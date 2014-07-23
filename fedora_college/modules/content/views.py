@@ -95,7 +95,7 @@ def addcontent(posturl=None):
                 '''Publish the message'''
                 msg = content.getdata()
                 msg['title'] = content.title
-                data['link'] = current_app.config[
+                msg['link'] = current_app.config[
                     'EXTERNAL_URL'] + content.slug
                 publish(
                     topic=current_app.config['CONTENT_EDIT_TOPIC'],
@@ -109,42 +109,43 @@ def addcontent(posturl=None):
         else:
             if form.validate_on_submit():
                 url_name = slugify(form.title.data)
-                query = Content(form.title.data,
-                                url_name,
-                                form.description.data,
-                                form.active.data,
-                                form.tags.data,
-                                g.fas_user['username'],
-                                form.type_content.data
-                                )
+                content = Content(form.title.data,
+                                  url_name,
+                                  form.description.data,
+                                  form.active.data,
+                                  form.tags.data,
+                                  g.fas_user['username'],
+                                  form.type_content.data
+                                  )
                 tags = str(form.tags.data).split(',')
                 try:
-                    db.session.add(query)
+                    db.session.add(content)
                     db.session.commit()
-                    attach_tags(tags, query)
+                    attach_tags(tags, content)
 
                     '''Publish the message'''
                     msg = content.getdata()
                     msg['title'] = content.title
-                    data['link'] = current_app.config[
+                    msg['link'] = current_app.config[
                         'EXTERNAL_URL'] + url_name
                     publish(
                         topic=current_app.config['CONTENT_CREATE_TOPIC'],
                         msg=msg
                     )
 
-                    if query.type_content == "blog":
+                    if content.type_content == "blog":
                         return redirect(url_for('content.blog', slug=posturl))
                     return redirect(url_for('home.content', slug=url_name))
                     # Duplicate entry
-                except Exception:
+                except Exception as e:
+                    return str(e)
                     db.session.rollback()
                     pass
 
         tags = Tags.query.all()
         return render_template('content/edit_content.html', form=form,
                                form_action=form_action, title="Create Content",
-                               media=media, tags=tags)
+                               media=media[0:5], tags=tags)
     abort(404)
 
 
