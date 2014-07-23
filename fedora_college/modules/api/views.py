@@ -37,9 +37,12 @@ def docs():
 
 @bundle.route('/api/tags', methods=['GET'])
 @bundle.route('/api/tags/', methods=['GET'])
-@bundle.route('/api/tags/<tagid>', methods=['GET'])
-@bundle.route('/api/tags/<tagid>/', methods=['GET'])
-def tagsview(tagid=None):
+@bundle.route('/api/tags/<id>', methods=['GET'])
+@bundle.route('/api/tags/<id>/', methods=['GET'])
+@bundle.route('/api/tags/<tagid>/<id>', methods=['GET'])
+@bundle.route('/api/tags/<tagid>/<id>/', methods=['GET'])
+def tagsview(tagid=None, id=0):
+    id = int(id)
     json_results = {}
     if request.method == 'GET':
         if tagid is not None:
@@ -52,14 +55,20 @@ def tagsview(tagid=None):
             tags = Tags.query.all()
             for tag in tags:
                 json_results[tag.tag_id] = tag.getdata()
-    return jsonify(json_results)
+    return jsonify(
+        items=json_results[id:id + 10],
+        next=url_for('api.tagsview', id=id + 10)
+    )
 
 
 @bundle.route('/api/tags/map', methods=['GET'])
 @bundle.route('/api/tags/map/', methods=['GET'])
+@bundle.route('/api/tags/map/<id>', methods=['GET'])
+@bundle.route('/api/tags/map/<id>/', methods=['GET'])
 @bundle.route('/api/tags/map/<tagid>', methods=['GET'])
 @bundle.route('/api/tags/map/<tagid>/', methods=['GET'])
-def tagsmapview(tagid=None):
+def tagsmapview(tagid=None, id=0):
+    id = int(id)
     json_results = {}
     json_results['tags'] = []
     if request.method == 'GET':
@@ -72,15 +81,20 @@ def tagsmapview(tagid=None):
             for tag in tags:
                 json_results['tags'].append(tag.getdata())
     json_results['count'] = len(json_results['tags'])
-    return jsonify(json_results)
+    return jsonify(
+        items=json_results[id:id + 10],
+        next=url_for('api.tagsmapview', id=id + 10)
+    )
 
 
 @bundle.route('/api/profile', methods=['GET'])
 @bundle.route('/api/profile/', methods=['GET'])
+@bundle.route('/api/profile/<id>', methods=['GET'])
+@bundle.route('/api/profile/<id>/', methods=['GET'])
 @bundle.route('/api/profile/<username>', methods=['GET'])
 @bundle.route('/api/profile/<username>/', methods=['GET'])
-def profileview(username=None):
-
+def profileview(username=None, id=0):
+    id = int(id)
     if request.method == 'GET':
         if username is not None:
             user = UserProfile.query.filter_by(
@@ -93,16 +107,22 @@ def profileview(username=None):
             for user in users:
                 data['users'].append(user.getdata())
             data['count'] = len(data['users'])
-            return jsonify(data)
+            return jsonify(
+                items=data[id:id + 10],
+                next=url_for('api.tagsmapview', id=id + 10)
+            )
     else:
         return jsonify({})
 
 
 @bundle.route('/api/content', methods=['GET'])
 @bundle.route('/api/content/', methods=['GET'])
+@bundle.route('/api/content/<id>', methods=['GET'])
+@bundle.route('/api/content/<id>/', methods=['GET'])
 @bundle.route('/api/content/<contentid>', methods=['GET'])
 @bundle.route('/api/content/<contentid>/', methods=['GET'])
-def contentview(contentid=None):
+def contentview(contentid=None, id=0):
+    id = int(id)
     json_results = {}
     json_results['content'] = []
     if request.method == 'GET':
@@ -115,17 +135,22 @@ def contentview(contentid=None):
                 json_results['content'].append(content.getdata())
         else:
             content = Content.query.all()
+            content = content[id: id + 10]
             for content in content:
                 json_results['content'].append(content.getdata())
+            json_results['next'] = url_for('api.contentview', id=id + 10)
     json_results['count'] = len(json_results['content'])
+
     return jsonify(json_results)
 
 
 @bundle.route('/api/media', methods=['GET'])
 @bundle.route('/api/media/', methods=['GET'])
+@bundle.route('/api/media/<id>', methods=['GET'])
+@bundle.route('/api/media/<id>/', methods=['GET'])
 @bundle.route('/api/media/<mediaid>', methods=['GET'])
 @bundle.route('/api/media/<mediaid>/', methods=['GET'])
-def mediaview(mediaid=None):
+def mediaview(mediaid=None, id=0):
     json_results = {}
     json_results['media'] = []
     if request.method == 'GET':
@@ -137,8 +162,9 @@ def mediaview(mediaid=None):
                 json_results['media'].append(media.getdata())
         else:
             media = Media.query.all()
-            for media in media:
+            for media in media[id:id + 10]:
                 json_results['media'].append(media.getdata())
+            json_results['next'] = url_for('api.mediaview', id=id + 10)
     json_results['count'] = len(json_results['media'])
     return jsonify(json_results)
 
@@ -210,7 +236,7 @@ def revisevideo(videoid, token):
     if token is not None:
         user = UserProfile.query. \
             filter_by(token=token).first_or_404()
-        #data = delete(user.username, videoid, 'yes')
+        # data = delete(user.username, videoid, 'yes')
         data = upload(user.username)
         if data['status'] is 'success':
             media = Media.query.filter_by(media_id=videoid).first_or_404()
