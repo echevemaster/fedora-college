@@ -34,7 +34,8 @@ def build_app(app):
     app.register_blueprint(search_bundle)
     # Config to Flask from objects
     # app.config.from_object('fedora_college.core.config.ProductionConfig')
-    app.config.from_object('fedora_college.core.config.DevelopmentConfig')
+    # app.config.from_object('fedora_college.core.config.DevelopmentConfig')
+    app.config.from_object('fedora_college.core.config.ProductionConfigDemo')
     db.init_app(app)
 
     # FAS OpenID Instance

@@ -56,6 +56,23 @@ class ProductionConfig(Config):
     STATIC_FOLDER = '/home/engineer/fedora-college/fedora_college/static'
 
 
+class ProductionConfigDemo(Config):
+    DEBUG = True
+    SECRET_KEY = 'FEDORA-DEMO'
+    PGSQL_USER = "postgres"
+    PGSQL_PASS = "kgggdkp1992"
+    PGSQL_DATABASE = "fedora"
+    SQLALCHEMY_DATABASE_URI = "postgresql://" + \
+        PGSQL_USER + ":" + PGSQL_PASS + "@localhost/" + PGSQL_DATABASE
+
+    DEBUG_TOOLBAR = True
+    SQLALCHEMY_ECHO = True
+
+    UPLOADS_FOLDER = '/home/engineer/fedora-college/' + \
+        'fedora_college/static/uploads/'
+    STATIC_FOLDER = '/home/engineer/fedora-college/fedora_college/static'
+
+
 class DevelopmentConfig(Config):
     DEBUG = True
     SECRET_KEY = 'FEDORA-DEMO'
