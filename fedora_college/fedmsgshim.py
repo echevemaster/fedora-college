@@ -15,3 +15,4 @@ def publish(*args, **kwargs):
         fedmsg.publish(*args, **kwargs)
     except Exception, e:
         warnings.warn(str(e))
+        pass

@@ -42,7 +42,7 @@ class Config(object):
 
 
 class ProductionConfig(Config):
-    DEBUG = False
+    DEBUG = True
     SECRET_KEY = 'FEDORA-DEMO'
     PGSQL_USER = "postgres"
     PGSQL_PASS = "kgggdkp1992"
