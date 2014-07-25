@@ -10,7 +10,6 @@ class Config(object):
     ADMIN_GROUP = 'provenpackager'
     WHOOSH_BASE = os.path.join(basedir, 'search')
 
-
     DEBUG = True
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465
@@ -51,10 +50,10 @@ class ProductionConfig(Config):
     UPLOADS_FOLDER = '/home/engineer/fedora-college/' + \
         'fedora_college/static/uploads/'
     STATIC_FOLDER = '/home/engineer/fedora-college/fedora_college/static'
-    #DEBUG = False
-    #TESTING = False
-    #DEBUG_TB_PROFILER_ENABLED = False
-    #DEBUG_TB_INTERCEPT_REDIRECTS = False
+    # DEBUG = False
+    # TESTING = False
+    # DEBUG_TB_PROFILER_ENABLED = False
+    # DEBUG_TB_INTERCEPT_REDIRECTS = False
 
 
 class ProductionConfigDemo(Config):

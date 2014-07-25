@@ -53,20 +53,20 @@ def tagsview(tagid=None, id=0):
                 json_results = tag.getdata()
         else:
             tags = Tags.query.all()
-            for tag in tags:
+            for tag in tags[id:id + 10]:
                 json_results[tag.tag_id] = tag.getdata()
     return jsonify(
-        items=json_results[id:id + 10],
+        items=json_results,
         next=url_for('api.tagsview', id=id + 10)
     )
 
 
-@bundle.route('/api/tags/map', methods=['GET'])
-@bundle.route('/api/tags/map/', methods=['GET'])
-@bundle.route('/api/tags/map/<id>', methods=['GET'])
-@bundle.route('/api/tags/map/<id>/', methods=['GET'])
-@bundle.route('/api/tags/map/<tagid>', methods=['GET'])
-@bundle.route('/api/tags/map/<tagid>/', methods=['GET'])
+@bundle.route('/api/tagsmap', methods=['GET'])
+@bundle.route('/api/tagsmap/', methods=['GET'])
+@bundle.route('/api/tagsmap/<id>', methods=['GET'])
+@bundle.route('/api/tagsmap/<id>/', methods=['GET'])
+@bundle.route('/api/tagsmap/<tagid>', methods=['GET'])
+@bundle.route('/api/tagsmap/<tagid>/', methods=['GET'])
 def tagsmapview(tagid=None, id=0):
     id = int(id)
     json_results = {}
@@ -78,11 +78,11 @@ def tagsmapview(tagid=None, id=0):
                 json_results['tags'].append(tag.getdata())
         else:
             tags = TagsMap.query.all()
-            for tag in tags:
+            for tag in tags[id:id + 10]:
                 json_results['tags'].append(tag.getdata())
     json_results['count'] = len(json_results['tags'])
     return jsonify(
-        items=json_results[id:id + 10],
+        items=json_results,
         next=url_for('api.tagsmapview', id=id + 10)
     )
 
@@ -104,11 +104,11 @@ def profileview(username=None, id=0):
             users = UserProfile.query.all()
             data = {}
             data['users'] = []
-            for user in users:
+            for user in users[id:id + 10]:
                 data['users'].append(user.getdata())
             data['count'] = len(data['users'])
             return jsonify(
-                items=data[id:id + 10],
+                items=data,
                 next=url_for('api.tagsmapview', id=id + 10)
             )
     else:
@@ -135,8 +135,7 @@ def contentview(contentid=None, id=0):
                 json_results['content'].append(content.getdata())
         else:
             content = Content.query.all()
-            content = content[id: id + 10]
-            for content in content:
+            for content in content[id:id + 10]:
                 json_results['content'].append(content.getdata())
             json_results['next'] = url_for('api.contentview', id=id + 10)
     json_results['count'] = len(json_results['content'])

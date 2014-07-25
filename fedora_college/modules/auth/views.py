@@ -63,7 +63,7 @@ def after_auth():
     try:
         user = UserProfile.query. \
             filter_by(username=g.fas_user['username']).first()
-        if user is None : 
+        if user is None:
             raise Exception("User is not in database ")
         return redirect(url_for('profile.user',
                         nickname=g.fas_user['username'])

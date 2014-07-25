@@ -26,8 +26,8 @@ paths_for_api = {
         {'path': '/api/search/<keyword>', 'methods': 'GET'},
         {'path': '/api/tags/', 'methods': 'GET'},
         {'path': '/api/tags/<tagid>/', 'methods': 'GET'},
-        {'path': '/api/tags/map/', 'methods': 'GET'},
-        {'path': '/api/tags/map/<tagid>/', 'methods': 'GET'},
+        {'path': '/api/tagsmap/', 'methods': 'GET'},
+        {'path': '/api/tagsmap/<tagid>/', 'methods': 'GET'},
         {'path': '/api/docs/', 'methods': 'GET'},
         {'path': '/api/', 'methods': 'GET'}
     ],
