@@ -7,12 +7,9 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config(object):
     FAS_OPENID_ENDPOINT = 'http://id.fedoraproject.org/'
     FAS_CHECK_CERT = True
-    DEBUG = False
-    TESTING = False
     ADMIN_GROUP = 'provenpackager'
     WHOOSH_BASE = os.path.join(basedir, 'search')
-    DEBUG_TB_PROFILER_ENABLED = False
-    DEBUG_TB_INTERCEPT_REDIRECTS = False
+
 
     DEBUG = True
     MAIL_SERVER = 'smtp.gmail.com'
@@ -54,6 +51,10 @@ class ProductionConfig(Config):
     UPLOADS_FOLDER = '/home/engineer/fedora-college/' + \
         'fedora_college/static/uploads/'
     STATIC_FOLDER = '/home/engineer/fedora-college/fedora_college/static'
+    #DEBUG = False
+    #TESTING = False
+    #DEBUG_TB_PROFILER_ENABLED = False
+    #DEBUG_TB_INTERCEPT_REDIRECTS = False
 
 
 class ProductionConfigDemo(Config):

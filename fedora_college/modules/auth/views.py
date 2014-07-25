@@ -4,6 +4,8 @@ from flask import url_for, g, current_app
 from flask import jsonify
 from flask_fas_openid import fas_login_required
 from fedora_college.core.models import *  # noqa
+from fedora_college.core.database import db
+
 
 bundle = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -61,6 +63,8 @@ def after_auth():
     try:
         user = UserProfile.query. \
             filter_by(username=g.fas_user['username']).first()
+        if user is None : 
+            raise Exception("User is not in database ")
         return redirect(url_for('profile.user',
                         nickname=g.fas_user['username'])
                         )
@@ -83,7 +87,7 @@ def after_auth():
             body = "On Behalf of fedora COmmunity I welcome you."
             html = "Welcome to world of learning "
             send_email(sender, g.fas_user['email'], subject, body, html)
-        except:
+        except Exception:
             pass
         user.newtoken()
         db.session.add(user)
