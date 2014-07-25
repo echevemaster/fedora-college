@@ -7,7 +7,7 @@ from fedora_college.core.database import db
 from flask import (g)
 
 
-regex = re.compile("\[\[([1-9]*)]\]")
+regex = re.compile("\[\[([0-9]+)]\]")
 
 '''
     Database Models
