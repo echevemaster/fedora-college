@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from sqlalchemy import desc
 from flask import Blueprint, render_template
-from flask import url_for, jsonify
+from flask import url_for
 from fedora_college.core.models import *  # noqa
 from fedora_college.core.database import db
 from fedora_college.modules.home.forms import *  # noqa
