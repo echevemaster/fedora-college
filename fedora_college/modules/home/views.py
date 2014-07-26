@@ -75,7 +75,7 @@ def list_all(id=0):
     items = []
     result = Content.query.all()
     for content in result[id: id + 10]:
-        items.append(content.getdata())
+        items.append(content)
     return render_template('home/all.html',
                            content=items,
                            title='All ScreenCast',
