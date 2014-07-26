@@ -28,13 +28,14 @@
     <div id="columns">
             {% for record in posts %}
                <div class="pin">
-                <a href="{{ url_for('content.blog',slug=record.slug ) }}" >
-                                <p>
-                                    <h6>{{record.title }}</h6>
-                                    <b>Tags<b/> {{record.tags}}<br/>
-                                    <b>Written By</b> {{record.user_id}}
-                                </p> 
-                </a> 
+                <p>
+                    <a href="{{ url_for('content.blog',slug=record.slug ) }}" >
+                                    <p>
+                                        <h6>{{record.title }}</h6>
+                                        <b>Written By</b> {{record.user_id}}
+                                    </p> 
+                    </a> 
+                </p>
                 </div>
             {% endfor %}
     </div>

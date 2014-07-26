@@ -1,0 +1,42 @@
+{% extends "base_home.html" %}
+{% block title %}
+     {{title}}
+{% endblock %}
+{% block content %}
+
+     <div class="row">
+        <div class = "row" >
+            <div class="large-2 columns">&nbsp;</div>
+            <div class="large-8 columns">
+                 {% for record in content %}
+                
+                <hr/>
+                    <div class="panel radius" style="text-align: justify" >
+                        <img src ="/{{record.thumb_url}} "/>
+                        <h3> {{ record.title }}</h3>
+                        <h5> Written By : {{record.user_id}} | Written on : {{record.date_added }} </h5>
+                        <b> Tags </b> {{record.tags}}
+                        <br/><br/>
+                    
+                    <a href="{{ url_for('home.content',slug=record.slug) }}" class="button" >
+                      Read More
+                    </a>
+                    </div>                   
+           
+                {% endfor %}
+
+                   
+            </div>
+            <div class="large-2 columns">
+
+                <ul class="pagination">
+                                  <li><a href="{{ url_for('home.list_all',id=id-5)}}">Previous</a></li>
+                                  <li class="current"><a href="">{{id}}</a></li>
+                                  <li><a href="{{ url_for('home.list_all',id=id+5)}}">Next</a></li>
+                </ul>
+
+            </div>
+
+        </div>
+     </div>
+{% endblock %}

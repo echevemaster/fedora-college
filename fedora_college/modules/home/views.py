@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from sqlalchemy import desc
 from flask import Blueprint, render_template
-from flask import url_for
+from flask import url_for, jsonify
 from fedora_college.core.models import *  # noqa
 from fedora_college.core.database import db
 from fedora_college.modules.home.forms import *  # noqa
@@ -64,6 +64,22 @@ def index():
                            content="Home page",
                            screen=screen,
                            posts=posts)
+
+
+@bundle.route('/all', methods=['GET', 'POST'])
+@bundle.route('/all/', methods=['GET', 'POST'])
+@bundle.route('/all/<id>', methods=['GET', 'POST'])
+@bundle.route('/all/<id>/', methods=['GET', 'POST'])
+def list_all(id=0):
+    id = int(id)
+    items = []
+    result = Content.query.all()
+    for content in result[id: id + 10]:
+        items.append(content.getdata())
+    return render_template('home/all.html',
+                           content=items,
+                           title='All ScreenCast',
+                           id=id + 10)
 
 
 @bundle.route('/about', methods=['GET', 'POST'])
