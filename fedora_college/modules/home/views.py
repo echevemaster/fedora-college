@@ -73,13 +73,15 @@ def index():
 def list_all(id=0):
     id = int(id)
     items = []
-    result = Content.query.all()
+    result = Content.query. \
+        filter_by(type_content="lecture", active=True).all()
+
     for content in result[id: id + 10]:
         items.append(content)
     return render_template('home/all.html',
                            content=items,
                            title='All ScreenCast',
-                           id=id + 10)
+                           id=id)
 
 
 @bundle.route('/about', methods=['GET', 'POST'])
