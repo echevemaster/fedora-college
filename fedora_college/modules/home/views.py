@@ -115,8 +115,10 @@ def about():
 @bundle.route('/<slug>', methods=['GET', 'POST'])
 def content(slug=None):
     pos = []
+    star = None
     if authenticated():
         form = AddComment()
+        star = None
         form_action = url_for('home.content', slug=slug)
         if form.validate_on_submit():
             query = Comments(form.text.data, form.content_id.data)
@@ -124,6 +126,17 @@ def content(slug=None):
             db.session.commit()
         posts = Content.query.filter_by(
             slug=slug, type_content="lecture").first_or_404()
+
+        if g.fas_user is not None:
+            star = Star.query.filter_by(
+                username=g.fas_user['username'],
+                content_id=posts.content_id
+            ).first()
+            if star is None:
+                star = "UnMarked"
+            else:
+                star = star.star
+
         pos.append(posts)
         tree = getcommenttree(posts.content_id)
         return render_template('home/content.html',
@@ -131,13 +144,27 @@ def content(slug=None):
                                content=pos,
                                tree=tree,
                                form=form,
-                               form_action=form_action)
+                               form_action=form_action,
+                               star=star)
     else:
-            posts = Content.query.filter_by(
-                slug=slug, type_content="lecture").first_or_404()
-            pos.append(posts)
-            tree = getcommenttree(posts.content_id)
-            return render_template('home/content.html',
-                                   title='Lecture',
-                                   content=pos,
-                                   tree=tree)
+        posts = Content.query.filter_by(
+            slug=slug, type_content="lecture").first_or_404()
+
+        if g.fas_user is not None:
+            star = Star.query.filter_by(
+                username=g.fas_user['username'],
+                content_id=posts.content_id
+            ).first()
+            if star is None:
+                star = "UnMarked"
+            else:
+                star = star.star
+
+        pos.append(posts)
+        tree = getcommenttree(posts.content_id)
+        return render_template('home/content.html',
+                               title='Lecture',
+                               content=pos,
+                               tree=tree,
+                               star=star
+                               )

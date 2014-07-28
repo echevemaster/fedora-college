@@ -3,10 +3,10 @@ import json
 import datetime
 from flask.ext.babel import gettext
 from flask import Blueprint, request, jsonify, redirect
-from flask import url_for
+from flask import url_for, g, abort
 from fedora_college.core.models import Media, UserProfile
 from fedora_college.core.models import Tags, TagsMap
-from fedora_college.core.models import Content
+from fedora_college.core.models import Content, Vote, Star
 from fedora_college.core.database import db
 from fedora_college.modules.api.helper import paths_for_api, delete, upload
 
@@ -257,3 +257,61 @@ def revisevideo(videoid, token):
             return jsonify(data)
     else:
         return jsonify({'status': 'failed'})
+
+
+''' Private API funtion
+    These will only work with session
+'''
+
+
+@bundle.route('/api/echorequest', methods=['GET', 'POST'])
+@bundle.route('/api/echorequest/', methods=['GET', 'POST'])
+def echo():
+    if request.method == 'POST' and g.fas_user['username'] is not None:
+
+        rating = int(request.values['rate'])
+        content_id = int(request.values['idBox'])
+
+        username = g.fas_user['username']
+
+        data = dict()
+        data['message'] = 'hello, ' + str(username)
+        data['server'] = "You have already Voted"
+
+        query = Vote.query.filter_by(
+            username=username,
+            content_id=content_id
+        ).first()
+
+        if query is None:
+            vote = Vote(rating, content_id, username)
+            db.session.add(vote)
+            db.session.commit()
+            data['server'] = "Thanks for your vote"
+
+        return jsonify(data)
+    abort(404)
+
+
+@bundle.route('/api/addstar/<content>/<slug>/', methods=['GET', 'POST'])
+@bundle.route('/api/addstar/<content>/<slug>', methods=['GET', 'POST'])
+def mark_star(content=None, slug=None):
+
+    if content is not None and g.fas_user['username'] is not None:
+        username = g.fas_user['username']
+        query = Star.query.filter_by(
+            username=username,
+            content_id=content
+        ).first()
+
+        if query is None:
+            query = Star("Marked", content, username)
+            db.session.add(query)
+        else:
+            if query.star == "Marked":
+                query.star = "UnMarked"
+            else:
+                query.star = "Marked"
+        db.session.commit()
+        return redirect(url_for('home.content', slug=slug))
+    abort(404)
