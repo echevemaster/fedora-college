@@ -20,6 +20,6 @@ msgid "greetings"
 msgstr "saludos"
 
 #: modules/api/views.py:13
-msgid "Welcome to Fedora College api"
-msgstr "Bienvenido a la api de la Escuela Fedora"
+msgid "Welcome to Fedora College API"
+msgstr "Bienvenido a la API de Fedora College"
 
