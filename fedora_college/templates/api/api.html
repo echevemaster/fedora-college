@@ -1,0 +1,60 @@
+
+{% extends "base_home.html" %}
+{% block title %}
+     {{title}}
+{% endblock %}
+{% block content %}
+     <div class="row">
+		<h3> Read API End Points </h3><hr/>
+	    <dl class="accordion" data-accordion="myAccordionGroup1">
+     	{% for data in read %}
+	      <dd class="accordion-navigation">
+	        <a href="#panel{{data.id}}">{{data.id}}. &nbsp;{{data.name}}</a>
+	        <div id="panel{{data.id}}" class="content">
+	          <ul>
+	          	<li>
+	          		<h5>API Name : {{data.name}}
+	          	</li>
+	          	<li>
+	          		<h5>API EndPoint : {{data.path}}
+	          	</li>
+	          	<li>
+	          		<h5>API Methods  : {{data.methods}}
+	          	</li>
+	          	<li>
+	          		<h5>API Parameters  : {{data.parameters}}
+	          	</li>
+	          </ul>
+	        </div>
+	      </dd>
+	    {% endfor %}
+	 	</dl>
+	 </div>
+	 <div class = "row">
+	    <dl class="accordion" data-accordion="myAccordionGroup2">
+		<h3> Write API End Points </h3><hr/>
+     	{% for data in write %}
+      	<dd class="accordion-navigation">
+	        <a href="#panel{{data.id}}">{{data.id}}. &nbsp;{{data.name}}</a>
+	        <div id="panel{{data.id}}" class="content">
+	          <ul>
+	          	<li>
+	          		<h5>API Name : {{data.name}}
+	          	</li>
+	          	<li>
+	          		<h5>API EndPoint : {{data.path}}
+	          	</li>
+	          	<li>
+	          		<h5>API Methods  : {{data.methods}}
+	          	</li>
+	          	<li>
+	          		<h5>API Parameters  : {{data.parameters}}
+	          	</li>
+	          </ul>
+	        </div>
+	    </dd>
+   		{% endfor %}
+
+    </dl>
+     </div>
+{% endblock %}

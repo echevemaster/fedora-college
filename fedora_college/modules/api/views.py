@@ -3,7 +3,7 @@ import json
 import datetime
 from flask.ext.babel import gettext
 from flask import Blueprint, request, jsonify, redirect
-from flask import url_for, g, abort
+from flask import url_for, g, abort, render_template
 from fedora_college.core.models import Media, UserProfile
 from fedora_college.core.models import Tags, TagsMap
 from fedora_college.core.models import Content, Vote, Star
@@ -30,9 +30,9 @@ def index():
 @bundle.route('/api/docs/', methods=['GET'])
 def docs():
     if request.method == 'GET':
-        json_results = []
-        json_results.append(paths_for_api)
-    return jsonify(paths=json_results)
+        data = paths_for_api
+        return render_template('api/api.html', read=data['Read'], write=data['Write'])
+    abort(404)
 
 
 @bundle.route('/api/tags', methods=['GET'])
