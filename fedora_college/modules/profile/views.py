@@ -9,7 +9,8 @@ from fedora_college.core.models import *  # noqa
 
 
 bundle = Blueprint('profile', __name__, template_folder='templates',
-                   static_folder='static')
+                   static_folder='static',
+                   url_prefix='/user')
 
 
 def getuserdata():
@@ -29,10 +30,10 @@ def authenticated():
     return hasattr(g, 'fas_user') and g.fas_user
 
 
-@bundle.route('/user/edit/', methods=['GET', 'POST'])
-@bundle.route('/user/edit', methods=['GET', 'POST'])
-@bundle.route('/user/<nickname>/edit/', methods=['GET', 'POST'])
-@bundle.route('/user/<nickname>/edit', methods=['GET', 'POST'])
+@bundle.route('/edit/', methods=['GET', 'POST'])
+@bundle.route('/edit', methods=['GET', 'POST'])
+@bundle.route('/<nickname>/edit/', methods=['GET', 'POST'])
+@bundle.route('/<nickname>/edit', methods=['GET', 'POST'])
 def editprofile(nickname=None):
     if authenticated():
         if g.fas_user['username'] == nickname or request.method == 'POST':
@@ -57,7 +58,7 @@ def editprofile(nickname=None):
     abort(404)
 
 
-@bundle.route('/user/<nickname>')
+@bundle.route('/<nickname>')
 def user(nickname):
 
     msg = ""

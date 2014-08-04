@@ -50,8 +50,6 @@ def getcommenttree(content_id):
 
 
 @bundle.route('/', methods=['GET', 'POST'])
-@bundle.route('/index/', methods=['GET', 'POST'])
-@bundle.route('/home/', methods=['GET', 'POST'])
 def index():
     posts = Content.query. \
         filter_by(type_content="blog", active=True).limit(30).all()
