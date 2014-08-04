@@ -17,40 +17,56 @@ size = (250, 190)
 
 paths_for_api = {
     "Read": [
-        {'parameters': 'None', 'id': '1', 'name': 'View All Content ',
-            'path': '/api/content/', 'methods': 'GET'},
-        {'parameters': 'contentid : Number, mostly an integer', 'id': '2', 'name':
-            'View Content By ID ', 'path': '/api/content/<contentid>/', 'methods': 'GET'},
-        {'parameters': 'None', 'id': '3', 'name': 'View All Media',
-            'path': '/api/media/', 'methods': 'GET'},
-        {'parameters': 'Mediaid : Number, mostly an integer', 'id': '4', 'name':
-            'View Media By ID', 'path': '/api/media/<mediaid>/', 'methods': 'GET'},
-        {'parameters': 'None', 'id': '5', 'name': 'View All User profiles',
-            'path': '/api/profile/', 'methods': 'GET'},
-        {'parameters': 'Username : Username of any existing user', 'id': '6', 'name':
-            'View Profiles By username', 'path': '/api/profile/<username>/', 'methods': 'GET'},
-        {'parameters': 'Keyword: To be searched', 'id': '7', 'name':
-            'Perform a Search by keyword', 'path': '/api/search/<keyword>', 'methods': 'GET'},
-        {'parameters': 'None', 'id': '8', 'name':
-            'View All Tags', 'path': '/api/tags/', 'methods': 'GET'},
-        {'parameters': 'TagID : Number, mostly an integer', 'id': '9', 'name':
-            'View Tags by Tag ID ', 'path': '/api/tags/<tagid>/', 'methods': 'GET'},
-        {'parameters': 'None', 'id': '10', 'name': 'View Map Tags with Content',
-            'path': '/api/tagsmap/', 'methods': 'GET'},
-        {'parameters': 'TagID : Number, mostly an integer', 'id': '11', 'name':
-            'View MApped Tags with ID', 'path': '/api/tagsmap/<tagid>/', 'methods': 'GET'},
-        {'parameters': 'None', 'id': '12', 'name':
-            'API Docs', 'path': '/api/docs/', 'methods': 'GET'},
-        {'parameters': 'None', 'id': '13', 'name':
-            'API Home', 'path': '/api/', 'methods': 'GET'}
+        {'parameters': 'None', 'id': '1',
+         'name': 'View All Content ',
+         'path': '/api/content/', 'methods': 'GET'},
+        {'parameters': 'contentid : Number, mostly an integer',
+         'id': '2', 'name': 'View Content By ID ',
+         'path': '/api/content/<contentid>/', 'methods': 'GET'},
+        {'parameters': 'None', 'id': '3',
+         'name': 'View All Media',
+         'path': '/api/media/', 'methods': 'GET'},
+        {'parameters': 'Mediaid : Number, mostly an integer', 'id': '4',
+         'name': 'View Media By ID',
+         'path': '/api/media/<mediaid>/', 'methods': 'GET'},
+        {'parameters': 'None', 'id': '5',
+         'name': 'View All User profiles',
+         'path': '/api/profile/', 'methods': 'GET'},
+        {'parameters': 'Username : Username of any existing user', 'id': '6',
+         'name': 'View Profiles By username',
+         'path': '/api/profile/<username>/', 'methods': 'GET'},
+        {'parameters': 'Keyword: To be searched', 'id': '7',
+         'name': 'Perform a Search by keyword',
+         'path': '/api/search/<keyword>', 'methods': 'GET'},
+        {'parameters': 'None', 'id': '8',
+         'name': 'View All Tags',
+         'path': '/api/tags/', 'methods': 'GET'},
+        {'parameters': 'TagID : Number, mostly an integer', 'id': '9',
+         'name': 'View Tags by Tag ID ',
+         'path': '/api/tags/<tagid>/', 'methods': 'GET'},
+        {'parameters': 'None', 'id': '10',
+         'name': 'View Map Tags with Content',
+         'path': '/api/tagsmap/', 'methods': 'GET'},
+        {'parameters': 'TagID : Number, mostly an integer', 'id': '11',
+         'name': 'View MApped Tags with ID',
+         'path': '/api/tagsmap/<tagid>/', 'methods': 'GET'},
+        {'parameters': 'None', 'id': '12',
+         'name': 'API Docs',
+         'path': '/api/docs/', 'methods': 'GET'},
+        {'parameters': 'None', 'id': '13',
+         'name': 'API Home',
+         'path': '/api/', 'methods': 'GET'}
     ],
     "Write": [
-        {'parameters': 'Access Token : Present in User Profiles', 'id': '1', 'name':
-            'Upload File API', 'path': '/api/upload/<token>', 'methods': 'POST'},
-        {'parameters': 'Access Token : Present in User Profiles', 'id': '2', 'name':
-            'Delete file API', 'path': '/api/upload/delete/<videoid>/<token>', 'methods': 'POST'},
-        {'parameters': 'Access Token : Present in User Profiles', 'id': '3', 'name':
-            'Upload Revision API', 'path': '/api/upload/revise/<videoid>/<token>', 'methods': 'POST'}
+        {'parameters': 'Access Token : Present in User Profiles', 'id': '1',
+         'name': 'Upload File API',
+         'path': '/api/upload/<token>', 'methods': 'POST'},
+        {'parameters': 'Access Token : Present in User Profiles', 'id': '2',
+         'name': 'Delete file API',
+         'path': '/api/upload/delete/<videoid>/<token>', 'methods': 'POST'},
+        {'parameters': 'Access Token : Present in User Profiles', 'id': '3',
+         'name': 'Upload Revision API',
+         'path': '/api/upload/revise/<videoid>/<token>', 'methods': 'POST'}
     ]
 }
 
