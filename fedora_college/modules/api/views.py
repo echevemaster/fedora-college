@@ -31,7 +31,9 @@ def index():
 def docs():
     if request.method == 'GET':
         data = paths_for_api
-        return render_template('api/api.html', read=data['Read'], write=data['Write'])
+        return render_template('api/api.html',
+                               read=data['Read'],
+                               write=data['Write'])
     abort(404)
 
 
