@@ -66,7 +66,8 @@ paths_for_api = {
          'path': '/api/upload/delete/<videoid>/<token>', 'methods': 'POST'},
         {'parameters': 'Access Token : Present in User Profiles', 'id': '3',
          'name': 'Upload Revision API',
-         'path': '/api/upload/revise/<videoid>/<token>', 'methods': 'POST, GET'}
+         'path': '/api/upload/revise/<videoid>/<token>',
+         'methods': 'POST, GET'}
     ]
 }
 
