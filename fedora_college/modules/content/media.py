@@ -21,6 +21,13 @@ def authenticated():
 @bundle.route('/media/view/page/<id>/')
 def displaymedia(mediaid=None, id=0):
     id = int(id)
+    token = None
+    try:
+        user = UserProfile.query. \
+            filter_by(username=g.fas_user['username']).first_or_404()
+        token = user.token
+    except:
+        pass
     url = url_for('content.displaymedia')
     if mediaid is not None:
             media = Media.query.filter_by(media_id=mediaid). order_by(
@@ -30,7 +37,8 @@ def displaymedia(mediaid=None, id=0):
                 data=media,
                 url=url,
                 id=id,
-                lists=media
+                lists=media,
+                token=token
             )
     else:
         lists = Media.query.order_by(
@@ -45,7 +53,8 @@ def displaymedia(mediaid=None, id=0):
             'media/index.html', data=media,
             lists=lists[0:20],
             url=url,
-            id=id
+            id=id,
+            token=token
         )
 
 

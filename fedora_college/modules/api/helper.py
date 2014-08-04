@@ -66,7 +66,7 @@ paths_for_api = {
          'path': '/api/upload/delete/<videoid>/<token>', 'methods': 'POST'},
         {'parameters': 'Access Token : Present in User Profiles', 'id': '3',
          'name': 'Upload Revision API',
-         'path': '/api/upload/revise/<videoid>/<token>', 'methods': 'POST'}
+         'path': '/api/upload/revise/<videoid>/<token>', 'methods': 'POST, GET'}
     ]
 }
 
@@ -105,20 +105,29 @@ def gen_thumbs(data, request, filename, upload_folder, username):
     return data
 
 
-def delete(username, videoid, edit=None):
-    media = Media.query.filter_by(media_id=videoid).first_or_404()
+def delete(username, videoid):
+    obj = Media.query.filter_by(media_id=videoid).first_or_404()
     data = {}
-    if media.username is username:
-        path = media.sys_path
+    if obj.user_id == username:
+        try:
+            db.session.commit()
+            db.session.rollback()
+            db.session.delete(obj)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            return {
+                'status': 'Failed',
+                'Reason': 'Please delete associated content',
+                'Exception': str(e)
+            }
+
+        path = obj.sys_path
         if os.path.isfile(path) and os.access(path, os.R_OK):
             os.remove(path)
         else:
             data['status'] = 'fileNotFound'
             return data['status']
-        if edit is not None:
-            db.session.commit()
-        else:
-            db.session.delete(media)
         data['status'] = 'success'
         data['videoid'] = videoid
         data['username'] = username

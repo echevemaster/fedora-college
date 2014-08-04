@@ -220,16 +220,19 @@ def uploadvideo(token, url=None):
         return jsonify({'status': 'failed'})
 
 
-@bundle.route('/api/upload/delete/<videoid>/<token>', methods=['POST'])
+@bundle.route('/api/upload/delete/<videoid>/<token>', methods=['GET', 'POST'])
 def deletevideo(videoid, token):
+    db.session.rollback()
     if token is not None:
         user = UserProfile.query. \
             filter_by(token=token).first_or_404()
         data = delete(user.username, videoid)
-        if data['status'] is 'success':
-            return jsonify(data)
+        return jsonify(data)
     else:
-        return jsonify({'status': 'failed'})
+        return jsonify(
+            {'status': 'failed',
+             'Reason': 'Please give a valid user acess Token'
+             })
 
 
 @bundle.route('/api/upload/revise/<videoid>/<token>', methods=['POST'])
