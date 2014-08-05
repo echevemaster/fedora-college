@@ -58,13 +58,20 @@ paths_for_api = {
          'path': '/api/', 'methods': 'GET'}
     ],
     "Write": [
-        {'parameters': 'Access Token : Present in User Profiles', 'id': '1',
+        {'parameters': 'Access Token : Present in User Profiles  ;  \
+        type = Type of file in {video,image,audio,doc}; tags : \
+        comma seperated tags  ,featured_name : featured name \
+        for file', 'id': '1',
          'name': 'Upload File API',
          'path': '/api/upload/<token>', 'methods': 'POST'},
-        {'parameters': 'Access Token : Present in User Profiles', 'id': '2',
+        {'parameters': 'Access Token : Present in User Profiles  ; \
+        type = Type of file in {video,image,audio,doc}; tags : \
+        comma seperated tags  ,featured_name : featured name\
+         for file', 'id': '2',
          'name': 'Delete file API',
          'path': '/api/upload/delete/<videoid>/<token>', 'methods': 'POST'},
-        {'parameters': 'Access Token : Present in User Profiles', 'id': '3',
+        {'parameters': 'Access Token : Present in User Profiles  ; \
+         Video id : integer', 'id': '3',
          'name': 'Upload Revision API',
          'path': '/api/upload/revise/<videoid>/<token>',
          'methods': 'POST, GET'}

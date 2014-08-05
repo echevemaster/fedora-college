@@ -8,6 +8,7 @@ from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
 from fedora_college.fedmsgshim import publish
+from flask_fas_openid import fas_login_required
 
 bundle = Blueprint('content', __name__, template_folder='templates')
 

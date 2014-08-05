@@ -6,7 +6,7 @@ from fedora_college.core.database import db
 from sqlalchemy import desc
 from fedora_college.modules.profile.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
-
+from flask_fas_openid import fas_login_required
 
 bundle = Blueprint('profile', __name__, template_folder='templates',
                    static_folder='static',
