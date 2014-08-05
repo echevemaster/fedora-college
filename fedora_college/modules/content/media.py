@@ -60,6 +60,7 @@ def displaymedia(mediaid=None, id=0):
 
 @bundle.route('/media/add/', methods=['GET', 'POST'])
 @bundle.route('/media/add', methods=['GET', 'POST'])
+@fas_login_required
 def uploadmedia():
 
     if authenticated():
@@ -78,6 +79,7 @@ def uploadmedia():
 
 @bundle.route('/media/view/<mediaid>/revise')
 @bundle.route('/media/view/<mediaid>/revise/')
+@fas_login_required
 def revisemedia(mediaid=None):
     if authenticated():
         user = UserProfile.query. \

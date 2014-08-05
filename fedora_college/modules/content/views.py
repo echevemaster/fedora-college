@@ -50,6 +50,7 @@ def attach_tags(tags, content):
 
 @bundle.route('/content/delete/<posturl>', methods=['GET', 'POST'])
 @bundle.route('/content/delete/<posturl>/', methods=['GET', 'POST'])
+@fas_login_required
 def delete_content(posturl=None):
     if posturl is not None:
         db.session.rollback()
@@ -77,6 +78,7 @@ def delete_content(posturl=None):
 @bundle.route('/content/add', methods=['GET', 'POST'])
 @bundle.route('/content/edit/<posturl>/', methods=['GET', 'POST'])
 @bundle.route('/content/edit/<posturl>', methods=['GET', 'POST'])
+@fas_login_required
 def addcontent(posturl=None):
     if authenticated():
         form = CreateContent()

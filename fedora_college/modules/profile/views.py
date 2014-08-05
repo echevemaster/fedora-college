@@ -34,6 +34,7 @@ def authenticated():
 @bundle.route('/edit', methods=['GET', 'POST'])
 @bundle.route('/<nickname>/edit/', methods=['GET', 'POST'])
 @bundle.route('/<nickname>/edit', methods=['GET', 'POST'])
+@fas_login_required
 def editprofile(nickname=None):
     if authenticated():
         if g.fas_user['username'] == nickname or request.method == 'POST':
