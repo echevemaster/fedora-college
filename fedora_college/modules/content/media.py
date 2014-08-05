@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, abort
 from flask import url_for, g
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
-
+from flask_fas_openid import fas_login_required
 from sqlalchemy import desc
 
 bundle = Blueprint('content', __name__, template_folder='templates')
