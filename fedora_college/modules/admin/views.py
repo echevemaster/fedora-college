@@ -5,7 +5,11 @@ from flask.ext.admin.contrib import sqla
 from flask.ext.admin import expose
 from flask.ext.admin.contrib.fileadmin import FileAdmin
 
-# Create customized index view class that handles login & registration
+# Create customized index view
+# class that handles login & registration
+# Each of the associated view has an
+# attached accessible efunction defined.
+# View for fedora admin models
 
 
 class FedoraModelView(sqla.ModelView):
@@ -22,6 +26,8 @@ class FedoraModelView(sqla.ModelView):
         except:
             return False
 
+# view for  fedora file models
+
 
 class FedoraFileView(FileAdmin):
 
@@ -34,6 +40,8 @@ class FedoraFileView(FileAdmin):
                 return False
         except:
             return False
+
+# View for the index page of fedora admin
 
 
 class FedoraAdminIndexView(admin.AdminIndexView):
