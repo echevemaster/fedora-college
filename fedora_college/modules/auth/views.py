@@ -9,11 +9,19 @@ from fedora_college.core.database import db
 
 bundle = Blueprint('auth', __name__, url_prefix='/auth')
 
+'''
+Send email on user registration
+'''
+
 
 def send_email(sender, recipients, subject, body, html):
     msg = Message(subject, sender)
     msg = mail.send(msg)
     return str(msg)
+
+'''
+Handler for the login
+'''
 
 
 @bundle.route('/login', methods=['GET', 'POST'])
@@ -27,12 +35,20 @@ def auth_login():
         return redirect(next_url)
     return current_app.config['fas'].login(return_url=next_url)
 
+'''
+Handler for the logout
+'''
+
 
 @bundle.route('/logout', methods=['GET', 'POST'])
 def auth_logout():
     if g.fas_user:
         current_app.config['fas'].logout()
     return redirect(url_for('home.index'))
+
+'''
+Testing Handler
+'''
 
 
 @bundle.route('/test/media', methods=['GET', 'POST'])
@@ -45,6 +61,10 @@ def testMedia():
     except Exception:
         return "None"
 
+'''
+    Testing user login
+'''
+
 
 @bundle.route('/test', methods=['GET', 'POST'])
 @fas_login_required
@@ -55,6 +75,10 @@ def testProfile():
         return jsonify(user.getdata())
     except:
         return "None"
+
+'''
+Insert into database
+'''
 
 
 @bundle.route('/insert', methods=['GET', 'POST'])
@@ -95,6 +119,11 @@ def after_auth():
         return redirect(url_for('profile.editprofile',
                                 nickname=g.fas_user['username'])
                         )
+
+'''
+Renew /Get a authentication
+access token for api
+'''
 
 
 @bundle.route('/gettoken', methods=['GET', 'POST'])
