@@ -10,10 +10,11 @@ from fedora_college.core.models import Content, Vote, Star
 from fedora_college.core.database import db
 from fedora_college.modules.api.helper import paths_for_api, delete, upload
 
-# Upload media Functions
+''' Various api endpoints '''
 bundle = Blueprint('api', __name__)
 
 
+# API index
 @bundle.route('/api/', methods=['GET'])
 @bundle.route('/api', methods=['GET'])
 def index():
@@ -25,6 +26,8 @@ def index():
         json_results.append(output)
     return jsonify(items=json_results)
 
+# API docs
+
 
 @bundle.route('/api/docs', methods=['GET'])
 @bundle.route('/api/docs/', methods=['GET'])
@@ -35,6 +38,8 @@ def docs():
                                read=data['Read'],
                                write=data['Write'])
     abort(404)
+
+# This function handles Tags
 
 
 @bundle.route('/api/tags', methods=['GET'])
@@ -62,6 +67,8 @@ def tagsview(tagid=None, id=0):
         next=url_for('api.tagsview', id=id + 10)
     )
 
+# Maps individual tags to content
+
 
 @bundle.route('/api/tagsmap', methods=['GET'])
 @bundle.route('/api/tagsmap/', methods=['GET'])
@@ -87,6 +94,8 @@ def tagsmapview(tagid=None, id=0):
         items=json_results,
         next=url_for('api.tagsmapview', id=id + 10)
     )
+
+# Information of users and profiles
 
 
 @bundle.route('/api/profile', methods=['GET'])
@@ -116,6 +125,8 @@ def profileview(username=None, id=0):
     else:
         return jsonify({})
 
+# information about content
+
 
 @bundle.route('/api/content', methods=['GET'])
 @bundle.route('/api/content/', methods=['GET'])
@@ -144,6 +155,8 @@ def contentview(contentid=None, id=0):
 
     return jsonify(json_results)
 
+# Information about uploaded media
+
 
 @bundle.route('/api/media', methods=['GET'])
 @bundle.route('/api/media/', methods=['GET'])
@@ -169,6 +182,8 @@ def mediaview(mediaid=None, id=0):
     json_results['count'] = len(json_results['media'])
     return jsonify(json_results)
 
+# searching in the website.
+
 
 @bundle.route('/api/search/<keyword>', methods=['GET'])
 @bundle.route('/api/search/<keyword>', methods=['GET'])
@@ -184,6 +199,8 @@ def search(keyword=None):
             else:
                 data['lecture'].append(obj.getdata())
     return jsonify(data)
+
+# uploading media.
 
 
 @bundle.route('/api/upload/<token>', methods=['POST'])
@@ -219,6 +236,8 @@ def uploadvideo(token, url=None):
     else:
         return jsonify({'status': 'failed'})
 
+# delete media. Any media.
+
 
 @bundle.route('/api/upload/delete/<videoid>/<token>', methods=['GET', 'POST'])
 def deletevideo(videoid, token):
@@ -233,6 +252,8 @@ def deletevideo(videoid, token):
             {'status': 'failed',
              'Reason': 'Please give a valid user acess Token'
              })
+
+# revise media given the media ID's
 
 
 @bundle.route('/api/upload/revise/<videoid>/<token>', methods=['POST'])
@@ -268,6 +289,8 @@ def revisevideo(videoid, token):
     These will only work with session
 '''
 
+# Voting for various content
+
 
 @bundle.route('/api/echorequest', methods=['GET', 'POST'])
 @bundle.route('/api/echorequest/', methods=['GET', 'POST'])
@@ -296,6 +319,8 @@ def echo():
 
         return jsonify(data)
     abort(404)
+
+# adding star for content
 
 
 @bundle.route('/api/addstar/<content>/<slug>/', methods=['GET', 'POST'])

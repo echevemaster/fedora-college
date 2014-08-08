@@ -13,7 +13,7 @@ from fedora_college.fedmsgshim import publish
 
 size = (250, 190)
 
-'''for documentation'''
+'''for creating api documentation'''
 
 paths_for_api = {
     "Read": [
@@ -79,6 +79,9 @@ paths_for_api = {
 }
 
 
+''' Function to generate thumbnail '''
+
+
 def gen_thumbs(data, request, filename, upload_folder, username):
     thumb_path = os.path.join(upload_folder, filename)
     '''
@@ -112,6 +115,8 @@ def gen_thumbs(data, request, filename, upload_folder, username):
 
     return data
 
+'''Delete a video '''
+
 
 def delete(username, videoid):
     obj = Media.query.filter_by(media_id=videoid).first_or_404()
@@ -144,7 +149,9 @@ def delete(username, videoid):
         return {'status': 'Unauthorized'}
 
 
-# Generator to buffer file chunks
+'''Generator to buffer file chunks'''
+
+
 def fbuffer(f, chunk_size=10000):
     while True:
         chunk = f.read(chunk_size)
@@ -153,12 +160,17 @@ def fbuffer(f, chunk_size=10000):
         yield chunk
 
 
-# write file to disk
+'''write file to disk'''
+
+
 def write_to_disk(path, filestorage):
     out = open(path, 'wb', 10000)
     for chunk in fbuffer(filestorage.stream):
         out.write(chunk)
     out.close()
+
+
+''' handling multi part file uploads '''
 
 
 def upload(username):
