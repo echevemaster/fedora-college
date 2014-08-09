@@ -8,9 +8,13 @@ from sqlalchemy import desc
 
 bundle = Blueprint('content', __name__, template_folder='templates')
 
+# authenticated media.
+
 
 def authenticated():
     return hasattr(g, 'fas_user') and g.fas_user
+
+# media view
 
 
 @bundle.route('/media/view')
@@ -57,6 +61,8 @@ def displaymedia(mediaid=None, id=0):
             token=token
         )
 
+# media add
+
 
 @bundle.route('/media/add/', methods=['GET', 'POST'])
 @bundle.route('/media/add', methods=['GET', 'POST'])
@@ -75,6 +81,8 @@ def uploadmedia():
                                tags=tags,
                                head="Add New Media")
     abort(404)
+
+# media view / revise media
 
 
 @bundle.route('/media/view/<mediaid>/revise')

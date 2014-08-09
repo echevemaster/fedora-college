@@ -6,6 +6,8 @@ from wtforms.validators import Required
 
 __all__ = ['CreateContent']
 
+# form class for creating  content
+
 
 class CreateContent(Form):
     title = TextField(
