@@ -4,9 +4,8 @@ from flask.ext import admin
 from flask.ext.admin.contrib import sqla
 from flask.ext.admin import expose
 from flask.ext.admin.contrib.fileadmin import FileAdmin
-from flask import current_app
-admins = set(current_app.config['ADMIN_GROUP'])
-groups = set(list(g.fas_user['groups']))
+
+admin_grp = set([u'provenpackager', u'summer-coding'])
 # Create customized index view
 # class that handles login & registration
 # Each of the associated view has an
@@ -20,7 +19,8 @@ class FedoraModelView(sqla.ModelView):
 
     def is_accessible(self):
         try:
-            if admin & groups:
+            groups = set(g.fas_user['groups'])
+            if groups & admin_grp:
                 return True
             else:
                 return False
@@ -34,7 +34,8 @@ class FedoraFileView(FileAdmin):
 
     def is_accessible(self):
         try:
-            if admin & groups
+            groups = set(g.fas_user['groups'])
+            if groups & admin_grp:
                 return True
             else:
                 return False
@@ -51,7 +52,8 @@ class FedoraAdminIndexView(admin.AdminIndexView):
 
     def is_accessible(self):
         try:
-            if admin & groups
+            groups = set(g.fas_user['groups'])
+            if groups & admin_grp:
                 return True
             else:
                 return False
@@ -60,6 +62,7 @@ class FedoraAdminIndexView(admin.AdminIndexView):
 
     @expose('/')
     def index(self):
+
         try:
             if g.fas_user.username:
                 return super(FedoraAdminIndexView, self).index()
