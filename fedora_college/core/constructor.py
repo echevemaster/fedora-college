@@ -24,6 +24,9 @@ from fedora_college.modules.admin.views import FedoraAdminIndexView
 from flask.ext.admin import Admin
 from flask.ext.mail import Mail
 
+# build app, joining all
+# blue prints and other stuff
+
 
 def build_app(app):
     app.register_blueprint(auth_bundle)
@@ -64,6 +67,8 @@ def build_app(app):
 
         current_app.config['fas'] = FAS(app)
 
+# create databse
+
 
 def create_db(app):
     db.init_app(app)
@@ -71,15 +76,21 @@ def create_db(app):
         db.drop_all()
         db.create_all()
 
+# drop databse
+
 
 def drop_db(app):
     db.init_app(app)
     with app.app_context():
         db.drop_all()
 
+# authentication function
+
 
 def authenticated():
     return hasattr(g, 'fas_user') and g.fas_user
+
+# logger for the application
 
 
 def logger(app):
@@ -89,6 +100,8 @@ def logger(app):
         app.logger.addHandler(handler)
         LOG = app.logger
         return LOG
+
+# verify if the user is admin or not.
 
 
 def is_admin(app):

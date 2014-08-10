@@ -15,7 +15,7 @@ There are 3 types of config.
 class Config(object):
     FAS_OPENID_ENDPOINT = 'http://id.fedoraproject.org/'
     FAS_CHECK_CERT = True
-    ADMIN_GROUP = 'provenpackager'
+    ADMIN_GROUP = ['provenpackager', 'summer-coding ']
     WHOOSH_BASE = os.path.join(basedir, 'search')
 
     DEBUG = True
