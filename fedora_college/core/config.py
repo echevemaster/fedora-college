@@ -2,6 +2,14 @@
 # -*- coding: utf-8 -*-
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
+''' 
+This file houses the config files 
+for the whole of the project.
+There are 3 types of config.
+1. Production : That you may set on Production
+2. ProdDemo : for engineerinme.com
+3. Development : local testing 
+'''
 
 
 class Config(object):

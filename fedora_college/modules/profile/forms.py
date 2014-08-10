@@ -5,6 +5,8 @@ from wtforms.validators import Required
 
 __all__ = ['EditProfile']
 
+# Edit profile form class
+
 
 class EditProfile(Form):
 

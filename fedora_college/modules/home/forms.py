@@ -5,6 +5,8 @@ from wtforms.validators import Required
 
 __all__ = ['AddComment']
 
+# Add comment form
+
 
 class AddComment(Form):
     text = TextField(

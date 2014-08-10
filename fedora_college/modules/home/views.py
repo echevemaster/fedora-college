@@ -13,10 +13,14 @@ from werkzeug.contrib.atom import AtomFeed
 
 bundle = Blueprint('home', __name__, template_folder='templates')
 
+# Get external url for rss feeds
+
 
 def make_external(url):
     url = 'blog/' + str(url)
     return urljoin(request.url_root, url)
+
+# generate atom feeds
 
 
 @bundle.route('/recent.atom')
@@ -34,9 +38,13 @@ def recent_feed():
                  )
     return feed.get_response()
 
+# confirm user is authenticated or not
+
 
 def authenticated():
     return hasattr(g, 'fas_user') and g.fas_user
+
+# Get comments for a content type
 
 
 def getcommenttree(content_id):
@@ -47,6 +55,8 @@ def getcommenttree(content_id):
     for comment in query:
         tree.append(comment)
     return tree
+
+# Blog content display
 
 
 @bundle.route('/', methods=['GET', 'POST'])
@@ -62,6 +72,8 @@ def index():
                            content="Home page",
                            screen=screen,
                            posts=posts)
+
+# All the lectures
 
 
 @bundle.route('/all', methods=['GET', 'POST'])
@@ -80,6 +92,8 @@ def list_all(id=0):
                            content=items,
                            title='All ScreenCast',
                            id=id)
+
+# About us page.
 
 
 @bundle.route('/about', methods=['GET', 'POST'])
@@ -107,6 +121,8 @@ def about():
                            text=text,
                            title='About',
                            content='About Us')
+
+# General website handler, dleivering screencasts
 
 
 @bundle.route('/<slug>/', methods=['GET', 'POST'])

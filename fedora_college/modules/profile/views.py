@@ -12,6 +12,8 @@ bundle = Blueprint('profile', __name__, template_folder='templates',
                    static_folder='static',
                    url_prefix='/user')
 
+# Get user data for displaying on profile page.
+
 
 def getuserdata():
     media = Media.query.filter_by(
@@ -25,9 +27,13 @@ def getuserdata():
         order_by(desc(Content.date_added)).limit(10).all()
     return media, content, comments
 
+# verify user is authenticated.
+
 
 def authenticated():
     return hasattr(g, 'fas_user') and g.fas_user
+
+# Edit user profile page handler
 
 
 @bundle.route('/edit/', methods=['GET', 'POST'])
@@ -58,6 +64,8 @@ def editprofile(nickname=None):
             return "Unauthorised"
     abort(404)
 
+# User profile public page
+
 
 @bundle.route('/<nickname>')
 def user(nickname):
@@ -65,7 +73,6 @@ def user(nickname):
     msg = ""
     if request.args.get('updated') == "True":
         msg = msg + "Profile Updated"
-        print msg
     user = UserProfile.query. \
         filter_by(username=nickname).first()
     if user is None:

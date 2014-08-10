@@ -7,6 +7,8 @@ from fedora_college.core.models import Content, Media
 # Upload media Functions
 bundle = Blueprint('search', __name__, url_prefix='/search')
 
+# perform serach for a key word for content
+
 
 def do_search(keyword):
     data = {}
@@ -21,6 +23,8 @@ def do_search(keyword):
                 data['lecture'].append(obj.getdata())
     return data
 
+# perform media search
+
 
 def do_media_search(keyword):
     data = {}
@@ -33,6 +37,8 @@ def do_media_search(keyword):
         for obj in result:
             data['media'].append(obj.getdata())
     return data
+
+# Display media results
 
 
 @bundle.route('/media/', methods=['GET'])
@@ -54,6 +60,8 @@ def media_search(keyword=None):
                            title='Search',
                            media=data['media']
                            )
+
+# Display results by Keyword
 
 
 @bundle.route('/', methods=['GET'])

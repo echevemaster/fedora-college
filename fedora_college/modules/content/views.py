@@ -17,9 +17,13 @@ from fedora_college.modules.content.media import *  # noqa
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
+# Verify if user is authenticated
+
 
 def authenticated():
     return hasattr(g, 'fas_user') and g.fas_user
+
+# generate url slug
 
 
 def slugify(text, delim=u'-'):
@@ -30,6 +34,8 @@ def slugify(text, delim=u'-'):
         if word:
             result.append(word)
     return unicode(delim.join(result))
+
+# attach tags to a content entry
 
 
 def attach_tags(tags, content):
@@ -47,6 +53,8 @@ def attach_tags(tags, content):
         Map = TagsMap(tag_db.tag_id, content.content_id)
         db.session.add(Map)
     db.session.commit()
+
+# delete content
 
 
 @bundle.route('/content/delete/<posturl>', methods=['GET', 'POST'])
@@ -73,6 +81,8 @@ def delete_content(posturl=None):
         return redirect(url_for('profile.user',
                                 nickname=g.fas_user['username']))
     abort(404)
+
+# add / edit more content
 
 
 @bundle.route('/content/add/', methods=['GET', 'POST'])
@@ -150,6 +160,8 @@ def addcontent(posturl=None):
                                form_action=form_action, title="Create Content",
                                media=media[0:5], tags=tags)
     abort(404)
+
+# View Blog post
 
 
 @bundle.route('/blog', methods=['GET', 'POST'])

@@ -11,6 +11,15 @@ regex = re.compile("\[\[([0-9]+)]\]")
 
 '''
     Database Models
+    The following models have been defined in the file
+    1. User profile: for storing profile information
+    2. Content : Storing content, it saves in the HTML and text formats
+    3. Media : storingmedia information
+    4. Comments : storing comments stream
+    5. Tags : various tags for content
+    6. TagsMap : maps content with media
+    7. Vote : Voting on various topics
+    8. Star : mark a lecture as favourite.
 '''
 
 
