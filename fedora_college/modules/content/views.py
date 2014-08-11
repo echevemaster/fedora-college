@@ -8,6 +8,7 @@ from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
 from fedora_college.fedmsgshim import publish
+from flask_fas_openid import fas_login_required
 
 bundle = Blueprint('content', __name__, template_folder='templates')
 
@@ -16,9 +17,13 @@ from fedora_college.modules.content.media import *  # noqa
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
+# Verify if user is authenticated
+
 
 def authenticated():
     return hasattr(g, 'fas_user') and g.fas_user
+
+# generate url slug
 
 
 def slugify(text, delim=u'-'):
@@ -29,6 +34,8 @@ def slugify(text, delim=u'-'):
         if word:
             result.append(word)
     return unicode(delim.join(result))
+
+# attach tags to a content entry
 
 
 def attach_tags(tags, content):
@@ -47,9 +54,12 @@ def attach_tags(tags, content):
         db.session.add(Map)
     db.session.commit()
 
+# delete content
+
 
 @bundle.route('/content/delete/<posturl>', methods=['GET', 'POST'])
 @bundle.route('/content/delete/<posturl>/', methods=['GET', 'POST'])
+@fas_login_required
 def delete_content(posturl=None):
     if posturl is not None:
         db.session.rollback()
@@ -72,11 +82,14 @@ def delete_content(posturl=None):
                                 nickname=g.fas_user['username']))
     abort(404)
 
+# add / edit more content
+
 
 @bundle.route('/content/add/', methods=['GET', 'POST'])
 @bundle.route('/content/add', methods=['GET', 'POST'])
 @bundle.route('/content/edit/<posturl>/', methods=['GET', 'POST'])
 @bundle.route('/content/edit/<posturl>', methods=['GET', 'POST'])
+@fas_login_required
 def addcontent(posturl=None):
     if authenticated():
         form = CreateContent()
@@ -94,12 +107,12 @@ def addcontent(posturl=None):
 
                 '''Publish the message'''
                 msg = content.getdata()
-                msg['text'] = "%s : Edited some content in fedora college",
-                g.fas_user['username']
+                msg['title'] = content.title
+                msg['link'] = current_app.config[
+                    'EXTERNAL_URL'] + content.slug
                 publish(
                     topic=current_app.config['CONTENT_EDIT_TOPIC'],
                     msg=msg
-
                 )
 
                 if content.type_content == "blog":
@@ -109,42 +122,46 @@ def addcontent(posturl=None):
         else:
             if form.validate_on_submit():
                 url_name = slugify(form.title.data)
-                query = Content(form.title.data,
-                                url_name,
-                                form.description.data,
-                                form.active.data,
-                                form.tags.data,
-                                g.fas_user['username'],
-                                form.type_content.data
-                                )
+                content = Content(form.title.data,
+                                  url_name,
+                                  form.description.data,
+                                  form.active.data,
+                                  form.tags.data,
+                                  g.fas_user['username'],
+                                  form.type_content.data
+                                  )
                 tags = str(form.tags.data).split(',')
                 try:
-                    db.session.add(query)
+                    db.session.add(content)
                     db.session.commit()
-                    attach_tags(tags, query)
+                    attach_tags(tags, content)
 
                     '''Publish the message'''
                     msg = content.getdata()
-                    msg['text'] = "%s: Publised a new post in fedora college",
-                    g.fas_user['username']
+                    msg['title'] = content.title
+                    msg['link'] = current_app.config[
+                        'EXTERNAL_URL'] + url_name
                     publish(
                         topic=current_app.config['CONTENT_CREATE_TOPIC'],
                         msg=msg
                     )
 
-                    if query.type_content == "blog":
+                    if content.type_content == "blog":
                         return redirect(url_for('content.blog', slug=posturl))
                     return redirect(url_for('home.content', slug=url_name))
                     # Duplicate entry
-                except Exception:
+                except Exception as e:
+                    return str(e)
                     db.session.rollback()
                     pass
 
         tags = Tags.query.all()
         return render_template('content/edit_content.html', form=form,
                                form_action=form_action, title="Create Content",
-                               media=media, tags=tags)
+                               media=media[0:5], tags=tags)
     abort(404)
+
+# View Blog post
 
 
 @bundle.route('/blog', methods=['GET', 'POST'])
@@ -182,5 +199,6 @@ def blog(slug=None, id=0):
                            title='Blog',
                            content=posts,
                            screen=screen,
-                           id=id
+                           id=id,
+                           slug=slug
                            )

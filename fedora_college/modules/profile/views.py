@@ -6,10 +6,13 @@ from fedora_college.core.database import db
 from sqlalchemy import desc
 from fedora_college.modules.profile.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
-
+from flask_fas_openid import fas_login_required
 
 bundle = Blueprint('profile', __name__, template_folder='templates',
-                   static_folder='static')
+                   static_folder='static',
+                   url_prefix='/user')
+
+# Get user data for displaying on profile page.
 
 
 def getuserdata():
@@ -24,15 +27,20 @@ def getuserdata():
         order_by(desc(Content.date_added)).limit(10).all()
     return media, content, comments
 
+# verify user is authenticated.
+
 
 def authenticated():
     return hasattr(g, 'fas_user') and g.fas_user
 
+# Edit user profile page handler
 
-@bundle.route('/user/edit/', methods=['GET', 'POST'])
-@bundle.route('/user/edit', methods=['GET', 'POST'])
-@bundle.route('/user/<nickname>/edit/', methods=['GET', 'POST'])
-@bundle.route('/user/<nickname>/edit', methods=['GET', 'POST'])
+
+@bundle.route('/edit/', methods=['GET', 'POST'])
+@bundle.route('/edit', methods=['GET', 'POST'])
+@bundle.route('/<nickname>/edit/', methods=['GET', 'POST'])
+@bundle.route('/<nickname>/edit', methods=['GET', 'POST'])
+@fas_login_required
 def editprofile(nickname=None):
     if authenticated():
         if g.fas_user['username'] == nickname or request.method == 'POST':
@@ -56,14 +64,15 @@ def editprofile(nickname=None):
             return "Unauthorised"
     abort(404)
 
+# User profile public page
 
-@bundle.route('/user/<nickname>')
+
+@bundle.route('/<nickname>')
 def user(nickname):
 
     msg = ""
     if request.args.get('updated') == "True":
         msg = msg + "Profile Updated"
-        print msg
     user = UserProfile.query. \
         filter_by(username=nickname).first()
     if user is None:

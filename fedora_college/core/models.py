@@ -7,10 +7,19 @@ from fedora_college.core.database import db
 from flask import (g)
 
 
-regex = re.compile("\[\[([1-9]*)]\]")
+regex = re.compile("\[\[([0-9]+)]\]")
 
 '''
     Database Models
+    The following models have been defined in the file
+    1. User profile: for storing profile information
+    2. Content : Storing content, it saves in the HTML and text formats
+    3. Media : storingmedia information
+    4. Comments : storing comments stream
+    5. Tags : various tags for content
+    6. TagsMap : maps content with media
+    7. Vote : Voting on various topics
+    8. Star : mark a lecture as favourite.
 '''
 
 
@@ -256,7 +265,7 @@ class Content(db.Model):
         data['type'] = self.type_content
         data['active'] = self.active
         data['tags'] = self.tags
-        data['user_name'] = self.user_id
+        data['username'] = self.user_id
         return data
 
     def tohtml(self):
@@ -352,3 +361,37 @@ class Comments(db.Model):
 
     def __unicode__(self):
         return '<Text %r>' % (self.text)
+
+
+class Vote(db.Model):
+    __tablename__ = 'vote'
+
+    id = db.Column(db.Integer, primary_key=True)
+    rating = db.Column(db.String(255))
+    content_id = db.Column(db.Integer, db.ForeignKey(Content.content_id))
+    username = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
+
+    def __init__(self, rating, content_id, username):
+        self.rating = rating
+        self.content_id = content_id
+        self.username = username
+
+    def __unicode__(self):
+        return (self.id)
+
+
+class Star(db.Model):
+    __tablename__ = 'star'
+
+    id = db.Column(db.Integer, primary_key=True)
+    star = db.Column(db.String(255))
+    content_id = db.Column(db.Integer, db.ForeignKey(Content.content_id))
+    username = db.Column(db.String(255), db.ForeignKey(UserProfile.username))
+
+    def __init__(self, star, content_id, username):
+        self.star = star
+        self.content_id = content_id
+        self.username = username
+
+    def __unicode__(self):
+        return (self.id)

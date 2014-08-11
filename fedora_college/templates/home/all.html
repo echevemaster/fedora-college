@@ -1,0 +1,45 @@
+{% extends "base_home.html" %}
+{% block title %}
+     {{title}}
+{% endblock %}
+{% block content %}
+
+     <div class="row">
+        <div class = "row" >
+            <div class="large-4 columns">
+            <ul class="pagination">
+                                  <li><a href="{{ url_for('home.list_all',id=id-5)}}">Previous</a></li>
+                                  <li class="current"><a href="">{{id}}</a></li>
+                                  <li><a href="{{ url_for('home.list_all',id=id+5)}}">Next</a></li>
+            </ul>
+            <hr/>
+            <b>Search Content</b>
+                  <form id="tfnewsearch" method="get" action="/search/" target="_blank">
+                  <input type="text" name="var" size="21" maxlength="70"> 
+                  <input type="submit" value="search" class="tfbutton">
+                  </form>
+            </div>
+            <div class="large-8 columns">
+                 {% for record in content %}
+
+                    
+                </table>
+                    <div class="panel radius" style="text-align: justify" >
+                        <p><h3> {{ record.title }}</h3>
+
+                        <table>    
+                            <tr>
+                              <td><img src ="/{{record.thumb_url}} "/></td>
+                              <td>{{ record.description[0:100] | safe }} ....<a href="{{ url_for('home.content',slug=record.slug) }}" class="button" >Read More</a></td> 
+                            </tr>
+                        </table>
+                        </p>
+                    </div>                   
+           
+                {% endfor %}
+
+                   
+            </div>
+        </div>
+     </div>
+{% endblock %}

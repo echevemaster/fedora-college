@@ -4,29 +4,66 @@
 {% endblock %}
 {% block content %}
 {% from "_formhelpers.html" import render_field %}
+
+    <link rel="stylesheet" href="static/rating/jquery/jRating.jquery.css" type="text/css" />
     <div class="row">
-        <div class="large-12 columns">
-        
-        </div>
+
         <div class="large-12 columns">
             {% for record in content %}
+
+        <div class="large-8 columns">
                     <hr/>
                         <div class="blog">
                             <div class="panel" >
-                                   <h2>{{ record.title }}</h2>
-                                   <br/>
-                                   <b>
-                                        Written By : {{record.user_id}} | Written on : {{record.date_added }} 
-                                   </b>
-
+                                    <h2>{{ record.title }}</h2><br/>
+                                    Written By : {{record.user_id}} | Written on : {{record.date_added }} <br/>
+                                   
+                                    <br/>
                             </div>
                                    <hr/>
                                     {{ record.html | safe }}
                                       
                         </div>
-                        {% if record.user_id ==  g.fas_user.username %}
-                            <a href="{{ url_for('content.addcontent',posturl=record.slug) }}" class="button" > Edit Screencast</a>
-                        {% endif %}
+        </div>
+            {% if record.user_id ==  g.fas_user.username %}
+                <div class="large-4 columns">
+                        <table border="1" >
+                            <tr>
+                                <td>
+                                    <a href="{{ url_for('content.addcontent',posturl=record.slug) }}" class="button" > 
+                                     Edit Screencast
+                                    </a>
+                                </td>
+                            <tr/>  
+                            <tr>
+                                <td>
+                                    Rating<div class="basic" data-average="0" data-id="{{record.content_id}}"></div>
+                                </td>
+
+
+                            <tr/>  
+                            <tr>   
+                                <td>
+                                    {% if star == "UnMarked" %}
+                                    
+                                        <a href="{{ url_for('api.mark_star',content=record.content_id,slug =record.slug) }}" class="nice small green radius button alert " >
+                                         Add to favourites
+                                        </a>
+                                    
+                                    {%else%}
+
+                                    
+                                        <a href="{{ url_for('api.mark_star',content=record.content_id,slug=record.slug) }}" class="nice small radius green button " > 
+                                         Added to Favourites
+                                        </a>
+                                    
+
+                                    {% endif %}
+                                </td>
+                            <tr/>                                
+                        </table>
+                </div>
+            {% endif %}
                         <hr/>
                         <div class ="comments row panel" >
                             <h3>Comments</h3>
@@ -68,4 +105,14 @@
             {% endfor %}
         </div>
     </div>
+{% endblock %}
+
+{% block rating %}
+<!-- JS to add -->
+<script type="text/javascript" src="static/rating/jquery/jRating.jquery.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".basic").jRating();
+  });
+</script>
 {% endblock %}

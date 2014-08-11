@@ -5,7 +5,9 @@ from flask import (Blueprint,
 from fedora_college.core.models import Content, Media
 
 # Upload media Functions
-bundle = Blueprint('search', __name__)
+bundle = Blueprint('search', __name__, url_prefix='/search')
+
+# perform serach for a key word for content
 
 
 def do_search(keyword):
@@ -21,20 +23,27 @@ def do_search(keyword):
                 data['lecture'].append(obj.getdata())
     return data
 
+# perform media search
+
 
 def do_media_search(keyword):
     data = {}
     data['media'] = []
     if keyword is not None:
         result = Media.query.whoosh_search(keyword).all()
+        if result is None:
+            data['media'] = ['Nothing']
+            return data
         for obj in result:
             data['media'].append(obj.getdata())
     return data
 
+# Display media results
 
-@bundle.route('/media/search/', methods=['GET'])
-@bundle.route('/media/search/<keyword>', methods=['GET'])
-@bundle.route('/media/search/<keyword>/', methods=['GET'])
+
+@bundle.route('/media/', methods=['GET'])
+@bundle.route('/media/<keyword>', methods=['GET'])
+@bundle.route('/media/<keyword>/', methods=['GET'])
 def media_search(keyword=None):
     data = {}
     if request.args.get('var'):
@@ -52,12 +61,14 @@ def media_search(keyword=None):
                            media=data['media']
                            )
 
+# Display results by Keyword
 
-@bundle.route('/search/', methods=['GET'])
-@bundle.route('/search/<keyword>', methods=['GET'])
-@bundle.route('/search/<keyword>/', methods=['GET'])
-@bundle.route('/search/<keyword>/<id>', methods=['GET'])
-@bundle.route('/search/<keyword>/<id>/', methods=['GET'])
+
+@bundle.route('/', methods=['GET'])
+@bundle.route('/<keyword>', methods=['GET'])
+@bundle.route('/<keyword>/', methods=['GET'])
+@bundle.route('/<keyword>/<id>', methods=['GET'])
+@bundle.route('/<keyword>/<id>/', methods=['GET'])
 def search(keyword=None, id=0):
     id = int(id)
     if request.args.get('var'):

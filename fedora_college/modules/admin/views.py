@@ -5,7 +5,12 @@ from flask.ext.admin.contrib import sqla
 from flask.ext.admin import expose
 from flask.ext.admin.contrib.fileadmin import FileAdmin
 
-# Create customized index view class that handles login & registration
+admin_grp = set([u'provenpackager', u'summer-coding'])
+# Create customized index view
+# class that handles login & registration
+# Each of the associated view has an
+# attached accessible efunction defined.
+# View for fedora admin models
 
 
 class FedoraModelView(sqla.ModelView):
@@ -14,26 +19,30 @@ class FedoraModelView(sqla.ModelView):
 
     def is_accessible(self):
         try:
-            groups = list(g.fas_user['groups'])
-            if len(groups) > 0:
+            groups = set(g.fas_user['groups'])
+            if groups & admin_grp:
                 return True
             else:
                 return False
         except:
             return False
+
+# view for  fedora file models
 
 
 class FedoraFileView(FileAdmin):
 
     def is_accessible(self):
         try:
-            groups = list(g.fas_user['groups'])
-            if len(groups) > 0:
+            groups = set(g.fas_user['groups'])
+            if groups & admin_grp:
                 return True
             else:
                 return False
         except:
             return False
+
+# View for the index page of fedora admin
 
 
 class FedoraAdminIndexView(admin.AdminIndexView):
@@ -43,8 +52,8 @@ class FedoraAdminIndexView(admin.AdminIndexView):
 
     def is_accessible(self):
         try:
-            groups = list(g.fas_user['groups'])
-            if len(groups) > 0:
+            groups = set(g.fas_user['groups'])
+            if groups & admin_grp:
                 return True
             else:
                 return False
@@ -53,6 +62,7 @@ class FedoraAdminIndexView(admin.AdminIndexView):
 
     @expose('/')
     def index(self):
+
         try:
             if g.fas_user.username:
                 return super(FedoraAdminIndexView, self).index()

@@ -4,32 +4,83 @@
 {% endblock %}
 {% block content %}
 
+
+<style>   
+ .progress { position:relative; width: auto ; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }  
+ .bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }  
+ .percent { position:absolute; display:inline-block; top:3px; left:48%; }  
+ </style>  
+
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+
+
 <div class="row">
     <div class="large-12 columns">
            <h3>{{head}}</h3>
 
-                    <form action="{{form_action}}" method="post"
+                    <form id="myForm" action="{{form_action}}" method="post"
                     enctype="multipart/form-data">
                     <label for="file">Filename:</label>
-                    <input type="file" name="file" id="file"><br><br>
+                    <input type="file" name="file" id="file" required><br><br>
                     <label for="file">Display Name:</label>
-                    <input type="text" name="featured_name" id="file"><br><br>
+                    <input type="text" name="featured_name" id="file" required><br><br>
                     <label for="file">Tags:</label>
-                    <input type="text" name="tags" id="tags"><br><br>
+                    <input type="text" name="tags" id="tags" required><br><br>
                     <select id="type" name="type">
                         <option value="image">Image</option>
                         <option value="video">Video</option>
                         <option value="audio">Audio</option>
                         <option value="doc">Documents</option>
                     </select>
+                    <div class="progress">  
+                       <div class="bar"></div >  
+                       <div class="percent">0%</div >  
+                    </div>  
+                      <hr/>
+                      <center>
+                        <h3 id="status">
+                        </h3>
+                      </center>
                     <input type="submit" name="submit"  class="button" value="Submit">
                     </form>
     
     </div>
 </div>
 
+
+
 {% block tags%}
+ 
+
+ <script>  
+ (function() {  
+ var bar = $('.bar');  
+ var percent = $('.percent');  
+ var status = $('#status');  
+ $('form').ajaxForm({  
+   beforeSend: function() {  
+     status.empty();  
+     var percentVal = '0%';  
+     bar.width(percentVal)  
+     percent.html(percentVal);  
+   },  
+   uploadProgress: function(event, position, total, percentComplete) {  
+     var percentVal = percentComplete + '%';  
+     bar.width(percentVal)  
+     percent.html(percentVal);  
+   },  
+   complete: function(xhr) {  
+     bar.width("100%");  
+     percent.html("100%");  
+     var obj = jQuery.parseJSON(xhr.responseText)
+     status.html(obj.status);  
+     alert("Upload status" +str(obj.status))
+   }  
+ });   
+ })();      
+ </script>  
+
 <script>
   $(function() {
     var availableTags = [

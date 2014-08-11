@@ -3,12 +3,18 @@ from flask import Blueprint, render_template, abort
 from flask import url_for, g
 from fedora_college.modules.content.forms import *  # noqa
 from fedora_college.core.models import *  # noqa
+from flask_fas_openid import fas_login_required
+from sqlalchemy import desc
 
 bundle = Blueprint('content', __name__, template_folder='templates')
+
+# authenticated media.
 
 
 def authenticated():
     return hasattr(g, 'fas_user') and g.fas_user
+
+# media view
 
 
 @bundle.route('/media/view')
@@ -19,18 +25,28 @@ def authenticated():
 @bundle.route('/media/view/page/<id>/')
 def displaymedia(mediaid=None, id=0):
     id = int(id)
+    token = None
+    try:
+        user = UserProfile.query. \
+            filter_by(username=g.fas_user['username']).first_or_404()
+        token = user.token
+    except:
+        pass
     url = url_for('content.displaymedia')
     if mediaid is not None:
-            media = Media.query.filter_by(media_id=mediaid).limit(10).all()
+            media = Media.query.filter_by(media_id=mediaid). order_by(
+                desc(Media.media_id)).limit(10).all()
             return render_template(
                 'media/index.html',
                 data=media,
                 url=url,
                 id=id,
-                lists=media
+                lists=media,
+                token=token
             )
     else:
-        lists = Media.query.all()
+        lists = Media.query.order_by(
+            desc(Media.media_id)).all()
         id = int(id)
         if id > 0:
             media = lists[id:id + 10]
@@ -39,14 +55,18 @@ def displaymedia(mediaid=None, id=0):
             media = lists[0:10]
         return render_template(
             'media/index.html', data=media,
-            lists=lists,
+            lists=lists[0:20],
             url=url,
-            id=id
+            id=id,
+            token=token
         )
+
+# media add
 
 
 @bundle.route('/media/add/', methods=['GET', 'POST'])
 @bundle.route('/media/add', methods=['GET', 'POST'])
+@fas_login_required
 def uploadmedia():
 
     if authenticated():
@@ -62,9 +82,12 @@ def uploadmedia():
                                head="Add New Media")
     abort(404)
 
+# media view / revise media
+
 
 @bundle.route('/media/view/<mediaid>/revise')
 @bundle.route('/media/view/<mediaid>/revise/')
+@fas_login_required
 def revisemedia(mediaid=None):
     if authenticated():
         user = UserProfile.query. \

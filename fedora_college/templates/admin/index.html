@@ -1,0 +1,10 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<div class="alert">
+    Hey welcome to the Fedora College admin panel. You can use the options in the header continue the navigations.
+</div>
+
+<div class="alert">
+	To Continue as a normal user please goto <a href="{{url_for('home.index')}}">Home</a>
+</div>
+{% endblock %}
