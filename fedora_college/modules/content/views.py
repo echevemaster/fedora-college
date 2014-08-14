@@ -2,7 +2,7 @@
 import re
 from unicodedata import normalize
 from flask import Blueprint, render_template, current_app
-from flask import redirect, url_for, g, abort, jsonify
+from flask import redirect, url_for, g, abort
 from sqlalchemy import desc
 from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
