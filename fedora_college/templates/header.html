@@ -40,12 +40,10 @@
 <div class="row">
 <div id="header-nav large-12 columns">
     <nav>
-        <!--<a href="#" id="menu-icon"></a>-->
         <ul id="nav-left">
-            <!-- MAIN NAVIGATION -->
-           
                 <li id="indexTab"><a href="{{url_for('home.index')}}">Home</a></li>
-                <li id="screencast"><a href="{{url_for('home.list_all')}}">ScreenCasts</a><li>
+                <li id="screencast"><a href="{{url_for('home.list_all')}}">ScreenCasts</a><li>                    
+                <li id="screencast"><a href="{{url_for('content.category_view')}}">Category</a><li>
                 {% if g.fas_user.username %}
                    <li><a href="{{url_for('content.addcontent')}}">Add Content</a></li>
                    <li><a href="{{url_for('content.uploadmedia')}}">Add Media</a></li>
