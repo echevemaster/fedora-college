@@ -122,6 +122,7 @@ def addcontent(posturl=None):
         else:
             if form.validate_on_submit():
                 url_name = slugify(form.title.data)
+                catog = form.category.data.lower()
                 content = Content(form.title.data,
                                   url_name,
                                   form.description.data,
@@ -129,7 +130,7 @@ def addcontent(posturl=None):
                                   form.tags.data,
                                   g.fas_user['username'],
                                   form.type_content.data,
-                                  form.category.data.lower()
+                                  catog
                                   )
                 tags = str(form.tags.data).split(',')
                 try:
