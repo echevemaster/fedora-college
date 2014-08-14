@@ -2,7 +2,7 @@
 import re
 from unicodedata import normalize
 from flask import Blueprint, render_template, current_app
-from flask import redirect, url_for, g, abort
+from flask import redirect, url_for, g, abort, jsonify
 from sqlalchemy import desc
 from fedora_college.core.database import db
 from fedora_college.modules.content.forms import *  # noqa
@@ -128,7 +128,8 @@ def addcontent(posturl=None):
                                   form.active.data,
                                   form.tags.data,
                                   g.fas_user['username'],
-                                  form.type_content.data
+                                  form.type_content.data,
+                                  form.category.data.lower()
                                   )
                 tags = str(form.tags.data).split(',')
                 try:
@@ -156,9 +157,14 @@ def addcontent(posturl=None):
                     pass
 
         tags = Tags.query.all()
+        con = Content.query.all()
+        lis = []
+        for i in con:
+            lis.append(i.category)
+        lis = set(lis)
         return render_template('content/edit_content.html', form=form,
                                form_action=form_action, title="Create Content",
-                               media=media[0:5], tags=tags)
+                               media=media[0:5], tags=tags, cat=lis)
     abort(404)
 
 # View Blog post
@@ -202,3 +208,25 @@ def blog(slug=None, id=0):
                            id=id,
                            slug=slug
                            )
+
+
+@bundle.route('/category', methods=['GET', 'POST'])
+@bundle.route('/category/', methods=['GET', 'POST'])
+@bundle.route('/category/<cat>', methods=['GET', 'POST'])
+@bundle.route('/category/<cat>/', methods=['GET', 'POST'])
+def category_view(cat=None):
+    lis = []
+    screen = Content.query. \
+        filter_by(
+            active=True
+        ).all()
+
+    if cat is None:
+        for item in screen:
+            lis.append(item.getdata())
+        return jsonify(items=lis)
+    else:
+        for item in screen:
+            if item.category is cat:
+                lis.append(item.getdata())
+        return jsonify(items=lis)

@@ -19,6 +19,8 @@ class CreateContent(Form):
                                         ('lecture', 'Lecture'),
                                         ('doc', 'Documentation')]
                                )
+
+    category = TextField(u'category', [Required()])
     # Comma seprated media id's
     active = BooleanField('Published')
     tags = TextField('Tags', [Required()])
