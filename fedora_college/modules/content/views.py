@@ -241,8 +241,8 @@ def category_view(cat=None, id=0):
                            title='Category View',
                            lis=lis[id:id + 5],
                            len1=len(lis[id:id + 5]),
-                           len2 = len(cat[id:id + 10]),
-                           cat = cat[id:id + 10],
-                           id = id,
-                           catog = cat[0]
+                           len2=len(cat[id:id + 10]),
+                           cat=cat[id:id + 10],
+                           id=id,
+                           catog=cat[0]
                            )
