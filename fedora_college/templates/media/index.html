@@ -72,7 +72,9 @@
         </div> 
         <center>
             <ul class="pagination">
+                {%if id > 0 %}
                           <li><a href="{{ url_for('content.displaymedia',id=id-10)}}">Previous</a></li>
+                {% endif %}
                           <li class="current"><a href="">{{id}}</a></li>
                           <li><a href="{{ url_for('content.displaymedia',id=id+10)}}">Next</a></li>
             </ul>

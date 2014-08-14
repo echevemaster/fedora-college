@@ -212,9 +212,14 @@ def blog(slug=None, id=0):
 
 @bundle.route('/category', methods=['GET', 'POST'])
 @bundle.route('/category/', methods=['GET', 'POST'])
+@bundle.route('/categ/<id>', methods=['GET', 'POST'])
+@bundle.route('/categ/<id>/', methods=['GET', 'POST'])
 @bundle.route('/category/<cat>', methods=['GET', 'POST'])
 @bundle.route('/category/<cat>/', methods=['GET', 'POST'])
-def category_view(cat=None):
+@bundle.route('/category/<cat>/<id>', methods=['GET', 'POST'])
+@bundle.route('/category/<cat>/<id>/', methods=['GET', 'POST'])
+def category_view(cat=None, id=0):
+    id = int(id)
     lis = []
     screen = Content.query. \
         filter_by(
@@ -222,11 +227,22 @@ def category_view(cat=None):
         ).all()
 
     if cat is None:
-        for item in screen:
-            lis.append(item.getdata())
-        return jsonify(items=lis)
+        cat = []
+        for i in screen:
+            cat.append(i.category.lower())
     else:
         for item in screen:
-            if item.category is cat:
+            if item.category.lower() == cat.lower():
                 lis.append(item.getdata())
-        return jsonify(items=lis)
+        if len(lis) < 1:
+            abort(404)
+        cat = [cat]
+    return render_template('content/cat.html',
+                           title='Category View',
+                           lis=lis[id:id + 5],
+                           len1=len(lis[id:id + 5]),
+                           len2 = len(cat[id:id + 10]),
+                           cat = cat[id:id + 10],
+                           id = id,
+                           catog = cat[0]
+                           )
