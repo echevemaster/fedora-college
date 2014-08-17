@@ -90,7 +90,7 @@ def delete_content(posturl=None):
 @bundle.route('/content/edit/<posturl>/', methods=['GET', 'POST'])
 @bundle.route('/content/edit/<posturl>', methods=['GET', 'POST'])
 @fas_login_required
-def addcontent(posturl=None):
+def addcontent(posturl=None):  # noqa
     if authenticated():
         form = CreateContent()
         form_action = url_for('content.addcontent')
