@@ -85,11 +85,11 @@ def delete_content(posturl=None):
 # add / edit more content
 
 
-@bundle.route('/content/add/', methods=['GET', 'POST'])
-@bundle.route('/content/add', methods=['GET', 'POST'])
-@bundle.route('/content/edit/<posturl>/', methods=['GET', 'POST'])
-@bundle.route('/content/edit/<posturl>', methods=['GET', 'POST'])
-@fas_login_required
+@bundle.route('/content/add/', methods=['GET', 'POST'])  # noqa
+@bundle.route('/content/add', methods=['GET', 'POST'])  # noqa
+@bundle.route('/content/edit/<posturl>/', methods=['GET', 'POST'])  # noqa
+@bundle.route('/content/edit/<posturl>', methods=['GET', 'POST'])  # noqa
+@fas_login_required  # noqa
 def addcontent(posturl=None):  # noqa
     if authenticated():
         form = CreateContent()
@@ -168,7 +168,7 @@ def addcontent(posturl=None):  # noqa
                                media=media[0:5], tags=tags, cat=lis)
     abort(404)
 
-# View Blog post
+# View for  Blog post
 
 
 @bundle.route('/blog', methods=['GET', 'POST'])
