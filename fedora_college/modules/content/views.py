@@ -226,24 +226,24 @@ def category_view(cat=None, id=0):
         filter_by(
             active=True
         ).all()
-
+    cats = []
+    cats.append('Un-Marked')
     if cat is None:
-        cat = ['Un-Marked']
         for i in screen:
-            cat.append(i.category.lower())
+            cats.append(str(i.category).lower())
     else:
         for item in screen:
             if item.category.lower() == cat.lower():
                 lis.append(item.getdata())
         if len(lis) < 1:
             abort(404)
-    cat = [cat]
+    cats = list(set(cats))
     return render_template('content/cat.html',
                            title='Category View',
                            lis=lis[id:id + 5],
                            len1=len(lis[id:id + 5]),
-                           len2=len(cat[id:id + 10]),
-                           cat=cat[id:id + 10],
+                           len2=len(cats[id:id + 10]),
+                           cat=cats[id:id + 10],
                            id=id,
-                           catog=cat[0]
+                           catog=cats[0]
                            )
