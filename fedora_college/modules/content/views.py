@@ -228,7 +228,7 @@ def category_view(cat=None, id=0):
         ).all()
 
     if cat is None:
-        cat = []
+        cat = ['Un-Marked']
         for i in screen:
             cat.append(i.category.lower())
     else:
@@ -237,7 +237,7 @@ def category_view(cat=None, id=0):
                 lis.append(item.getdata())
         if len(lis) < 1:
             abort(404)
-        cat = [cat]
+    cat = [cat]
     return render_template('content/cat.html',
                            title='Category View',
                            lis=lis[id:id + 5],
