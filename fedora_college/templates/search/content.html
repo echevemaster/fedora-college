@@ -27,12 +27,11 @@
             {% endif %}
             {% for record in lecture %}
                     <hr/>
-                        <div class="blog">
+                        <div class="blog panel radius">
                                    {{ record.title }}
                                    {{ record.html | safe }}
                                     Written By : {{record.user_id}} | Written on : {{record.date_added }} 
-                                    <div class ="comments" >
-                                    </div>
+                                    <a href="{{url_for('home.content',slug=record.slug)}}" class="tfbutton" >View Screencast</a>
                         </div>
 
                     <br/>
@@ -47,12 +46,11 @@
 
             {% for record in blog %}
                     <hr/>
-                        <div class="blog">
+                        <div class="blog panel radius">
                                    {{ record.title }}
                                    {{ record.description | safe }}
                                     Written By : {{record.user_id}} | Written on : {{record.date_added }} 
-                                    <div class ="comments" >
-                                    </div>
+                                    <a href="{{url_for('content.blog',slug=record.slug)}}" class="tfbutton" >Read Article</a>
                         </div>
                     <br/>
             {% endfor %}
