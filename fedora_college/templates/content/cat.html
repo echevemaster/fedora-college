@@ -69,10 +69,10 @@
 		{% if len1 > 0 %}
 			 <ul class="pagination">
             	{% if id > 0 %}
-                          <li><a href="{{ url_for('content.category_view',id=id-1, cat = catog)}} ">Previous</a></li>
+                          <li><a href="{{ url_for('content.category_view',id=id-5, cat = catog)}} ">Previous</a></li>
                 {%endif%}
                           <li class="current"><a href="">{{id}}</a></li>
-                          <li><a href="{{ url_for('content.category_view',id=id+1,cat = catog )}}">Next</a></li>
+                          <li><a href="{{ url_for('content.category_view',id=id+5,cat = catog )}}">Next</a></li>
             </ul>
         {% endif %}
 	</div>
