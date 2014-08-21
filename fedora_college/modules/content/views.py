@@ -227,14 +227,14 @@ def category_view(cat=None, id=0):
             active=True
         ).all()
     cats = []
-    cats.append('Un-Marked')
+    cats.append('un-marked')
     if cat is None:
         for i in screen:
             cats.append(str(i.category).lower())
     else:
         for item in screen:
             try:
-                if item.category.lower() == cat.lower():
+                if str(item.category).lower() == cat.lower():
                     lis.append(item.getdata())
             except:
                 pass
