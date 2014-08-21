@@ -233,8 +233,11 @@ def category_view(cat=None, id=0):
             cats.append(str(i.category).lower())
     else:
         for item in screen:
-            if item.category.lower() == cat.lower():
-                lis.append(item.getdata())
+            try:
+                if item.category.lower() == cat.lower():
+                    lis.append(item.getdata())
+            except:
+                pass
         if len(lis) < 1:
             abort(404)
     cats = list(set(cats))
