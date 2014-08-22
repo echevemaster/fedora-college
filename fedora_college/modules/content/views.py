@@ -227,10 +227,10 @@ def category_view(cat=None, id=0):
             active=True
         ).all()
     cats = []
-    cats.append('un-marked')
     if cat is None:
         for i in screen:
             cats.append(str(i.category).lower())
+        catog = cats[0]
     else:
         for item in screen:
             try:
@@ -238,6 +238,7 @@ def category_view(cat=None, id=0):
                     lis.append(item.getdata())
             except:
                 pass
+        catog = cat.lower()
         if len(lis) < 1:
             abort(404)
     cats = list(set(cats))
@@ -248,5 +249,5 @@ def category_view(cat=None, id=0):
                            len2=len(cats[id:id + 10]),
                            cat=cats[id:id + 10],
                            id=id,
-                           catog=cats[0]
+                           catog= catog
                            )
