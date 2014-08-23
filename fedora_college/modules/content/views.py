@@ -85,12 +85,12 @@ def delete_content(posturl=None):
 # add / edit more content
 
 
-@bundle.route('/content/add/', methods=['GET', 'POST'])
-@bundle.route('/content/add', methods=['GET', 'POST'])
-@bundle.route('/content/edit/<posturl>/', methods=['GET', 'POST'])
-@bundle.route('/content/edit/<posturl>', methods=['GET', 'POST'])
-@fas_login_required
-def addcontent(posturl=None):
+@bundle.route('/content/add/', methods=['GET', 'POST'])  # noqa
+@bundle.route('/content/add', methods=['GET', 'POST'])  # noqa
+@bundle.route('/content/edit/<posturl>/', methods=['GET', 'POST'])  # noqa
+@bundle.route('/content/edit/<posturl>', methods=['GET', 'POST'])  # noqa
+@fas_login_required  # noqa
+def addcontent(posturl=None):  # noqa
     if authenticated():
         form = CreateContent()
         form_action = url_for('content.addcontent')
@@ -122,13 +122,15 @@ def addcontent(posturl=None):
         else:
             if form.validate_on_submit():
                 url_name = slugify(form.title.data)
+                catog = form.category.data.lower()
                 content = Content(form.title.data,
                                   url_name,
                                   form.description.data,
                                   form.active.data,
                                   form.tags.data,
                                   g.fas_user['username'],
-                                  form.type_content.data
+                                  form.type_content.data,
+                                  catog
                                   )
                 tags = str(form.tags.data).split(',')
                 try:
@@ -156,12 +158,17 @@ def addcontent(posturl=None):
                     pass
 
         tags = Tags.query.all()
+        con = Content.query.all()
+        lis = []
+        for i in con:
+            lis.append(i.category)
+        lis = set(lis)
         return render_template('content/edit_content.html', form=form,
                                form_action=form_action, title="Create Content",
-                               media=media[0:5], tags=tags)
+                               media=media[0:5], tags=tags, cat=lis)
     abort(404)
 
-# View Blog post
+# View for  Blog post
 
 
 @bundle.route('/blog', methods=['GET', 'POST'])
@@ -201,4 +208,46 @@ def blog(slug=None, id=0):
                            screen=screen,
                            id=id,
                            slug=slug
+                           )
+
+
+@bundle.route('/category', methods=['GET', 'POST'])
+@bundle.route('/category/', methods=['GET', 'POST'])
+@bundle.route('/categ/<id>', methods=['GET', 'POST'])
+@bundle.route('/categ/<id>/', methods=['GET', 'POST'])
+@bundle.route('/category/<cat>', methods=['GET', 'POST'])
+@bundle.route('/category/<cat>/', methods=['GET', 'POST'])
+@bundle.route('/category/<cat>/<id>', methods=['GET', 'POST'])
+@bundle.route('/category/<cat>/<id>/', methods=['GET', 'POST'])
+def category_view(cat=None, id=0):
+    id = int(id)
+    lis = []
+    screen = Content.query. \
+        filter_by(
+            active=True
+        ).all()
+    cats = []
+    if cat is None:
+        for i in screen:
+            cats.append(str(i.category).lower())
+        catog = cats[0]
+    else:
+        for item in screen:
+            try:
+                if str(item.category).lower() == cat.lower():
+                    lis.append(item.getdata())
+            except:
+                pass
+        catog = cat.lower()
+        if len(lis) < 1:
+            abort(404)
+    cats = list(set(cats))
+    return render_template('content/cat.html',
+                           title='Category View',
+                           lis=lis[id:id + 5],
+                           len1=len(lis[id:id + 5]),
+                           len2=len(cats[id:id + 10]),
+                           cat=cats[id:id + 10],
+                           id=id,
+                           catog= catog
                            )

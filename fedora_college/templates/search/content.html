@@ -19,7 +19,7 @@
         <div class="large-12 columns">
             {% if not lecture %}
             <h5>
-                No screenCast Found 
+                No Screencast Found 
             </h5>
             <hr/>
             {% else %}
@@ -27,19 +27,18 @@
             {% endif %}
             {% for record in lecture %}
                     <hr/>
-                        <div class="blog">
+                        <div class="blog panel radius">
                                    {{ record.title }}
                                    {{ record.html | safe }}
                                     Written By : {{record.user_id}} | Written on : {{record.date_added }} 
-                                    <div class ="comments" >
-                                    </div>
+                                    <a href="{{url_for('home.content',slug=record.slug)}}" class="tfbutton" >View Screencast</a>
                         </div>
 
                     <br/>
             {% endfor %}
             {% if not blog %}
             <h5>
-                No Blog Found 
+                No Blog Posts Found 
             </h5>
             {% else %}
             <h3> Blog Post </h3>
@@ -47,12 +46,11 @@
 
             {% for record in blog %}
                     <hr/>
-                        <div class="blog">
+                        <div class="blog panel radius">
                                    {{ record.title }}
                                    {{ record.description | safe }}
                                     Written By : {{record.user_id}} | Written on : {{record.date_added }} 
-                                    <div class ="comments" >
-                                    </div>
+                                    <a href="{{url_for('content.blog',slug=record.slug)}}" class="tfbutton" >Read Article</a>
                         </div>
                     <br/>
             {% endfor %}

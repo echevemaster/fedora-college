@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}
+     {{title}}
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="row">
+
+    	{% for c in cat %}
+    		<div class="medium-10 columns">
+    				<div class="panel radius">
+    					{{ c }}
+    				</div>
+    		</div>
+  			<div class="medium-2 columns">
+  				<div class="panel radius callout" style="text-align: center">
+  					      <a href="{{url_for('content.category_view',cat = c)}}">
+                  		<strong>View Posts</strong>
+              		</a>
+  				</div>
+  			</div> 
+      {%  endfor %}
+        <br/>
+       
+	</div>
+	 <center>
+	 	{%if len2 > 0 %}
+            <ul class="pagination">
+            	{% if id > 0 %}
+                          <li><a href="{{ url_for('content.category_view',id=id-10)}}">Previous</a></li>
+                {%endif%}
+                          <li class="current"><a href="">{{id}}</a></li>
+                          <li><a href="{{ url_for('content.category_view',id=id+10)}}">Next</a></li>
+            </ul>
+         {% endif%}
+        </center>
+	<hr/>
+	<div class="row">
+		{% for item in lis %}
+
+			<div class="medium-5 columns">
+  				<div class="panel radius">
+  					{{ item.title }}
+  				</div>
+  			</div>
+  			<div class="medium-5 columns">
+  				<div class="panel radius">
+  					Type: {{ item.type | safe }}
+  				</div>
+  			</div>
+			<div class="medium-2 columns">
+				<div class="panel radius callout" style="text-align: center">
+					<a href="#"></a>
+					{% if item.type == 'lecture'%}
+					<a href="{{url_for('home.content',slug=item.slug)}}">
+                		<strong>View Lecture</strong>
+            		</a>
+            		{%endif%}
+            		{% if item.type == 'blog'%}
+					<a href="{{url_for('content.blog',slug=item.slug)}}">
+                		<strong>View Post</strong>
+            		</a>
+            		{%endif%}
+				</div>
+			</div>
+			<hr/> 
+
+		{% endfor %}
+		{% if len1 > 0 %}
+			 <ul class="pagination">
+            	{% if id > 0 %}
+                          <li><a href="{{ url_for('content.category_view',id=id-5, cat = catog)}} ">Previous</a></li>
+                {%endif%}
+                          <li class="current"><a href="">{{id}}</a></li>
+                          <li><a href="{{ url_for('content.category_view',id=id+5,cat = catog )}}">Next</a></li>
+            </ul>
+        {% endif %}
+	</div>
+</div>
+{% endblock %}

@@ -70,6 +70,18 @@
                                 <br/><br/>
                             {% endif %}
                             {{ form.tags(class_="tags")}}<br/>
+                            Category (Add if not in list)<br/><br/>
+                            {% if form.category.errors %}
+                                <ul class=errors>
+                                {% for error in form.category.errors %}
+                                   <li>
+                                    {{ error }}<br/>
+                                  </li>
+                                {% endfor %}
+                                </ul>
+                                <br/><br/>
+                            {% endif %}
+                            {{ form.category(class_="category")}}<br/>
                             {% if form.description.errors %}
                                 <ul class=errors>
                                 {% for error in form.description.errors %}
@@ -137,6 +149,18 @@
           return false;
         }
       });
+  });
+  </script>
+  <script>
+  $(function() {
+    var availableTags = [
+       {% for c in cat %}
+     "{{ c }}", 
+      {%  endfor %}
+    ];
+    $( "#category" ).autocomplete({
+      source: availableTags
+    });
   });
   </script>
   <script src="{{ url_for('static', filename='js/ckeditor/ckeditor.js') }}"></script>

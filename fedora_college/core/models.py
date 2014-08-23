@@ -185,6 +185,7 @@ class Content(db.Model):
     date_added = db.Column(db.DateTime())
     media_added_ids = db.Column(db.Text())
     type_content = db.Column(db.String(255))
+    category = db.Column(db.String(255))
     # Comma seprated media id's
     active = db.Column(db.Boolean())
     # Comma seprated tag id's
@@ -234,7 +235,7 @@ class Content(db.Model):
 
     def __init__(self, title, slug, description,
                  active, tags, user_id,
-                 type_content="blog"):
+                 type_content="blog", category="Un-Marked"):
         self.title = title
         self.slug = slug
         self.description = description
@@ -244,6 +245,7 @@ class Content(db.Model):
         self.tags = tags
         self.user_id = user_id
         self.html, self.media_added_ids, ids = self.admedia(description)
+        self.category = category
         if len(ids) > 0:
             feature = Media.query.filter_by(media_id=ids).first_or_404()
             self.thumb_url = feature.thumb_url
@@ -266,6 +268,7 @@ class Content(db.Model):
         data['active'] = self.active
         data['tags'] = self.tags
         data['username'] = self.user_id
+        data['category'] = self.category
         return data
 
     def tohtml(self):
